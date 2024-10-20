@@ -18,7 +18,6 @@ public class RobotContainer {
   // Commands
   private Command defaultDriveCommand;
 
-
   private CommandXboxController driverController;
 
   /**
@@ -40,7 +39,8 @@ public class RobotContainer {
   }
 
   private void createCommands() {
-    defaultDriveCommand = driveTrain.arcadeDriveCommand(() -> driverController.getRightTriggerAxis()- driverController.getLeftTriggerAxis(),
+    defaultDriveCommand = driveTrain.arcadeDriveCommand(
+        () -> driverController.getRightTriggerAxis() - driverController.getLeftTriggerAxis(),
         () -> driverController.getLeftX());
 
     driveTrain.setDefaultCommand(defaultDriveCommand);
@@ -51,7 +51,7 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    
+
     return null;
   }
 }
