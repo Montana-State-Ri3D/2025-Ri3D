@@ -40,8 +40,8 @@ public class RobotContainer {
   }
 
   private void createCommands() {
-    defaultDriveCommand = driveTrain.driveCommand(() -> -driverController.getLeftY(),
-        () -> -driverController.getRightY());
+    defaultDriveCommand = driveTrain.arcadeDriveCommand(() -> driverController.getRightTriggerAxis()- driverController.getLeftTriggerAxis(),
+        () -> driverController.getLeftX());
 
     driveTrain.setDefaultCommand(defaultDriveCommand);
   }

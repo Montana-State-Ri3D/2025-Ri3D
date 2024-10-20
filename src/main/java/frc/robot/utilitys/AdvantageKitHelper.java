@@ -10,6 +10,7 @@ import frc.robot.Robot;
 
 public class AdvantageKitHelper {
 
+    @SuppressWarnings("resource")
     public static void setupLogger() {
         if (Robot.isReal()) {
             Logger.addDataReceiver(new WPILOGWriter());

@@ -5,6 +5,7 @@
 package frc.robot.subsystems.DriveTrain;
 
 import frc.robot.Constants.DriveTrainConstants;
+import frc.robot.utilitys.Joystick;
 
 import java.util.function.DoubleSupplier;
 
@@ -16,6 +17,8 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive.WheelSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -103,7 +106,19 @@ public class DriveTrain extends SubsystemBase {
         new Pose2d(pose.getX(), pose.getY(), new Rotation2d()));
   }
 
-  public Command driveCommand(DoubleSupplier left, DoubleSupplier right) {
+  public Command tankDriveCommand(DoubleSupplier left, DoubleSupplier right) {
     return runEnd(() -> this.io.drive(left.getAsDouble(), right.getAsDouble()), () -> this.io.drive(0, 0));
+  }
+
+  public Command arcadeDriveCommand(DoubleSupplier fwd, DoubleSupplier rot) {
+    return runEnd(
+    () -> {
+      WheelSpeeds wheelSpeeds = DifferentialDrive.arcadeDriveIK(
+      Joystick.JoystickInput(fwd.getAsDouble(), 2, 0.001, 1),
+      -Joystick.JoystickInput(rot.getAsDouble(), 3, 0.02, 0.6),
+      false);
+      this.io.drive(wheelSpeeds.left, wheelSpeeds.right);
+    },
+        () -> this.io.drive(0, 0));
   }
 }

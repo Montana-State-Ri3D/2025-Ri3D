@@ -24,15 +24,14 @@ public final class Constants {
     public static final int RIGHT_MOTOR_FRONT = 2;
     public static final int RIGHT_MOTOR_BACK = 3;
 
-    public static final double DRIVE_RADIO = 1.0/32.0;
+    public static final double DRIVE_RADIO = 1.0/8.196;
 
-    public static final double DRIVE_WHEEL_RADIUS_STOCK = Units.inchesToMeters(2.0);
+    public static final double DRIVE_WHEEL_RADIUS_STOCK = Units.inchesToMeters(4.0)/2.0;
     public static final double TREAD_WARE_FACTOR = Units.inchesToMeters(0.0);
     public static final double DRIVE_WHEEL_RADIUS = DRIVE_WHEEL_RADIUS_STOCK - TREAD_WARE_FACTOR;
 
-    public static final double MAX_VELOCITY = 3.0;
+    public static final double MAX_VELOCITY = Units.feetToMeters(12.89);
     public static final double TRACK_WIDTH = Units.inchesToMeters(32);
-
 
   }
 }
