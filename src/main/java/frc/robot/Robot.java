@@ -8,7 +8,7 @@ import org.littletonrobotics.junction.LoggedRobot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.utilitys.AdvantageKitHelper;
+import frc.robot.utilities.AdvantageKitHelper;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -30,6 +30,7 @@ public class Robot extends LoggedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
 
+    //Setup AdvantageKit logging
     AdvantageKitHelper.setupLogger();
 
     m_robotContainer = new RobotContainer();

@@ -1,4 +1,4 @@
-package frc.robot.utilitys;
+package frc.robot.utilities;
 
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.NT4Publisher;

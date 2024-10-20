@@ -5,8 +5,9 @@
 package frc.robot;
 
 import frc.robot.subsystems.DriveTrain.DriveTrain;
-import frc.robot.utilitys.SubsystemFactory;
+import frc.robot.utilities.SubsystemFactory;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.DriveStationConstants;
 
@@ -24,7 +25,7 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
-    this.driverController = new CommandXboxController(DriveStationConstants.DRIVE_CONTROLLER_PORT);
+    this.driverController = new CommandXboxController(DriveStationConstants.DRIVE_CONTROLLER_PORT_ID);
 
     createSubsystems();
     createCommands();
@@ -47,7 +48,8 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-
+    driverController.start().onTrue(new InstantCommand(() -> driveTrain.resetGyro()));
+    driverController.back().onTrue(new InstantCommand(() -> driveTrain.resetPose()));
   }
 
   public Command getAutonomousCommand() {

@@ -1,4 +1,4 @@
-package frc.robot.utilitys;
+package frc.robot.utilities;
 
 public class Joystick {
     public static double JoystickInput(double value, double power, double deadband, double clamp) {

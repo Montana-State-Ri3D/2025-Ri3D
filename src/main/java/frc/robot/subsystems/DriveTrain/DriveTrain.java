@@ -5,7 +5,7 @@
 package frc.robot.subsystems.DriveTrain;
 
 import frc.robot.Constants.DriveTrainConstants;
-import frc.robot.utilitys.Joystick;
+import frc.robot.utilities.Joystick;
 
 import java.util.function.DoubleSupplier;
 
@@ -36,7 +36,6 @@ public class DriveTrain extends SubsystemBase {
 
   public DriveTrain(DriveTrainIO io) {
     this.io = io;
-
     io.updateInputs(inputs);
 
     odometry = new DifferentialDriveOdometry(inputs.heading, inputs.leftPosition, inputs.rightPosition,
@@ -62,9 +61,7 @@ public class DriveTrain extends SubsystemBase {
     pose = odometry.update(inputs.heading, inputs.leftPosition, inputs.leftPosition);
 
     Logger.recordOutput("DriveTrain/Pos2d", pose);
-
     Logger.recordOutput("DriveTrain/WheelSpeed", this.getWheelSpeed());
-
     Logger.recordOutput("DriveTrain/ChassisSpeed", this.getChassisSpeed());
   }
 
@@ -73,7 +70,6 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public ChassisSpeeds getChassisSpeed() {
-
     return kinematics.toChassisSpeeds(getWheelSpeed());
   }
 
@@ -93,8 +89,7 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void resetPose() {
-    odometry.resetPosition(inputs.heading, inputs.leftPosition, inputs.rightPosition,
-        new Pose2d(0.0, 0.0, new Rotation2d()));
+    odometry.resetPosition(inputs.heading, inputs.leftPosition, inputs.rightPosition, new Pose2d(0.0, 0.0, new Rotation2d()));
   }
 
   public void setPose(Pose2d pose) {
@@ -112,13 +107,13 @@ public class DriveTrain extends SubsystemBase {
 
   public Command arcadeDriveCommand(DoubleSupplier fwd, DoubleSupplier rot) {
     return runEnd(
-    () -> {
-      WheelSpeeds wheelSpeeds = DifferentialDrive.arcadeDriveIK(
-      Joystick.JoystickInput(fwd.getAsDouble(), 2, 0.001, 1),
-      -Joystick.JoystickInput(rot.getAsDouble(), 3, 0.02, 0.6),
-      false);
-      this.io.drive(wheelSpeeds.left, wheelSpeeds.right);
-    },
+        () -> {
+          WheelSpeeds wheelSpeeds = DifferentialDrive.arcadeDriveIK(
+              Joystick.JoystickInput(fwd.getAsDouble(), 2, 0.001, 1),
+              -Joystick.JoystickInput(rot.getAsDouble(), 3, 0.02, 0.6),
+              false);
+          this.io.drive(wheelSpeeds.left, wheelSpeeds.right);
+        },
         () -> this.io.drive(0, 0));
   }
 }
