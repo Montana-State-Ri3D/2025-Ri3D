@@ -72,7 +72,7 @@ public class DriveTrainRealIO implements DriveTrainIO {
         }
     }
 
-    public void updateInputs(DriveTrainIOInputs inputs){
+    public void updateInputs(DriveTrainIOInputs inputs) {
         inputs.leftPower = this.leftMotorFront.get();
         inputs.rightPower = this.rightMotorFront.get();
         inputs.leftPosition = this.leftEncoderFront.getPosition();

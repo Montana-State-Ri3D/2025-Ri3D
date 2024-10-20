@@ -29,11 +29,13 @@ public interface DriveTrainIO {
          */
         public double rightPosition;
         /**
-         * leftVelocity: The velocity of the left side of the drive train in meters per second
+         * leftVelocity: The velocity of the left side of the drive train in meters per
+         * second
          */
         public double leftVelocity;
         /**
-         * rightVelocity: The velocity of the right side of the drive train in meters per second
+         * rightVelocity: The velocity of the right side of the drive train in meters
+         * per second
          */
         public double rightVelocity;
         /**
@@ -45,25 +47,34 @@ public interface DriveTrainIO {
          */
         public double rightCurrent;
         /**
-         * heading: The heading of the robot as {@link edu.wpi.first.math.geometry.Rotation2d} 
+         * heading: The heading of the robot as
+         * {@link edu.wpi.first.math.geometry.Rotation2d}
          */
         public Rotation2d heading;
-        
+
     }
 
     /**
      * updateInputs: Updates the inputs of the drivetrain subsystem
+     * 
      * @param inputs
      */
-    default void updateInputs(DriveTrainIOInputs inputs){}
+    default void updateInputs(DriveTrainIOInputs inputs) {
+    }
+
     /**
      * drive: Drives the robot with the given power values
-     * @param leftPower: The power of the left side of the drive train from -1 to 1
-     * @param rightPower: The power of the right side of the drive train from -1 to 1
+     * 
+     * @param leftPower:  The power of the left side of the drive train from -1 to 1
+     * @param rightPower: The power of the right side of the drive train from -1 to
+     *                    1
      */
-    default void drive(double leftPower, double rightPower) {}
+    default void drive(double leftPower, double rightPower) {
+    }
+
     /**
      * brake: Toggles the DriveTrain between brake and coast mode
      */
-    default void toggleMode(){}
+    default void toggleMode() {
+    }
 }

@@ -1,5 +1,20 @@
 package frc.robot.utilities;
 
+/**
+ * Class uses to sanitize joystick input by applying a power, deadband, and
+ * clamp
+ * 
+ * @see https://en.wikipedia.org/wiki/Deadband is used to remove error in the
+ *      joystick when it is near zero
+ * @see https://first.wpi.edu/wpilib/allwpilib/docs/release/java/edu/wpi/first/math/MathUtil.html#clamp(double,double,double)
+ *      is used to set the min and max values of the joystick
+ * @see link power is ueed to raise the value to a power like value^{2}
+ *
+ * 
+ * @author Joshua Elmore
+ * @version 2.1
+ * @since 2024-20-10
+ */
 public class Joystick {
 
     /**

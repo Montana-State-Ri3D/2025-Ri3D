@@ -16,10 +16,10 @@ import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.simulation.EncoderSim;
 
 /** Add your docs here. */
-public class DriveTrainSimIO implements DriveTrainIO  {
+public class DriveTrainSimIO implements DriveTrainIO {
 
     private boolean isBrake;
-    
+
     private Encoder leftEncoder;
     private Encoder rightEncoder;
 
@@ -39,9 +39,10 @@ public class DriveTrainSimIO implements DriveTrainIO  {
     private PWMSparkMax rightMotorBack;
 
     private double batteryMoi = 12.5 / 2.2 * Math.pow(Units.inchesToMeters(10), 2);
-    private double gearboxMoi = (2.8 /* CIM motor */ * 2 / 2.2 + 2.0 /* Toughbox Mini- ish */) * Math.pow(Units.inchesToMeters(26.0 / 2.0), 2);
+    private double gearboxMoi = (2.8 /* CIM motor */ * 2 / 2.2 + 2.0 /* Toughbox Mini- ish */)
+            * Math.pow(Units.inchesToMeters(26.0 / 2.0), 2);
 
-    public DriveTrainSimIO(){
+    public DriveTrainSimIO() {
         leftEncoder = new Encoder(0, 1);
         rightEncoder = new Encoder(2, 3);
 
@@ -55,30 +56,29 @@ public class DriveTrainSimIO implements DriveTrainIO  {
         gyroSim = new AnalogGyroSim(gyro);
 
         driveSim = new DifferentialDrivetrainSim(
-            DCMotor.getNEO(2),
-            DriveTrainConstants.DRIVE_RADIO,
-            this.batteryMoi + this.gearboxMoi,
-            Units.lbsToKilograms(150),
-            Units.inchesToMeters(DriveTrainConstants.DRIVE_WHEEL_RADIUS),
-            Units.inchesToMeters(32.0),
+                DCMotor.getNEO(2),
+                DriveTrainConstants.DRIVE_RADIO,
+                this.batteryMoi + this.gearboxMoi,
+                Units.lbsToKilograms(150),
+                Units.inchesToMeters(DriveTrainConstants.DRIVE_WHEEL_RADIUS),
+                Units.inchesToMeters(32.0),
 
-            // The standard deviations for measurement noise:
-            // x and y:          0.001 m
-            // heading:          0.001 rad
-            // l and r velocity: 0.1   m/s
-            // l and r position: 0.005 m
-            VecBuilder.fill(0.001, 0.001, 0.001, 0.1, 0.1, 0.005, 0.005)
-            );
+                // The standard deviations for measurement noise:
+                // x and y: 0.001 m
+                // heading: 0.001 rad
+                // l and r velocity: 0.1 m/s
+                // l and r position: 0.005 m
+                VecBuilder.fill(0.001, 0.001, 0.001, 0.1, 0.1, 0.005, 0.005));
 
         leftMotorFront = new PWMSparkMax(0);
         leftMotorBack = new PWMSparkMax(1);
         rightMotorFront = new PWMSparkMax(2);
         rightMotorBack = new PWMSparkMax(3);
 
-
         isBrake = false;
     }
-    public void updateInputs(DriveTrainIOInputs inputs){
+
+    public void updateInputs(DriveTrainIOInputs inputs) {
 
         driveSim.setInputs(-leftMotorFront.get() * RobotController.getInputVoltage(),
                 -rightMotorFront.get() * RobotController.getInputVoltage());
@@ -94,7 +94,6 @@ public class DriveTrainSimIO implements DriveTrainIO  {
 
         gyroSim.setAngle(driveSim.getHeading().getDegrees());
 
-
         inputs.brake = isBrake;
         inputs.leftCurrent = 0;
         inputs.rightCurrent = 0;
@@ -107,13 +106,15 @@ public class DriveTrainSimIO implements DriveTrainIO  {
         inputs.heading = Rotation2d.fromDegrees(-gyro.getAngle());
 
     }
-    public void drive(double leftPower, double rightPower){
+
+    public void drive(double leftPower, double rightPower) {
         leftMotorFront.set(leftPower);
         leftMotorBack.set(leftPower);
         rightMotorFront.set(rightPower);
         rightMotorBack.set(rightPower);
     }
-    public void toggleMode(){
+
+    public void toggleMode() {
         isBrake = !isBrake;
     }
 }
