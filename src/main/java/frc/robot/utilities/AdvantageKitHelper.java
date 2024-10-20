@@ -1,4 +1,4 @@
-package frc.robot.utilitys;
+package frc.robot.utilities;
 
 import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
@@ -9,7 +9,10 @@ import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import frc.robot.Robot;
 
 public class AdvantageKitHelper {
-
+    /**
+     * Setup the logger for the AdvantageKit
+     */
+    @SuppressWarnings("resource")
     public static void setupLogger() {
         if (Robot.isReal()) {
             Logger.addDataReceiver(new WPILOGWriter());

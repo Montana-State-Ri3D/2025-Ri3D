@@ -5,6 +5,7 @@
 package frc.robot.subsystems.DriveTrain;
 
 import frc.robot.Constants.DriveTrainConstants;
+import frc.robot.utilities.Joystick;
 
 import java.util.function.DoubleSupplier;
 
@@ -16,6 +17,8 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive.WheelSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -33,7 +36,6 @@ public class DriveTrain extends SubsystemBase {
 
   public DriveTrain(DriveTrainIO io) {
     this.io = io;
-
     io.updateInputs(inputs);
 
     odometry = new DifferentialDriveOdometry(inputs.heading, inputs.leftPosition, inputs.rightPosition,
@@ -59,9 +61,7 @@ public class DriveTrain extends SubsystemBase {
     pose = odometry.update(inputs.heading, inputs.leftPosition, inputs.leftPosition);
 
     Logger.recordOutput("DriveTrain/Pos2d", pose);
-
     Logger.recordOutput("DriveTrain/WheelSpeed", this.getWheelSpeed());
-
     Logger.recordOutput("DriveTrain/ChassisSpeed", this.getChassisSpeed());
   }
 
@@ -69,15 +69,30 @@ public class DriveTrain extends SubsystemBase {
   public void simulationPeriodic() {
   }
 
+  /**
+   * This function is used to get ChassisSpeeds of the robot
+   * 
+   * @return
+   */
   public ChassisSpeeds getChassisSpeed() {
-
     return kinematics.toChassisSpeeds(getWheelSpeed());
   }
 
+  /**
+   * This function is used to get the wheel speed of the robot
+   * 
+   * @return the wheel speed of the robot
+   */
   public DifferentialDriveWheelSpeeds getWheelSpeed() {
     return new DifferentialDriveWheelSpeeds(inputs.leftVelocity, inputs.rightVelocity);
   }
 
+  /**
+   * This function is used to set the speed of the robot. NOTE since this is a
+   * non-holonomic drive train the vyMetersPerSecond should be 0
+   * 
+   * @param chassisSpeed the speed of the robot
+   */
   public void setChassisSpeed(ChassisSpeeds chassisSpeed) {
     DifferentialDriveWheelSpeeds wheelSpeed = kinematics.toWheelSpeeds(chassisSpeed);
 
@@ -85,25 +100,76 @@ public class DriveTrain extends SubsystemBase {
         wheelSpeed.rightMetersPerSecond / DriveTrainConstants.MAX_VELOCITY);
   }
 
+  /**
+   * This function is used to get the pose of the robot. This is useful for
+   * PathPlanner
+   * 
+   * @return
+   */
   public Pose2d getPose() {
     return pose;
   }
 
+  /**
+   * This function is used to reset the pose of the robot to x = 0, y = 0, and
+   * theta = 0
+   */
   public void resetPose() {
     odometry.resetPosition(inputs.heading, inputs.leftPosition, inputs.rightPosition,
         new Pose2d(0.0, 0.0, new Rotation2d()));
   }
 
+  /**
+   * This function is used to set the pose of the robot. This is useful for
+   * setting the starting position of the robot. This is most useful for
+   * PathPlanner
+   * 
+   * @param pose the pose of the robot
+   */
   public void setPose(Pose2d pose) {
     odometry.resetPosition(inputs.heading, inputs.leftPosition, inputs.rightPosition, pose);
   }
 
+  /**
+   * This function is used to reset the gyro to the current heading of the robot.
+   * NOTE: It does not actually reset the hardware gyro only the odometry
+   */
   public void resetGyro() {
     odometry.resetPosition(inputs.heading, inputs.leftPosition, inputs.rightPosition,
         new Pose2d(pose.getX(), pose.getY(), new Rotation2d()));
   }
 
-  public Command driveCommand(DoubleSupplier left, DoubleSupplier right) {
+  /**
+   * This Command is used to drive the robot using tank drive. WARNING: This does
+   * not preform any input sanitization like
+   * {@link frc.robot.subsystems.DriveTrain.DriveTrain#arcadeDriveCommand}
+   * 
+   * @param left  a DoubleSupplier that returns the left speed of the robot from
+   *              -1 to 1
+   * @param right a DoubleSupplier that returns the right speed of the robot from
+   *              -1 to 1
+   */
+  public Command tankDriveCommand(DoubleSupplier left, DoubleSupplier right) {
     return runEnd(() -> this.io.drive(left.getAsDouble(), right.getAsDouble()), () -> this.io.drive(0, 0));
+  }
+
+  /**
+   * This Command is used to drive the robot using the arcade drive.
+   * 
+   * @param fwd a DoubleSupplier that returns the forward speed of the robot from
+   *            -1 to 1
+   * @param rot a DoubleSupplier that returns the rotation speed of the robot from
+   *            -1 to 1
+   */
+  public Command arcadeDriveCommand(DoubleSupplier fwd, DoubleSupplier rot) {
+    return runEnd(
+        () -> {
+          WheelSpeeds wheelSpeeds = DifferentialDrive.arcadeDriveIK(
+              Joystick.JoystickInput(fwd.getAsDouble(), 2, 0.001, 1),
+              -Joystick.JoystickInput(rot.getAsDouble(), 3, 0.02, 0.6),
+              false);
+          this.io.drive(wheelSpeeds.left, wheelSpeeds.right);
+        },
+        () -> this.io.drive(0, 0));
   }
 }

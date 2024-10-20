@@ -8,20 +8,73 @@ public interface DriveTrainIO {
 
     @AutoLog
     public class DriveTrainIOInputs {
+        /**
+         * leftPower: The power of the left side of the drive train from -1 to 1
+         */
         public double leftPower;
+        /**
+         * rightPower: The power of the right side of the drive train from -1 to 1
+         */
         public double rightPower;
+        /**
+         * brake: Whether or not the drive train is in brake mode
+         */
         public boolean brake;
+        /**
+         * leftPosition: The position of the left side of the drive train in meters
+         */
         public double leftPosition;
+        /**
+         * rightPosition: The position of the right side of the drive train in meters
+         */
         public double rightPosition;
+        /**
+         * leftVelocity: The velocity of the left side of the drive train in meters per
+         * second
+         */
         public double leftVelocity;
+        /**
+         * rightVelocity: The velocity of the right side of the drive train in meters
+         * per second
+         */
         public double rightVelocity;
+        /**
+         * leftCurrent: The current draw of the left side of the drive train in amps
+         */
         public double leftCurrent;
+        /**
+         * rightCurrent: The current draw of the right side of the drive train in amps
+         */
         public double rightCurrent;
+        /**
+         * heading: The heading of the robot as
+         * {@link edu.wpi.first.math.geometry.Rotation2d}
+         */
         public Rotation2d heading;
-        
+
     }
 
-    default void updateInputs(DriveTrainIOInputs inputs){}
-    default void drive(double leftPower, double rightPower) {}
-    default void toggleMode(){}
+    /**
+     * updateInputs: Updates the inputs of the drivetrain subsystem
+     * 
+     * @param inputs
+     */
+    default void updateInputs(DriveTrainIOInputs inputs) {
+    }
+
+    /**
+     * drive: Drives the robot with the given power values
+     * 
+     * @param leftPower:  The power of the left side of the drive train from -1 to 1
+     * @param rightPower: The power of the right side of the drive train from -1 to
+     *                    1
+     */
+    default void drive(double leftPower, double rightPower) {
+    }
+
+    /**
+     * brake: Toggles the DriveTrain between brake and coast mode
+     */
+    default void toggleMode() {
+    }
 }
