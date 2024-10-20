@@ -1,10 +1,10 @@
-# Big Sky Robotics - Robot In 3 Days (RI3D)
+# Big Sky Robotics - Robot In 3 Days (Ri3D)
 
-Big Sky Robotics is a Robot In 3 Days (RI3D) team based out of **Montana State University, Bozeman**. This repository contains the code for our third build season, starting on **January 4, 2025**, as part of the **FIRST** Robotics Reefscape Challenge.
+Big Sky Robotics is a Robot In 3 Days (Ri3D) team based out of **Montana State University, Bozeman**. This repository contains the code for our third build season, starting on **January 4, 2025**, as part of the **FIRST** Robotics Reefscape Challenge.
 
 ## About
 
-- **Team**: Big Sky Robotics (RI3D Team)
+- **Team**: Big Sky Robotics (Ri3D Team)
 - **Location**: Montana State University, Bozeman
 - **Build Season**: 3rd Season (Starting: January 4, 2025)
 - **Challenge**: FIRST Robotics Reefscape Challenge
