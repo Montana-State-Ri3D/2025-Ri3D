@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.subsystems.DriveTrain.DriveTrain;
 import frc.robot.utilities.SubsystemFactory;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -21,9 +22,6 @@ public class RobotContainer {
 
   private CommandXboxController driverController;
 
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
   public RobotContainer() {
     this.driverController = new CommandXboxController(DriveStationConstants.DRIVE_CONTROLLER_PORT_ID);
 
@@ -32,6 +30,9 @@ public class RobotContainer {
     configureBindings();
   }
 
+  /**
+   * Create all subsystems using the SubsystemFactory
+   */
   private void createSubsystems() {
 
     SubsystemFactory factory = new SubsystemFactory();
@@ -39,6 +40,9 @@ public class RobotContainer {
 
   }
 
+  /**
+   * Create all commands
+   */
   private void createCommands() {
     defaultDriveCommand = driveTrain.arcadeDriveCommand(
         () -> driverController.getRightTriggerAxis() - driverController.getLeftTriggerAxis(),
@@ -47,13 +51,16 @@ public class RobotContainer {
     driveTrain.setDefaultCommand(defaultDriveCommand);
   }
 
+  /**
+   * Configure the button bindings
+   */
   private void configureBindings() {
     driverController.start().onTrue(new InstantCommand(() -> driveTrain.resetGyro()));
     driverController.back().onTrue(new InstantCommand(() -> driveTrain.resetPose()));
   }
 
   public Command getAutonomousCommand() {
-
     return null;
+
   }
 }

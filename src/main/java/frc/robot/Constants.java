@@ -6,16 +6,23 @@ import edu.wpi.first.math.util.Units;
  * All constants for the robot are stored here. In standard units below. In all
  * caps with underscores aka LEFT_MOTOR_FRONT_ID and CAN IDs and Port IDs should
  * end with "_ID"
- *  
- * Velocity: m/s<p>
- * Acceleration: m/s^2<p>
- * Distance: m<p>
- *
- * Angle: rad or {@link edu.wpi.first.math.geometry.Rotation2d}<p>
- * Angular Velocity: rad/s<p>
- * Angular Acceleration: rad/s^2<p>
  * 
- * Gear Ratios should be < 1 aka 1.0/8.196<p>
+ * Velocity: m/s
+ * <p>
+ * Acceleration: m/s^2
+ * <p>
+ * Distance: m
+ * <p>
+ *
+ * Angle: rad or {@link edu.wpi.first.math.geometry.Rotation2d}
+ * <p>
+ * Angular Velocity: rad/s
+ * <p>
+ * Angular Acceleration: rad/s^2
+ * <p>
+ * 
+ * Gear Ratios should be < 1 aka 1.0/8.196
+ * <p>
  * 
  * Use {@link edu.wpi.first.math.util.Units} to convert to standard units
  */
@@ -27,6 +34,10 @@ public final class Constants {
     public static final int DRIVE_CONTROLLER_PORT_ID = 0;
     public static final int OPERATOR_CONTROLLER_PORT_ID = 1;
     public static final int TEST_CONTROLLER_PORT_ID = 2;
+
+    // This Seting is used to prevent the robot from being enabled when testing and
+    // the code is not been validated on the hardware
+    public static final boolean ALLOW_ROBOT_ENABLE = true;
   }
 
   // Constants for the DriveTrain subsystem

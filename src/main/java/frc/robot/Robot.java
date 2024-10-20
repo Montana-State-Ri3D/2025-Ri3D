@@ -6,8 +6,10 @@ package frc.robot;
 
 import org.littletonrobotics.junction.LoggedRobot;
 
+import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.DriveStationConstants;
 import frc.robot.utilities.AdvantageKitHelper;
 
 /**
@@ -43,12 +45,19 @@ public class Robot extends LoggedRobot {
    * <p>This runs after the mode specific periodic functions, but before LiveWindow and
    * SmartDashboard integrated updating.
    */
+  @SuppressWarnings("unused")
   @Override
   public void robotPeriodic() {
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
+
+    if(RobotState.isEnabled() && !DriveStationConstants.ALLOW_ROBOT_ENABLE) {
+      System.err.println("Robot is enabled and ALLOW_ROBOT_ENABLE is turned off in the Constants file");
+      throw new RuntimeException("Robot is enabled and ALLOW_ROBOT_ENABLE is turned off in the Constants file");
+    }
+
     CommandScheduler.getInstance().run();
   }
 

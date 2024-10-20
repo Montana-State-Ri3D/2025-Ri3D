@@ -9,7 +9,9 @@ import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import frc.robot.Robot;
 
 public class AdvantageKitHelper {
-
+    /**
+     * Setup the logger for the AdvantageKit
+     */
     @SuppressWarnings("resource")
     public static void setupLogger() {
         if (Robot.isReal()) {
