@@ -42,10 +42,10 @@ public final class Constants {
 
   // Constants for the DriveTrain subsystem
   public static class DriveTrainConstants {
-    public static final int LEFT_MOTOR_FRONT_ID = 0;
-    public static final int LEFT_MOTOR_BACK_ID = 1;
-    public static final int RIGHT_MOTOR_FRONT_ID = 2;
-    public static final int RIGHT_MOTOR_BACK_ID = 3;
+    public static final int LEFT_MOTOR_FRONT_ID = 2;
+    public static final int LEFT_MOTOR_BACK_ID = 3;
+    public static final int RIGHT_MOTOR_FRONT_ID = 4;
+    public static final int RIGHT_MOTOR_BACK_ID = 5;
 
     public static final double DRIVE_RADIO = 1.0 / 8.196;
 
