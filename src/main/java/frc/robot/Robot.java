@@ -64,7 +64,7 @@ public class Robot extends LoggedRobot {
     // robot's periodic
     // block in order for anything in the Command-based framework to work.
 
-    if (RobotState.isEnabled() && !DriveStationConstants.ALLOW_ROBOT_ENABLE) {
+    if (RobotState.isEnabled() && !DriveStationConstants.ALLOW_ROBOT_ENABLE && Robot.isReal()) {
       System.err.println("Robot is enabled and ALLOW_ROBOT_ENABLE is turned off in the Constants file");
       throw new RuntimeException("Robot is enabled and ALLOW_ROBOT_ENABLE is turned off in the Constants file");
     }
