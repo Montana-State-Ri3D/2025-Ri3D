@@ -99,8 +99,8 @@ public class DriveTrainSimIO implements DriveTrainIO {
         inputs.rightCurrent = 0;
         inputs.leftPower = leftMotorFront.get();
         inputs.rightPower = rightMotorFront.get();
-        inputs.leftPosition = leftEncoder.getDistance();
-        inputs.rightPosition = rightEncoder.getDistance();
+        inputs.leftFrontPosition = leftEncoder.getDistance();
+        inputs.rightFrontPosition = rightEncoder.getDistance();
         inputs.leftVelocity = leftEncoder.getRate();
         inputs.rightVelocity = rightEncoder.getRate();
         inputs.heading = Rotation2d.fromDegrees(-gyro.getAngle());

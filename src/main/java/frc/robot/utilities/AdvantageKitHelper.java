@@ -15,7 +15,7 @@ public class AdvantageKitHelper {
     @SuppressWarnings("resource")
     public static void setupLogger() {
         if (Robot.isReal()) {
-            Logger.addDataReceiver(new WPILOGWriter());
+            // Logger.addDataReceiver(new WPILOGWriter());
             Logger.addDataReceiver(new NT4Publisher());
             new PowerDistribution(1, ModuleType.kRev);
         } else {

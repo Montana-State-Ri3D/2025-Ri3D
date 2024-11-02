@@ -38,7 +38,7 @@ public class DriveTrain extends SubsystemBase {
     this.io = io;
     io.updateInputs(inputs);
 
-    odometry = new DifferentialDriveOdometry(inputs.heading, inputs.leftPosition, inputs.rightPosition,
+    odometry = new DifferentialDriveOdometry(inputs.heading, inputs.leftFrontPosition, inputs.rightFrontPosition,
         new Pose2d(0.0, 0.0, new Rotation2d()));
 
     kinematics = new DifferentialDriveKinematics(DriveTrainConstants.TRACK_WIDTH);
@@ -58,7 +58,7 @@ public class DriveTrain extends SubsystemBase {
     }
 
     // Update Odometry
-    pose = odometry.update(inputs.heading, inputs.leftPosition, inputs.leftPosition);
+    pose = odometry.update(inputs.heading, inputs.leftFrontPosition, inputs.leftFrontPosition);
 
     Logger.recordOutput("DriveTrain/Pos2d", pose);
     Logger.recordOutput("DriveTrain/WheelSpeed", this.getWheelSpeed());
@@ -115,7 +115,7 @@ public class DriveTrain extends SubsystemBase {
    * theta = 0
    */
   public void resetPose() {
-    odometry.resetPosition(inputs.heading, inputs.leftPosition, inputs.rightPosition,
+    odometry.resetPosition(inputs.heading, inputs.leftFrontPosition, inputs.rightFrontPosition,
         new Pose2d(0.0, 0.0, new Rotation2d()));
   }
 
@@ -127,7 +127,7 @@ public class DriveTrain extends SubsystemBase {
    * @param pose the pose of the robot
    */
   public void setPose(Pose2d pose) {
-    odometry.resetPosition(inputs.heading, inputs.leftPosition, inputs.rightPosition, pose);
+    odometry.resetPosition(inputs.heading, inputs.leftFrontPosition, inputs.rightFrontPosition, pose);
   }
 
   /**
@@ -135,7 +135,7 @@ public class DriveTrain extends SubsystemBase {
    * NOTE: It does not actually reset the hardware gyro only the odometry
    */
   public void resetGyro() {
-    odometry.resetPosition(inputs.heading, inputs.leftPosition, inputs.rightPosition,
+    odometry.resetPosition(inputs.heading, inputs.leftFrontPosition, inputs.rightFrontPosition,
         new Pose2d(pose.getX(), pose.getY(), new Rotation2d()));
   }
 

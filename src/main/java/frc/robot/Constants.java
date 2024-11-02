@@ -37,7 +37,7 @@ public final class Constants {
 
     // This Seting is used to prevent the robot from being enabled when testing and
     // the code is not been validated on the hardware
-    public static final boolean ALLOW_ROBOT_ENABLE = false;
+    public static final boolean ALLOW_ROBOT_ENABLE = true;
   }
 
   // Constants for the DriveTrain subsystem
@@ -47,7 +47,7 @@ public final class Constants {
     public static final int RIGHT_MOTOR_FRONT_ID = 4;
     public static final int RIGHT_MOTOR_BACK_ID = 5;
 
-    public static final double DRIVE_RADIO = 1.0 / 8.196;
+    public static final double DRIVE_RADIO = (10.0/62.0) * (22.0/33.0);
 
     public static final double DRIVE_WHEEL_RADIUS_STOCK = Units.inchesToMeters(4.0) / 2.0;
     public static final double TREAD_WARE_FACTOR = Units.inchesToMeters(0.0);

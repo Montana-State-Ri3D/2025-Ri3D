@@ -21,13 +21,21 @@ public interface DriveTrainIO {
          */
         public boolean brake;
         /**
-         * leftPosition: The position of the left side of the drive train in meters
+         * leftFrontPosition: The position of the left front side of the drive train in meters
          */
-        public double leftPosition;
+        public double leftFrontPosition;
         /**
-         * rightPosition: The position of the right side of the drive train in meters
+         * rightFrontPosition: The position of the right front side of the drive train in meters
          */
-        public double rightPosition;
+        public double rightFrontPosition;
+        /**
+         * leftBackPosition: The position of the left back side of the drive train in meters
+         */
+        public double leftBackPosition;
+        /**
+         * rightBackPosition: The position of the right back side of the drive train in meters
+         */
+        public double rightBackPosition;
         /**
          * leftVelocity: The velocity of the left side of the drive train in meters per
          * second

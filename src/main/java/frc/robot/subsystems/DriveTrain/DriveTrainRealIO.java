@@ -3,6 +3,7 @@ package frc.robot.subsystems.DriveTrain;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
+import com.ctre.phoenix6.hardware.Pigeon2;
 import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.Constants.DriveTrainConstants;
 
@@ -20,6 +21,7 @@ public class DriveTrainRealIO implements DriveTrainIO {
     
     private CANSparkMax[] Motors;
     private RelativeEncoder[] Encoders;
+    private Pigeon2 pidgey;
 
 
     public DriveTrainRealIO(int leftMotorBack, int leftMotorFront, int rightMotorBack, int rightMotorFront) {
@@ -35,16 +37,16 @@ public class DriveTrainRealIO implements DriveTrainIO {
         this.Motors[2] = this.rightMotorBack;
         this.Motors[3] = this.rightMotorFront;
 
+        this.pidgey = new Pigeon2(6);
+
         for (CANSparkMax motor : this.Motors) {
             motor.restoreFactoryDefaults();
             motor.setIdleMode(CANSparkMax.IdleMode.kCoast);
             motor.setSmartCurrentLimit(40);
         }
 
-        this.leftMotorFront.setInverted(false);
-        this.leftMotorBack.setInverted(false);
+        this.leftMotorFront.setInverted(true);
         this.rightMotorFront.setInverted(false);
-        this.rightMotorBack.setInverted(false);
 
         this.leftMotorBack.follow(this.leftMotorFront, false);
         this.rightMotorBack.follow(this.rightMotorFront, false);
@@ -90,14 +92,16 @@ public class DriveTrainRealIO implements DriveTrainIO {
     public void updateInputs(DriveTrainIOInputs inputs) {
         inputs.leftPower = this.leftMotorFront.get();
         inputs.rightPower = this.rightMotorFront.get();
-        inputs.leftPosition = this.leftEncoderFront.getPosition();
-        inputs.rightPosition = this.rightEncoderFront.getPosition();
+        inputs.leftFrontPosition = this.leftEncoderFront.getPosition();
+        inputs.rightFrontPosition = this.rightEncoderFront.getPosition();
+        inputs.leftBackPosition = this.leftEncoderBack.getPosition();
+        inputs.rightBackPosition = this.rightEncoderBack.getPosition();
         inputs.leftVelocity = this.leftEncoderFront.getVelocity();
         inputs.rightVelocity = this.rightEncoderFront.getVelocity();
         inputs.leftCurrent = this.leftMotorFront.getOutputCurrent();
         inputs.rightCurrent = this.rightMotorFront.getOutputCurrent();
         inputs.brake = this.leftMotorFront.getIdleMode() == CANSparkMax.IdleMode.kBrake;
-        inputs.heading = new Rotation2d();
+        inputs.heading = this.pidgey.getRotation2d();
     }
 
 }
