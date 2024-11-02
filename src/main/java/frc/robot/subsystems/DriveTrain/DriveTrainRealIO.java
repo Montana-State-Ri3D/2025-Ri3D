@@ -3,6 +3,7 @@ package frc.robot.subsystems.DriveTrain;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.Constants.DriveTrainConstants;
 
 public class DriveTrainRealIO implements DriveTrainIO {
@@ -16,9 +17,10 @@ public class DriveTrainRealIO implements DriveTrainIO {
     private RelativeEncoder leftEncoderFront;
     private RelativeEncoder rightEncoderBack;
     private RelativeEncoder rightEncoderFront;
+    
+    private CANSparkMax[] Motors;
+    private RelativeEncoder[] Encoders;
 
-    private CANSparkMax[] Motors = { leftMotorBack, leftMotorFront, rightMotorBack, rightMotorFront };
-    private RelativeEncoder[] Encoders = { leftEncoderBack, leftEncoderFront, rightEncoderBack, rightEncoderFront };
 
     public DriveTrainRealIO(int leftMotorBack, int leftMotorFront, int rightMotorBack, int rightMotorFront) {
 
@@ -26,6 +28,12 @@ public class DriveTrainRealIO implements DriveTrainIO {
         this.leftMotorFront = new CANSparkMax(leftMotorFront, CANSparkMax.MotorType.kBrushless);
         this.rightMotorBack = new CANSparkMax(rightMotorBack, CANSparkMax.MotorType.kBrushless);
         this.rightMotorFront = new CANSparkMax(rightMotorFront, CANSparkMax.MotorType.kBrushless);
+
+        this.Motors = new CANSparkMax[4];
+        this.Motors[0] = this.leftMotorBack;
+        this.Motors[1] = this.leftMotorFront;
+        this.Motors[2] = this.rightMotorBack;
+        this.Motors[3] = this.rightMotorFront;
 
         for (CANSparkMax motor : this.Motors) {
             motor.restoreFactoryDefaults();
@@ -45,6 +53,13 @@ public class DriveTrainRealIO implements DriveTrainIO {
         this.leftEncoderFront = this.leftMotorFront.getEncoder();
         this.rightEncoderBack = this.rightMotorBack.getEncoder();
         this.rightEncoderFront = this.rightMotorFront.getEncoder();
+
+        this.Encoders = new RelativeEncoder[4];
+        this.Encoders[0] = this.leftEncoderBack;
+        this.Encoders[1] = this.leftEncoderFront;
+        this.Encoders[2] = this.rightEncoderBack;
+        this.Encoders[3] = this.rightEncoderFront;
+
 
         for (RelativeEncoder encoder : this.Encoders) {
             encoder.setPositionConversionFactor(
@@ -82,6 +97,7 @@ public class DriveTrainRealIO implements DriveTrainIO {
         inputs.leftCurrent = this.leftMotorFront.getOutputCurrent();
         inputs.rightCurrent = this.rightMotorFront.getOutputCurrent();
         inputs.brake = this.leftMotorFront.getIdleMode() == CANSparkMax.IdleMode.kBrake;
+        inputs.heading = new Rotation2d();
     }
 
 }
