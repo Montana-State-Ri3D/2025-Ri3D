@@ -61,7 +61,7 @@ public class DriveTrainSimIO implements DriveTrainIO {
                 this.batteryMoi + this.gearboxMoi,
                 Units.lbsToKilograms(150),
                 Units.inchesToMeters(DriveTrainConstants.DRIVE_WHEEL_RADIUS),
-                Units.inchesToMeters(32.0),
+                Units.inchesToMeters(DriveTrainConstants.TRACK_WIDTH),
 
                 // The standard deviations for measurement noise:
                 // x and y: 0.001 m
