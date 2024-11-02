@@ -23,7 +23,7 @@ You can find detailed instructions on how to deploy the code using WPILib at the
 
 ## Author(s)
 
-This code was written and maintained by **Joshua Elmore**.
+This code was written by **Joshua Elmore**.
 
 - [joshuaelmore.me](https://joshuaelmore.me)
 
