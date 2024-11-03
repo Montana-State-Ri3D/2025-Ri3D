@@ -3,6 +3,7 @@ package frc.robot.subsystems.DriveTrain;
 import org.littletonrobotics.junction.AutoLog;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 
 public interface DriveTrainIO {
 
@@ -55,10 +56,13 @@ public interface DriveTrainIO {
          */
         public double rightCurrent;
         /**
-         * heading: The heading of the robot as
-         * {@link edu.wpi.first.math.geometry.Rotation2d}
+         * heading: The heading of the robot as a {@link edu.wpi.first.math.geometry.Rotation2d}
          */
         public Rotation2d heading;
+        /**
+         * heading3d: The heading of the robot as a {@link edu.wpi.first.math.geometry.Rotation3d}
+         */
+        public Rotation3d heading3d;
 
     }
 

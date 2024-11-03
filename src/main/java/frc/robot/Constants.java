@@ -47,13 +47,15 @@ public final class Constants {
     public static final int RIGHT_MOTOR_FRONT_ID = 4;
     public static final int RIGHT_MOTOR_BACK_ID = 5;
 
+    public static final int PIGEON_ID = 6;
+
     public static final double DRIVE_RADIO = (10.0/62.0) * (22.0/33.0);
 
     public static final double DRIVE_WHEEL_RADIUS_STOCK = Units.inchesToMeters(4.0) / 2.0;
     public static final double TREAD_WARE_FACTOR = Units.inchesToMeters(0.0);
     public static final double DRIVE_WHEEL_RADIUS = DRIVE_WHEEL_RADIUS_STOCK - TREAD_WARE_FACTOR;
 
-    public static final double MAX_VELOCITY = Units.feetToMeters(12.89);
-    public static final double TRACK_WIDTH = Units.inchesToMeters(32);
+    public static final double MAX_VELOCITY = Units.feetToMeters(11.23);
+    public static final double TRACK_WIDTH = Units.inchesToMeters(24);
   }
 }

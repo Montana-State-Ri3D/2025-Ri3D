@@ -4,7 +4,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
-import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.Constants.DriveTrainConstants;
 
 public class DriveTrainRealIO implements DriveTrainIO {
@@ -24,7 +23,7 @@ public class DriveTrainRealIO implements DriveTrainIO {
     private Pigeon2 pidgey;
 
 
-    public DriveTrainRealIO(int leftMotorBack, int leftMotorFront, int rightMotorBack, int rightMotorFront) {
+    public DriveTrainRealIO(int leftMotorBack, int leftMotorFront, int rightMotorBack, int rightMotorFront, int pigeonID) {
 
         this.leftMotorBack = new CANSparkMax(leftMotorBack, CANSparkMax.MotorType.kBrushless);
         this.leftMotorFront = new CANSparkMax(leftMotorFront, CANSparkMax.MotorType.kBrushless);
@@ -32,12 +31,13 @@ public class DriveTrainRealIO implements DriveTrainIO {
         this.rightMotorFront = new CANSparkMax(rightMotorFront, CANSparkMax.MotorType.kBrushless);
 
         this.Motors = new CANSparkMax[4];
+
         this.Motors[0] = this.leftMotorBack;
         this.Motors[1] = this.leftMotorFront;
         this.Motors[2] = this.rightMotorBack;
         this.Motors[3] = this.rightMotorFront;
 
-        this.pidgey = new Pigeon2(6);
+        this.pidgey = new Pigeon2(pigeonID);
 
         for (CANSparkMax motor : this.Motors) {
             motor.restoreFactoryDefaults();
@@ -102,6 +102,7 @@ public class DriveTrainRealIO implements DriveTrainIO {
         inputs.rightCurrent = this.rightMotorFront.getOutputCurrent();
         inputs.brake = this.leftMotorFront.getIdleMode() == CANSparkMax.IdleMode.kBrake;
         inputs.heading = this.pidgey.getRotation2d();
+        inputs.heading3d = this.pidgey.getRotation3d();
     }
 
 }

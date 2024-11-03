@@ -50,12 +50,8 @@ public class DriveTrain extends SubsystemBase {
 
     Logger.processInputs("DriveTrain", inputs);
 
-    if (this.getCurrentCommand() != null) {
-
-      Logger.recordOutput("DriveTrain/CurentCommand", this.getCurrentCommand().getName());
-    } else {
-      Logger.recordOutput("DriveTrain/CurentCommand", "none");
-    }
+    Logger.recordOutput("DriveTrain/CurentCommand",
+        this.getCurrentCommand() != null ? this.getCurrentCommand().getName() : "none");
 
     // Update Odometry
     pose = odometry.update(inputs.heading, inputs.leftFrontPosition, inputs.leftFrontPosition);
@@ -162,7 +158,7 @@ public class DriveTrain extends SubsystemBase {
    *            -1 to 1
    */
   public Command arcadeDriveCommand(DoubleSupplier fwd, DoubleSupplier rot) {
-    return runEnd(
+    Command cmd = runEnd(
         () -> {
           WheelSpeeds wheelSpeeds = DifferentialDrive.arcadeDriveIK(
               Joystick.JoystickInput(fwd.getAsDouble(), 2, 0.001, 1),
@@ -171,5 +167,7 @@ public class DriveTrain extends SubsystemBase {
           this.io.drive(wheelSpeeds.left, wheelSpeeds.right);
         },
         () -> this.io.drive(0, 0));
+    cmd.setName("Default Arcade Drive");
+    return cmd;
   }
 }
