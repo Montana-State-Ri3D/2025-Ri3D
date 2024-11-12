@@ -1,5 +1,9 @@
 package frc.robot;
 
+import com.pathplanner.lib.util.*;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
+
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -57,5 +61,7 @@ public final class Constants {
 
     public static final double MAX_VELOCITY = Units.feetToMeters(11.23);
     public static final double TRACK_WIDTH = Units.inchesToMeters(24);
+
+    public static final double DT = 0.02;
   }
 }

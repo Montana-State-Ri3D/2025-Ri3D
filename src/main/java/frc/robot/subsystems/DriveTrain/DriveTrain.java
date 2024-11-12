@@ -11,12 +11,16 @@ import java.util.function.DoubleSupplier;
 
 import org.littletonrobotics.junction.Logger;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.ReplanningConfig;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive.WheelSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -42,6 +46,33 @@ public class DriveTrain extends SubsystemBase {
         new Pose2d(0.0, 0.0, new Rotation2d()));
 
     kinematics = new DifferentialDriveKinematics(DriveTrainConstants.TRACK_WIDTH);
+
+    try{
+      // Configure AutoBuilder last
+      AutoBuilder.configureLTV(
+              this::getPose, // Robot pose supplier
+              this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
+              this::getChassisSpeed, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+              this::setChassisSpeed, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
+              DriveTrainConstants.DT,
+              new ReplanningConfig(), // The robot configuration
+              () -> {
+                // Boolean supplier that controls when the path will be mirrored for the red alliance
+                // This will flip the path being followed to the red side of the field.
+                // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+                var alliance = DriverStation.getAlliance();
+                if (alliance.isPresent()) {
+                  return alliance.get() == DriverStation.Alliance.Red;
+                }
+                return false;
+              },
+              this // Reference to this subsystem to set requirements
+      );
+    } catch (Exception e) {
+      // Handle exception as needed
+      DriverStation.reportError("Failed to load PathPlanner config and configure AutoBuilder", e.getStackTrace());
+    }
   }
 
   @Override
@@ -110,7 +141,8 @@ public class DriveTrain extends SubsystemBase {
    * This function is used to reset the pose of the robot to x = 0, y = 0, and
    * theta = 0
    */
-  public void resetPose() {
+  public void resetPose(Pose2d pose) {
+    System.out.println("reset Pose");
     odometry.resetPosition(inputs.heading, inputs.leftFrontPosition, inputs.rightFrontPosition,
         new Pose2d(0.0, 0.0, new Rotation2d()));
   }
