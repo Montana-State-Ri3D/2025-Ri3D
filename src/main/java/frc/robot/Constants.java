@@ -1,9 +1,5 @@
 package frc.robot;
 
-import com.pathplanner.lib.util.*;
-import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.ReplanningConfig;
-
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -53,7 +49,7 @@ public final class Constants {
 
     public static final int PIGEON_ID = 6;
 
-    public static final double DRIVE_RADIO = (10.0/62.0) * (22.0/33.0);
+    public static final double DRIVE_RATIO = (10.0/62.0) * (22.0/33.0);
 
     public static final double DRIVE_WHEEL_RADIUS_STOCK = Units.inchesToMeters(4.0) / 2.0;
     public static final double TREAD_WARE_FACTOR = Units.inchesToMeters(0.0);

@@ -53,7 +53,7 @@ public class DriveTrainSimIO implements DriveTrainIO {
 
         driveSim = new DifferentialDrivetrainSim(
                 DCMotor.getNEO(2),
-                DriveTrainConstants.DRIVE_RADIO,
+                DriveTrainConstants.DRIVE_RATIO,
                 1,
                 Units.lbsToKilograms(80),
                 Units.inchesToMeters(DriveTrainConstants.DRIVE_WHEEL_RADIUS),
