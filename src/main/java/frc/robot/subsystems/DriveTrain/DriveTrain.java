@@ -51,7 +51,7 @@ public class DriveTrain extends SubsystemBase {
       // Configure AutoBuilder last
       AutoBuilder.configureLTV(
               this::getPose, // Robot pose supplier
-              this::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
+              this::setPose, // Method to reset odometry (will be called if your auto has a starting pose)
               this::getChassisSpeed, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
               this::setChassisSpeed, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds. Also optionally outputs individual module feedforwards
               DriveTrainConstants.DT,
@@ -141,8 +141,7 @@ public class DriveTrain extends SubsystemBase {
    * This function is used to reset the pose of the robot to x = 0, y = 0, and
    * theta = 0
    */
-  public void resetPose(Pose2d pose) {
-    System.out.println("reset Pose");
+  public void resetPose() {
     odometry.resetPosition(inputs.heading, inputs.leftFrontPosition, inputs.rightFrontPosition,
         new Pose2d(0.0, 0.0, new Rotation2d()));
   }

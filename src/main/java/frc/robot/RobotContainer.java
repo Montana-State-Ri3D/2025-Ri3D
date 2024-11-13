@@ -62,7 +62,7 @@ public class RobotContainer {
    */
   private void configureBindings() {
     driverController.start().onTrue(new InstantCommand(() -> driveTrain.resetGyro()));
-    driverController.back().onTrue(new InstantCommand(() -> driveTrain.resetPose(new Pose2d())));
+    driverController.back().onTrue(new InstantCommand(() -> driveTrain.resetPose()));
   }
 
   public Command getAutonomousCommand() {
