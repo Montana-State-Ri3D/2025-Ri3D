@@ -3,7 +3,7 @@ package frc.robot.subsystems.DriveTrain;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
-import edu.wpi.first.math.geometry.Rotation2d;
+import com.ctre.phoenix6.hardware.Pigeon2;
 import frc.robot.Constants.DriveTrainConstants;
 
 public class DriveTrainRealIO implements DriveTrainIO {
@@ -20,9 +20,10 @@ public class DriveTrainRealIO implements DriveTrainIO {
     
     private CANSparkMax[] Motors;
     private RelativeEncoder[] Encoders;
+    private Pigeon2 pidgey;
 
 
-    public DriveTrainRealIO(int leftMotorBack, int leftMotorFront, int rightMotorBack, int rightMotorFront) {
+    public DriveTrainRealIO(int leftMotorBack, int leftMotorFront, int rightMotorBack, int rightMotorFront, int pigeonID) {
 
         this.leftMotorBack = new CANSparkMax(leftMotorBack, CANSparkMax.MotorType.kBrushless);
         this.leftMotorFront = new CANSparkMax(leftMotorFront, CANSparkMax.MotorType.kBrushless);
@@ -30,10 +31,13 @@ public class DriveTrainRealIO implements DriveTrainIO {
         this.rightMotorFront = new CANSparkMax(rightMotorFront, CANSparkMax.MotorType.kBrushless);
 
         this.Motors = new CANSparkMax[4];
+
         this.Motors[0] = this.leftMotorBack;
         this.Motors[1] = this.leftMotorFront;
         this.Motors[2] = this.rightMotorBack;
         this.Motors[3] = this.rightMotorFront;
+
+        this.pidgey = new Pigeon2(pigeonID);
 
         for (CANSparkMax motor : this.Motors) {
             motor.restoreFactoryDefaults();
@@ -41,10 +45,8 @@ public class DriveTrainRealIO implements DriveTrainIO {
             motor.setSmartCurrentLimit(40);
         }
 
-        this.leftMotorFront.setInverted(false);
-        this.leftMotorBack.setInverted(false);
+        this.leftMotorFront.setInverted(true);
         this.rightMotorFront.setInverted(false);
-        this.rightMotorBack.setInverted(false);
 
         this.leftMotorBack.follow(this.leftMotorFront, false);
         this.rightMotorBack.follow(this.rightMotorFront, false);
@@ -90,14 +92,17 @@ public class DriveTrainRealIO implements DriveTrainIO {
     public void updateInputs(DriveTrainIOInputs inputs) {
         inputs.leftPower = this.leftMotorFront.get();
         inputs.rightPower = this.rightMotorFront.get();
-        inputs.leftPosition = this.leftEncoderFront.getPosition();
-        inputs.rightPosition = this.rightEncoderFront.getPosition();
+        inputs.leftFrontPosition = this.leftEncoderFront.getPosition();
+        inputs.rightFrontPosition = this.rightEncoderFront.getPosition();
+        inputs.leftBackPosition = this.leftEncoderBack.getPosition();
+        inputs.rightBackPosition = this.rightEncoderBack.getPosition();
         inputs.leftVelocity = this.leftEncoderFront.getVelocity();
         inputs.rightVelocity = this.rightEncoderFront.getVelocity();
         inputs.leftCurrent = this.leftMotorFront.getOutputCurrent();
         inputs.rightCurrent = this.rightMotorFront.getOutputCurrent();
         inputs.brake = this.leftMotorFront.getIdleMode() == CANSparkMax.IdleMode.kBrake;
-        inputs.heading = new Rotation2d();
+        inputs.heading = this.pidgey.getRotation2d();
+        inputs.heading3d = this.pidgey.getRotation3d();
     }
 
 }

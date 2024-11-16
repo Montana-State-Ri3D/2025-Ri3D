@@ -4,7 +4,7 @@ import frc.robot.Constants.DriveTrainConstants;
 
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Rotation2d;
-
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.AnalogGyro;
@@ -38,10 +38,6 @@ public class DriveTrainSimIO implements DriveTrainIO {
     private PWMSparkMax rightMotorFront;
     private PWMSparkMax rightMotorBack;
 
-    private double batteryMoi = 12.5 / 2.2 * Math.pow(Units.inchesToMeters(10), 2);
-    private double gearboxMoi = (2.8 /* CIM motor */ * 2 / 2.2 + 2.0 /* Toughbox Mini- ish */)
-            * Math.pow(Units.inchesToMeters(26.0 / 2.0), 2);
-
     public DriveTrainSimIO() {
         leftEncoder = new Encoder(0, 1);
         rightEncoder = new Encoder(2, 3);
@@ -58,8 +54,8 @@ public class DriveTrainSimIO implements DriveTrainIO {
         driveSim = new DifferentialDrivetrainSim(
                 DCMotor.getNEO(2),
                 DriveTrainConstants.DRIVE_RADIO,
-                this.batteryMoi + this.gearboxMoi,
-                Units.lbsToKilograms(150),
+                1,
+                Units.lbsToKilograms(80),
                 Units.inchesToMeters(DriveTrainConstants.DRIVE_WHEEL_RADIUS),
                 Units.inchesToMeters(DriveTrainConstants.TRACK_WIDTH),
 
@@ -99,11 +95,14 @@ public class DriveTrainSimIO implements DriveTrainIO {
         inputs.rightCurrent = 0;
         inputs.leftPower = leftMotorFront.get();
         inputs.rightPower = rightMotorFront.get();
-        inputs.leftPosition = leftEncoder.getDistance();
-        inputs.rightPosition = rightEncoder.getDistance();
+        inputs.leftFrontPosition = leftEncoder.getDistance();
+        inputs.rightFrontPosition = rightEncoder.getDistance();
+        inputs.leftBackPosition = leftEncoder.getDistance();
+        inputs.rightBackPosition = rightEncoder.getDistance();
         inputs.leftVelocity = leftEncoder.getRate();
         inputs.rightVelocity = rightEncoder.getRate();
         inputs.heading = Rotation2d.fromDegrees(-gyro.getAngle());
+        inputs.heading3d = new Rotation3d(0,0,inputs.heading.getRadians());
 
     }
 

@@ -17,9 +17,13 @@ public class SubsystemFactory {
     public DriveTrain createDriveTrain() {
         if (isReal) {
             return new DriveTrain(
-                    new DriveTrainRealIO(DriveTrainConstants.LEFT_MOTOR_BACK_ID,
+                    new DriveTrainRealIO(
+                            DriveTrainConstants.LEFT_MOTOR_BACK_ID,
                             DriveTrainConstants.LEFT_MOTOR_FRONT_ID,
-                            DriveTrainConstants.RIGHT_MOTOR_BACK_ID, DriveTrainConstants.RIGHT_MOTOR_FRONT_ID));
+                            DriveTrainConstants.RIGHT_MOTOR_BACK_ID,
+                            DriveTrainConstants.RIGHT_MOTOR_FRONT_ID,
+                            DriveTrainConstants.PIGEON_ID
+                            ));
         } else {
             return new DriveTrain(new DriveTrainSimIO());
         }

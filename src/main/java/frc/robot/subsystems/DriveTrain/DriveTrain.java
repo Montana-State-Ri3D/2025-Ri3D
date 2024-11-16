@@ -38,7 +38,7 @@ public class DriveTrain extends SubsystemBase {
     this.io = io;
     io.updateInputs(inputs);
 
-    odometry = new DifferentialDriveOdometry(inputs.heading, inputs.leftPosition, inputs.rightPosition,
+    odometry = new DifferentialDriveOdometry(inputs.heading, inputs.leftFrontPosition, inputs.rightFrontPosition,
         new Pose2d(0.0, 0.0, new Rotation2d()));
 
     kinematics = new DifferentialDriveKinematics(DriveTrainConstants.TRACK_WIDTH);
@@ -50,15 +50,11 @@ public class DriveTrain extends SubsystemBase {
 
     Logger.processInputs("DriveTrain", inputs);
 
-    if (this.getCurrentCommand() != null) {
-
-      Logger.recordOutput("DriveTrain/CurentCommand", this.getCurrentCommand().getName());
-    } else {
-      Logger.recordOutput("DriveTrain/CurentCommand", "none");
-    }
+    Logger.recordOutput("DriveTrain/CurentCommand",
+        this.getCurrentCommand() != null ? this.getCurrentCommand().getName() : "none");
 
     // Update Odometry
-    pose = odometry.update(inputs.heading, inputs.leftPosition, inputs.leftPosition);
+    pose = odometry.update(inputs.heading, inputs.leftFrontPosition, inputs.leftFrontPosition);
 
     Logger.recordOutput("DriveTrain/Pos2d", pose);
     Logger.recordOutput("DriveTrain/WheelSpeed", this.getWheelSpeed());
@@ -115,7 +111,7 @@ public class DriveTrain extends SubsystemBase {
    * theta = 0
    */
   public void resetPose() {
-    odometry.resetPosition(inputs.heading, inputs.leftPosition, inputs.rightPosition,
+    odometry.resetPosition(inputs.heading, inputs.leftFrontPosition, inputs.rightFrontPosition,
         new Pose2d(0.0, 0.0, new Rotation2d()));
   }
 
@@ -127,7 +123,7 @@ public class DriveTrain extends SubsystemBase {
    * @param pose the pose of the robot
    */
   public void setPose(Pose2d pose) {
-    odometry.resetPosition(inputs.heading, inputs.leftPosition, inputs.rightPosition, pose);
+    odometry.resetPosition(inputs.heading, inputs.leftFrontPosition, inputs.rightFrontPosition, pose);
   }
 
   /**
@@ -135,7 +131,7 @@ public class DriveTrain extends SubsystemBase {
    * NOTE: It does not actually reset the hardware gyro only the odometry
    */
   public void resetGyro() {
-    odometry.resetPosition(inputs.heading, inputs.leftPosition, inputs.rightPosition,
+    odometry.resetPosition(inputs.heading, inputs.leftFrontPosition, inputs.rightFrontPosition,
         new Pose2d(pose.getX(), pose.getY(), new Rotation2d()));
   }
 
@@ -162,7 +158,7 @@ public class DriveTrain extends SubsystemBase {
    *            -1 to 1
    */
   public Command arcadeDriveCommand(DoubleSupplier fwd, DoubleSupplier rot) {
-    return runEnd(
+    Command cmd = runEnd(
         () -> {
           WheelSpeeds wheelSpeeds = DifferentialDrive.arcadeDriveIK(
               Joystick.JoystickInput(fwd.getAsDouble(), 2, 0.001, 1),
@@ -171,5 +167,7 @@ public class DriveTrain extends SubsystemBase {
           this.io.drive(wheelSpeeds.left, wheelSpeeds.right);
         },
         () -> this.io.drive(0, 0));
+    cmd.setName("Default Arcade Drive");
+    return cmd;
   }
 }

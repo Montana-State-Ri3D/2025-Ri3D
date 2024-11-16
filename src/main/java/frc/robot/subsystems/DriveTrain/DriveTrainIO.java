@@ -3,6 +3,7 @@ package frc.robot.subsystems.DriveTrain;
 import org.littletonrobotics.junction.AutoLog;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 
 public interface DriveTrainIO {
 
@@ -21,13 +22,21 @@ public interface DriveTrainIO {
          */
         public boolean brake;
         /**
-         * leftPosition: The position of the left side of the drive train in meters
+         * leftFrontPosition: The position of the left front side of the drive train in meters
          */
-        public double leftPosition;
+        public double leftFrontPosition;
         /**
-         * rightPosition: The position of the right side of the drive train in meters
+         * rightFrontPosition: The position of the right front side of the drive train in meters
          */
-        public double rightPosition;
+        public double rightFrontPosition;
+        /**
+         * leftBackPosition: The position of the left back side of the drive train in meters
+         */
+        public double leftBackPosition;
+        /**
+         * rightBackPosition: The position of the right back side of the drive train in meters
+         */
+        public double rightBackPosition;
         /**
          * leftVelocity: The velocity of the left side of the drive train in meters per
          * second
@@ -47,10 +56,13 @@ public interface DriveTrainIO {
          */
         public double rightCurrent;
         /**
-         * heading: The heading of the robot as
-         * {@link edu.wpi.first.math.geometry.Rotation2d}
+         * heading: The heading of the robot as a {@link edu.wpi.first.math.geometry.Rotation2d}
          */
         public Rotation2d heading;
+        /**
+         * heading3d: The heading of the robot as a {@link edu.wpi.first.math.geometry.Rotation3d}
+         */
+        public Rotation3d heading3d;
 
     }
 
