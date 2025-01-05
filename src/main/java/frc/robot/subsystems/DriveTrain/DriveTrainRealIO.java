@@ -65,9 +65,9 @@ public class DriveTrainRealIO implements DriveTrainIO {
 
         for (RelativeEncoder encoder : this.Encoders) {
             encoder.setPositionConversionFactor(
-                    DriveTrainConstants.DRIVE_WHEEL_RADIUS * 2.0 * Math.PI * DriveTrainConstants.DRIVE_RADIO);
+                    DriveTrainConstants.DRIVE_WHEEL_RADIUS * 2.0 * Math.PI * DriveTrainConstants.DRIVE_RATIO);
             encoder.setVelocityConversionFactor(
-                    DriveTrainConstants.DRIVE_WHEEL_RADIUS * 2.0 * Math.PI * DriveTrainConstants.DRIVE_RADIO / 60.0);
+                    DriveTrainConstants.DRIVE_WHEEL_RADIUS * 2.0 * Math.PI * DriveTrainConstants.DRIVE_RATIO / 60.0);
         }
 
     }
