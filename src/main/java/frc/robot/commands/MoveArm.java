@@ -9,7 +9,9 @@ public class MoveArm extends Command {
         L1(new ArmPosition(0, 0, 0)),
         L2(new ArmPosition(0, 0, 0)),
         L3(new ArmPosition(0, 0, 0)),
-        L4(new ArmPosition(0, 0, 0));
+        L4(new ArmPosition(0, 0, 0)),
+        ALGAE(new ArmPosition(0, 0, 0)),
+        CORAL(new ArmPosition(0, 0, 0));
 
         public final ArmPosition position;
 
