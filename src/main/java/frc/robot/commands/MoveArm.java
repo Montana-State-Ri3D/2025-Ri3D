@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Arm.Arm;
+import frc.robot.subsystems.Arm.Arm.ArmPosition;
 
 public class MoveArm extends Command {
     public enum ArmPreset {
@@ -17,22 +18,30 @@ public class MoveArm extends Command {
         }
     }
 
-    Arm arm;
+    private final double WRIST_TOLEERANCE = 0.1;
+    private final double ELBOW_TOLEERANCE = 0.1;
+    private final double ELEVATOR_TOLEERANCE = 0.1;
 
+    private final Arm arm;
+    private final ArmPreset preset;
 
-    public MoveArm(ArmPreset preset, Arm arms) {
+    public MoveArm(ArmPreset preset, Arm arm) {
         this.arm = arm;
+        this.preset = preset;
         addRequirements(arm);
     }
 
     @Override
     public void initialize() {
-        // set the target position for the arm
+        this.arm.setArmPosition(preset.position);
     }
 
     @Override
     public boolean isFinished() {
-        // return true if the arm is at the target position
-        return true;
+        ArmPosition current = arm.getPosition();
+        
+        return Math.abs(current.elevatorPosition - preset.position.elevatorPosition) < this.ELEVATOR_TOLEERANCE
+            && Math.abs(current.elbowPosition - preset.position.elbowPosition) < this.ELBOW_TOLEERANCE
+            && Math.abs(current.wristPosition - preset.position.wristPosition) < this.WRIST_TOLEERANCE;
     }
 }
