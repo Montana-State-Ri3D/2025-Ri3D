@@ -15,9 +15,7 @@ public class Arm extends SubsystemBase{
     @Override
     public void periodic(){
         io.updateInputs(inputs);
-        if (DriveStationConstants.TUNING_MODE) {
-            io.updatePIDValues();
-        }
+        io.updatePIDValues();
         Logger.processInputs("Arm", inputs);
         Logger.recordOutput("Arm/CurrentCommand",
                 this.getCurrentCommand() != null ? this.getCurrentCommand().getName() : "none");
