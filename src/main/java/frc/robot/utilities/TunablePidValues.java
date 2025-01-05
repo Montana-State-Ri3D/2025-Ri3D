@@ -13,6 +13,7 @@ public class TunablePidValues {
         PIDValues pi
     ) {
         this.name = name;
+        this.values = pi;
 
         if (DriveStationConstants.TUNING_MODE) {
             SmartDashboard.putNumber(name + "/kP", pi.kP);
@@ -23,34 +24,37 @@ public class TunablePidValues {
     }
 
     public PIDValues get() {
-        return DriveStationConstants.TUNING_MODE
+        PIDValues newValues = DriveStationConstants.TUNING_MODE
             ? new PIDValues(
-                (int) SmartDashboard.getNumber(name + "/kP", values.kP),
-                (int) SmartDashboard.getNumber(name + "/kI", values.kI),
-                (int) SmartDashboard.getNumber(name + "/kD", values.kD),
-                (int) SmartDashboard.getNumber(name + "/kFF", values.kFF),
+                (double) SmartDashboard.getNumber(name + "/kP", values.kP),
+                (double) SmartDashboard.getNumber(name + "/kI", values.kI),
+                (double) SmartDashboard.getNumber(name + "/kD", values.kD),
+                (double) SmartDashboard.getNumber(name + "/kFF", values.kFF),
                 values
             )
             : values;
+
+        values = newValues;
+        return newValues;
     }
 
     // immutable representation of PID values
-    public class PIDValues {
-        public final int kP;
-        public final int kI;
-        public final int kD;
-        public final int kFF;
+    public static class PIDValues {
+        public final double kP;
+        public final double kI;
+        public final double kD;
+        public final double kFF;
         public final boolean updated; // true if these are different values from the old ones
 
-        public PIDValues(int kP, int kI, int kD, int kFF) {
-            this.kP = kP;
-            this.kI = kI;
-            this.kD = kD;
-            this.kFF = kFF;  
+        public PIDValues(double d, double e, double f, double g) {
+            this.kP = d;
+            this.kI = e;
+            this.kD = f;
+            this.kFF = g;  
             this.updated = false; 
         }
 
-        public PIDValues(int kP, int kI, int kD, int kFF, PIDValues oldValues) {
+        public PIDValues(double kP, double kI, double kD, double kFF, PIDValues oldValues) {
             this.kP = kP;
             this.kI = kI;
             this.kD = kD;
