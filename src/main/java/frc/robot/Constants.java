@@ -64,6 +64,8 @@ public final class Constants {
     public static final int RIGHT_INTAKE_ID = 8;
     public static final int DEPLOY_ID = 9;
 
+    public static final int PIVOT_CANCODER_ID = 10;
+
     public static final double INTAKE_RATIO = 1.0/11.0;  // PLACEHOLDER
     public static final double INTAKE_WHEEL_RADIUS = 1.0;  // PLACEHOLDER
 

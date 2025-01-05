@@ -28,11 +28,19 @@ public class Intake extends SubsystemBase{
         io.setPower(leftPower, rightPower);
     }
 
+    public void setPivotAngle(double angle) {
+        io.setAngle(angle);
+    }
+
     public double getLeftCurrent() {
         return inputs.leftCurrent;
     }
 
     public double getRightCurrent() {
         return inputs.rightCurrent;
+    }
+
+    public double getPivotAngle() {
+        return inputs.pivotAngle;
     }
 }

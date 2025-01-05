@@ -1,5 +1,6 @@
 package frc.robot.subsystems.Intake;
 
+import com.ctre.phoenix6.hardware.CANcoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
@@ -20,6 +21,8 @@ public class IntakeRealIO implements IntakeIO{
     private RelativeEncoder leftIntakeEncoder;
     private RelativeEncoder rightIntakeEncoder;
     private RelativeEncoder pivotEncoder;
+    private CANcoder pivotCANcoder;
+
     private CANSparkMax[] intakeMotors;
 
     public IntakeRealIO(int leftIntake, int rightIntake, int pivot){
@@ -47,9 +50,12 @@ public class IntakeRealIO implements IntakeIO{
         leftIntakeEncoder = this.leftIntake.getEncoder();
         rightIntakeEncoder = this.rightIntake.getEncoder();
         pivotEncoder = this.pivot.getEncoder();
+        pivotCANcoder = new CANcoder(IntakeConstants.PIVOT_CANCODER_ID);
 
         pivotEncoder.setPositionConversionFactor(Math.PI*2);
         pivotEncoder.setVelocityConversionFactor(Math.PI*2/60);
+
+        pivotEncoder.setPosition(pivotCANcoder.getPosition().getValue());
 
         pivotPIDController.setP(IntakeConstants.PIVOT_kP);
         pivotPIDController.setI(IntakeConstants.PIVOT_kI);
@@ -90,8 +96,8 @@ public class IntakeRealIO implements IntakeIO{
 
     public void updateInputs(IntakeIOInputs inputs) {
         inputs.isBrake = isBrake;
-        // inputs.leftCurrent = leftIntake.getOutputCurrent();
-        // inputs.rightCurrent = rightIntake.getOutputCurrent();
+        inputs.leftCurrent = leftIntake.getOutputCurrent();
+        inputs.rightCurrent = rightIntake.getOutputCurrent();
         inputs.rightVelo = rightIntakeEncoder.getVelocity();
         inputs.leftVelo = leftIntakeEncoder.getVelocity();
         inputs.leftPower = leftIntake.get();
