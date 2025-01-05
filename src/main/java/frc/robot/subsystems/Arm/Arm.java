@@ -30,4 +30,26 @@ public class Arm extends SubsystemBase{
     public void setWristPos(double wristAngle) {
         io.setElevatorPos(wristAngle);
     }
+
+    public void setArmPosition(ArmPosition position) {
+        setElevatorPos(position.elevatorPosition);
+        setElbowPos(position.elbowPosition);
+        setWristPos(position.wristPosition);
+    }
+
+    public ArmPosition getPosition() {
+        return new ArmPosition(inputs.elevatorLeaderPosition, inputs.elbowPosition, inputs.wristPosition);
+    }
+
+    public static class ArmPosition {
+        public final double elevatorPosition;
+        public final double elbowPosition;
+        public final double wristPosition;
+
+        public ArmPosition(double elevatorPosition, double elbowPosition, double wristPosition) {
+            this.elevatorPosition = elevatorPosition;
+            this.elbowPosition = elbowPosition;
+            this.wristPosition = wristPosition;
+        }
+    }
 }
