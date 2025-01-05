@@ -125,17 +125,17 @@ public class ArmRealIO implements ArmIO {
         }
     }
 
-    public void setElevatorPose(double elevatorPos) {
+    public void setElevatorPos(double elevatorPos) {
         elevatorTargetPosition = elevatorPos;
         elevatorPIDController.setReference(elevatorPos, ControlType.kPosition);
     }
 
-    public void setElbowPose(double elbowPos) {
+    public void setElbowPos(double elbowPos) {
         elbowTargetPosition = elbowPos;
         elbowPIDController.setReference(elbowPos, ControlType.kPosition);
     }
 
-    public void setWristPose(double wristPos) {
+    public void setWristPos(double wristPos) {
         wristTargetPosition = wristPos;
         wristPIDController.setReference(wristPos, ControlType.kPosition);
     }

@@ -18,4 +18,16 @@ public class Arm extends SubsystemBase{
         Logger.recordOutput("Arm/CurrentCommand",
                 this.getCurrentCommand() != null ? this.getCurrentCommand().getName() : "none");
     }
+
+    public void setElevatorPos(double pos) {
+        io.setElevatorPos(pos);
+    }
+
+    public void setElbowPos(double elbowAngle) {
+        io.setElevatorPos(elbowAngle);
+    }
+
+    public void setWristPos(double wristAngle) {
+        io.setElevatorPos(wristAngle);
+    }
 }
