@@ -8,20 +8,29 @@ public interface ArmIO {
     public class ArmIOInputs{
         public double elevatorLeaderPower;
         public double elevatorFollowerPower;
+        public double elbowLeaderPower;
+        public double elbowFollowerPower;
+        public double wristPower;
 
         public double elevatorLeaderCurrent;
         public double elevatorFollowerCurrent;
-
-        public double elevatorLeaderEncoder;
-        public double elevatorFollowerEncoder;
+        public double elbowLeaderCurrent;
+        public double elbowFollowerCurrent;
+        public double wristCurrent;
 
         public double elevatorLeaderPosition;
         public double elevatorFollowerPosition;
+        public double elbowPosition;
+        public double wristPosition;
 
         public double elevatorLeaderVelocity;
         public double elevatorFollowerVelocity;
+        public double elbowVelocity;
+        public double wristVelocity;
 
         public double elevatorTargetPosition;
+        public double elbowTargetPosition;
+        public double wristTargetPosition;
 
         public boolean isBrake;
     }
