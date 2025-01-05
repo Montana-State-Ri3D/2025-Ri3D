@@ -33,6 +33,8 @@ public interface ArmIO {
         public double wristTargetPosition;
 
         public boolean isBrake;
+
+        public boolean limitSwitchHit;
     }
     default void updateInputs(ArmIOInputs inputs){}
     default void setElevatorPower(double elevatorPower){}
@@ -42,4 +44,5 @@ public interface ArmIO {
     default void getPosition(){}
     default void setBrake(boolean isBrake){}
     default void updatePIDValues(){}
+    default void setElevatorLimits(){};
 }

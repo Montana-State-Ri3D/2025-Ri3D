@@ -2,6 +2,9 @@ package frc.robot.subsystems.Arm;
 
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
+
+import edu.wpi.first.wpilibj.DigitalInput;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder;
@@ -39,7 +42,9 @@ public class ArmRealIO implements ArmIO {
     private TunablePidValues elbowTunablePid;
     private TunablePidValues wristTunablePid;
 
-    public ArmRealIO(int elevatorLeader, int elevatorFollower, int elbowLeader, int elbowFollower, int wrist){
+    private DigitalInput limitSwitch;
+
+    public ArmRealIO(int elevatorLeader, int elevatorFollower, int elbowLeader, int elbowFollower, int wrist, int limitSwitch) {
         this.elevatorLeader = new CANSparkMax(elevatorLeader, CANSparkMax.MotorType.kBrushless);
         this.elevatorFollower = new CANSparkMax(elevatorFollower, CANSparkMax.MotorType.kBrushless);
         this.elbowLeader = new CANSparkMax(elbowLeader, CANSparkMax.MotorType.kBrushless);
@@ -53,6 +58,7 @@ public class ArmRealIO implements ArmIO {
         this.motors[3] = this.elbowFollower;
         this.motors[4] = this.wrist;
 
+        this.limitSwitch = new DigitalInput(limitSwitch);
 
         for (CANSparkMax motor : this.motors) {
             motor.restoreFactoryDefaults();
@@ -188,6 +194,17 @@ public class ArmRealIO implements ArmIO {
         }
     }
 
+    // TODO: Figure out if forward is to make it go down, or if it should be changed to reverse
+    // ensure that the elevator is at the desired lower limit position before calling
+    public void setElevatorLimits() {
+        float current = (float) this.elevatorLeaderEncoder.getPosition();
+        this.elevatorLeader.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, current);
+        this.elevatorLeader.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
+
+        this.elevatorLeader.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, current + ArmConstants.ELEVATOR_HEIGHT);
+        this.elevatorLeader.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
+    }
+
     public void setElevatorPos(double elevatorPos) {
         elevatorTargetPosition = elevatorPos;
         elevatorPIDController.setReference(elevatorPos, ControlType.kPosition);
@@ -231,5 +248,7 @@ public class ArmRealIO implements ArmIO {
         inputs.wristCurrent = this.wrist.getOutputCurrent();
 
         inputs.isBrake = this.elevatorLeader.getIdleMode() == CANSparkMax.IdleMode.kBrake;
+
+        inputs.limitSwitchHit = limitSwitch.get();
     }
 }

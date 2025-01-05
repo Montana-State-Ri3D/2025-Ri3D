@@ -85,6 +85,8 @@ public final class Constants {
     public static final double WRIST_kI = 0.0;
     public static final double WRIST_kD = 0.0;
 
+    public static final float ELEVATOR_HEIGHT = 10;
+
     // Gearbox Ratios
     public static final double ELEVATOR_RATIO = (1.0/20.0);
     public static final double ELBOW_RATIO = 0.0;

@@ -2,7 +2,6 @@ package frc.robot.subsystems.Arm;
 
 import org.littletonrobotics.junction.Logger;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.DriveStationConstants;
 
 public class Arm extends SubsystemBase{
     private final ArmIO io;
@@ -41,6 +40,18 @@ public class Arm extends SubsystemBase{
 
     public ArmPosition getPosition() {
         return new ArmPosition(inputs.elevatorLeaderPosition, inputs.elbowPosition, inputs.wristPosition);
+    }
+
+    public void setElevatorPower(double power){
+        io.setElevatorPower(power);
+    }
+
+    public boolean limitSwitchHit() {
+        return inputs.limitSwitchHit;
+    }
+
+    public void setElevatorLimits() {
+        io.setElevatorLimits();
     }
 
     // immutable arm position class
