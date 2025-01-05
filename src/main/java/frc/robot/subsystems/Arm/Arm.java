@@ -41,6 +41,7 @@ public class Arm extends SubsystemBase{
         return new ArmPosition(inputs.elevatorLeaderPosition, inputs.elbowPosition, inputs.wristPosition);
     }
 
+    // immutable arm position class
     public static class ArmPosition {
         public final double elevatorPosition;
         public final double elbowPosition;
