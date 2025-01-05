@@ -9,6 +9,11 @@ public interface EndEffectorIO {
          * The power of the wheels in the end effector
          */
         public double power;
+
+        /**
+         * The current of the left wheel in the end effector
+         */
+        public double current;
     }
 
     /**
@@ -17,4 +22,6 @@ public interface EndEffectorIO {
      * @param inputs
      */
     default void updateInputs(EndEffectorIOInputs inputs) {}
+
+    default void setPower(double power) {}
 }
