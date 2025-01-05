@@ -6,22 +6,23 @@ public interface ArmIO {
        
     @AutoLog
     public class ArmIOInputs{
-        public double elevatorMasterPower;
-        public double elevatorSlavePower;
+        public double elevatorLeaderPower;
+        public double elevatorFollowerPower;
 
-        public double elevatorMasterCurrent;
-        public double elevatorSlaveCurrent;
+        public double elevatorLeaderCurrent;
+        public double elevatorFollowerCurrent;
 
-        public double elevatorMasterEncoder;
-        public double elevatorSlaveEncoder;
+        public double elevatorLeaderEncoder;
+        public double elevatorFollowerEncoder;
 
-        public double elevatorMasterPosition;
-        public double elevatorSlavePosition;
+        public double elevatorLeaderPosition;
+        public double elevatorFollowerPosition;
 
-        public double elevatorMasterVelocity;
-        public double elevatorSlaveVelocity;
+        public double elevatorLeaderVelocity;
+        public double elevatorFollowerVelocity;
 
-        
+        public double elevatorTargetPosition;
+
         public boolean isBrake;
     }
     default void updateInputs(ArmIOInputs inputs){}

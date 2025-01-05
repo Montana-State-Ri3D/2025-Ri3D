@@ -58,4 +58,34 @@ public final class Constants {
     public static final double MAX_VELOCITY = Units.feetToMeters(11.23);
     public static final double TRACK_WIDTH = Units.inchesToMeters(24);
   }
+
+  // Constants for the Arm subsystem
+  public static class ArmConstants {
+    // Motor ID's
+    public static final int ELEVATOR_LEADER_ID = 7;
+    public static final int ELEVATOR_FOLLOWER_ID = 8;
+
+    public static final int ELBOW_LEADER_ID = 9;
+    public static final int ELBOW_FOLLOWER_ID = 10;
+
+    public static final int WRIST_ID = 9;
+
+    // PID values
+    public static final double ELEVATOR_kP = 0.0;
+    public static final double ELEVATOR_kI = 0.0;
+    public static final double ELEVATOR_kD = 0.0;
+
+    public static final double ELBOW_kP = 0.0;
+    public static final double ELBOW_kI = 0.0;
+    public static final double ELBOW_kD = 0.0;
+
+    public static final double WRIST_kP = 0.0;
+    public static final double WRIST_kI = 0.0;
+    public static final double WRIST_kD = 0.0;
+
+    // Gearbox Ratios
+    public static final double ELEVATOR_RATIO = (1.0/20.0);
+    public static final double ELBOW_RATIO = 0.0;
+    public static final double WRIST_RATIO = 0.0;
+  }
 }
