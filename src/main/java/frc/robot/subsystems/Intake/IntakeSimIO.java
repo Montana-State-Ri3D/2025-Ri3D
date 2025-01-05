@@ -10,6 +10,8 @@ import frc.robot.Constants.IntakeConstants;
 
 
 public class IntakeSimIO implements IntakeIO {
+    private double targetAngle;
+
     private boolean isBrake;
 
     private DCMotorSim leftIntakeSim;
@@ -47,6 +49,10 @@ public class IntakeSimIO implements IntakeIO {
        rightIntakeSim.setInputVoltage(rightPower*12);
     }
 
+    public void setAngle(double angle) {
+        targetAngle = angle;
+    }
+
 
     public void updateInputs(IntakeIOInputs inputs) {
         inputs.isBrake = isBrake;
@@ -54,5 +60,6 @@ public class IntakeSimIO implements IntakeIO {
         inputs.rightCurrent = rightIntakeSim.getCurrentDrawAmps();
         inputs.rightVelo = rightIntakeSim.getAngularVelocityRadPerSec();
         inputs.leftVelo = leftIntakeSim.getAngularVelocityRadPerSec();
+        inputs.targetAngle = targetAngle;
     }
 }

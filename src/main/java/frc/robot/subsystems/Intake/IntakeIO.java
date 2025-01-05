@@ -20,10 +20,17 @@ public interface IntakeIO {
         public double leftVelo;
 
         public double rightVelo;
+
+        public double pivotAngle;
+
+        public double pivotVelo;
+
+        public double targetAngle;
     }
     
     default void updateInputs(IntakeIOInputs inputs){}
     default void setPower(double leftPower, double rightPower){}
     default void setBrake(boolean isBrake){}
+    default void setAngle(double angle){}
     
 }

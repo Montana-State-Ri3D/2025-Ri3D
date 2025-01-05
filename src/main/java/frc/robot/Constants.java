@@ -62,7 +62,13 @@ public final class Constants {
   public static class IntakeConstants{
     public static final int LEFT_INTAKE_ID = 7;
     public static final int RIGHT_INTAKE_ID = 8;
+    public static final int DEPLOY_ID = 9;
+
     public static final double INTAKE_RATIO = 1.0/11.0;  // PLACEHOLDER
     public static final double INTAKE_WHEEL_RADIUS = 1.0;  // PLACEHOLDER
+
+    public static final double PIVOT_kP = 0.0;
+    public static final double PIVOT_kI = 0.0;
+    public static final double PIVOT_kD = 0.0;
   }
 }
