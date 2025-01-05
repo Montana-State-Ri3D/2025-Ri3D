@@ -8,6 +8,8 @@ import com.revrobotics.SparkAbsoluteEncoder;
 import com.revrobotics.SparkPIDController;
 
 import frc.robot.Constants.ArmConstants;
+import frc.robot.utilities.TunablePidValues;
+import frc.robot.utilities.TunablePidValues.PIDValues;
 
 public class ArmRealIO implements ArmIO {
 
@@ -32,6 +34,10 @@ public class ArmRealIO implements ArmIO {
 
     private CANSparkMax[] motors;
     private RelativeEncoder[] encoders;
+
+    private TunablePidValues elevatorTunablePid;
+    private TunablePidValues elbowTunablePid;
+    private TunablePidValues wristTunablePid;
 
     public ArmRealIO(int elevatorLeader, int elevatorFollower, int elbowLeader, int elbowFollower, int wrist){
         this.elevatorLeader = new CANSparkMax(elevatorLeader, CANSparkMax.MotorType.kBrushless);
@@ -79,34 +85,91 @@ public class ArmRealIO implements ArmIO {
         this.encoders[1] = this.elevatorFollowerEncoder;
 
         // elevator PID
+        elevatorTunablePid = new TunablePidValues(
+            "Elevator PID",
+            new PIDValues(
+                ArmConstants.ELEVATOR_kP, 
+                ArmConstants.ELEVATOR_kI, 
+                ArmConstants.ELEVATOR_kD, 
+                0
+            )
+        );
+        PIDValues elevatorPidValues = elevatorTunablePid.get();
+
         elevatorPIDController = this.elevatorLeader.getPIDController();
 
-        elevatorPIDController.setP(ArmConstants.ELEVATOR_kP);
-        elevatorPIDController.setI(ArmConstants.ELEVATOR_kI);
-        elevatorPIDController.setD(ArmConstants.ELEVATOR_kD);
+        elevatorPIDController.setP(elevatorPidValues.kP);
+        elevatorPIDController.setI(elevatorPidValues.kI);
+        elevatorPIDController.setD(elevatorPidValues.kD);
 
         elevatorPIDController.setFeedbackDevice(elevatorLeaderEncoder);
         elevatorPIDController.setOutputRange(-1.00, 1.00);
 
         // elbow PID
+        elbowTunablePid = new TunablePidValues(
+            "Elbow PID",
+            new PIDValues(
+                ArmConstants.ELBOW_kP, 
+                ArmConstants.ELBOW_kI, 
+                ArmConstants.ELBOW_kD, 
+                0
+            )
+        );
+        PIDValues elbowPidValues = elbowTunablePid.get();
+
         elbowPIDController = this.elbowLeader.getPIDController();
 
-        elbowPIDController.setP(ArmConstants.ELEVATOR_kP);
-        elbowPIDController.setI(ArmConstants.ELEVATOR_kI);
-        elbowPIDController.setD(ArmConstants.ELEVATOR_kD);
+        elbowPIDController.setP(elbowPidValues.kP);
+        elbowPIDController.setI(elbowPidValues.kI);
+        elbowPIDController.setD(elbowPidValues.kD);
 
         elbowPIDController.setFeedbackDevice(elbowEncoder);
         elbowPIDController.setOutputRange(-1.00, 1.00);
 
         // wrist PID
+        wristTunablePid = new TunablePidValues(
+            "Wrist PID",
+            new PIDValues(
+                ArmConstants.WRIST_kP, 
+                ArmConstants.WRIST_kI, 
+                ArmConstants.WRIST_kD, 
+                0
+            )
+        );
+        PIDValues wristPidValues = wristTunablePid.get();
+
         wristPIDController = this.wrist.getPIDController();
 
-        wristPIDController.setP(ArmConstants.ELEVATOR_kP);
-        wristPIDController.setI(ArmConstants.ELEVATOR_kI);
-        wristPIDController.setD(ArmConstants.ELEVATOR_kD);
+        wristPIDController.setP(wristPidValues.kP);
+        wristPIDController.setI(wristPidValues.kI);
+        wristPIDController.setD(wristPidValues.kD);
 
         wristPIDController.setFeedbackDevice(wristEncoder);
         wristPIDController.setOutputRange(-1.00, 1.00);
+    }
+
+    public void updatePIDValues() {
+        PIDValues elevatorPidValues = elevatorTunablePid.get();
+        PIDValues elbowPidValues = elbowTunablePid.get();
+        PIDValues wristPidValues = wristTunablePid.get();
+
+        if (elevatorPidValues.updated) {
+            elevatorPIDController.setP(elevatorPidValues.kP);
+            elevatorPIDController.setI(elevatorPidValues.kI);
+            elevatorPIDController.setD(elevatorPidValues.kD);
+        }
+
+        if (elbowPidValues.updated) {
+            elbowPIDController.setP(elbowPidValues.kP);
+            elbowPIDController.setI(elbowPidValues.kI);
+            elbowPIDController.setD(elbowPidValues.kD);
+        }
+
+        if (wristPidValues.updated) {
+            wristPIDController.setP(wristPidValues.kP);
+            wristPIDController.setI(wristPidValues.kI);
+            wristPIDController.setD(wristPidValues.kD);
+        }
     }
 
     public void setElevatorPower(double power){

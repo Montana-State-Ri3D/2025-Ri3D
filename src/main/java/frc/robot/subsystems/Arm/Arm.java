@@ -2,6 +2,7 @@ package frc.robot.subsystems.Arm;
 
 import org.littletonrobotics.junction.Logger;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.DriveStationConstants;
 
 public class Arm extends SubsystemBase{
     private final ArmIO io;
@@ -14,6 +15,9 @@ public class Arm extends SubsystemBase{
     @Override
     public void periodic(){
         io.updateInputs(inputs);
+        if (DriveStationConstants.TUNING_MODE) {
+            io.updatePIDValues();
+        }
         Logger.processInputs("Arm", inputs);
         Logger.recordOutput("Arm/CurrentCommand",
                 this.getCurrentCommand() != null ? this.getCurrentCommand().getName() : "none");

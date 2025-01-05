@@ -41,4 +41,5 @@ public interface ArmIO {
     default void setWristPos(double wristPos){}
     default void getPosition(){}
     default void setBrake(boolean isBrake){}
+    default void updatePIDValues(){}
 }
