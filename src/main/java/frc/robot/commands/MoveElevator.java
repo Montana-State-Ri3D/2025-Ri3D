@@ -20,14 +20,13 @@ public class MoveElevator extends Command {
 
     @Override
     public void execute() {
-        double input = controller.getLeftY();
-        input = Math.max(-0.2, Math.min(0.2, input));
+        double input = - 0.2 * controller.getRightY();
         arm.setElevatorPower(input);
     }
 
     @Override
     public boolean isFinished() {
-        return cancel.getAsBoolean();
+        return cancel.getAsBoolean() || !controller.a().getAsBoolean();
     }
 
     @Override

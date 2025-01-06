@@ -76,7 +76,7 @@ public final class Constants {
     public static final int LIMIT_SWITCH_ID = 0;
 
     // PID values
-    public static final double ELEVATOR_kP = 0.0;
+    public static final double ELEVATOR_kP = 0.07;
     public static final double ELEVATOR_kI = 0.0;
     public static final double ELEVATOR_kD = 0.0;
 
