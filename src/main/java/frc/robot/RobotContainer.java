@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.DriveStationConstants;
 import frc.robot.commands.IntakeIn;
+import frc.robot.commands.IntakeOut;
+import frc.robot.commands.MoveIntake;
 
 public class RobotContainer {
 
@@ -62,6 +64,8 @@ public class RobotContainer {
     driverController.back().onTrue(new InstantCommand(() -> driveTrain.resetPose()));
     driverController.rightBumper().onTrue(new IntakeIn(intake, Intake.IntakePosition.ALGAE, 0.2, 0.5));
     driverController.leftBumper().onTrue(new IntakeIn(intake, Intake.IntakePosition.CORAL, 0.2, 0.5));
+    driverController.b().whileTrue(new IntakeOut(intake));
+    driverController.a().onTrue(new MoveIntake(intake, () -> driverController.getRightY(), () -> driverController.a().getAsBoolean()));
   }
 
   public Command getAutonomousCommand() {

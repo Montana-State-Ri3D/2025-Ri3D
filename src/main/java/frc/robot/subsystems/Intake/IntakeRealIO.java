@@ -94,6 +94,10 @@ public class IntakeRealIO implements IntakeIO{
        rightIntake.set(rightPower);
     }
 
+    public void setPivotPower(double power) {
+        pivot.set(power);
+    }
+
     public void setAngle(double angle) {
         targetAngle = angle;
         pivotPIDController.setReference(angle, ControlType.kPosition);
@@ -108,12 +112,14 @@ public class IntakeRealIO implements IntakeIO{
         inputs.isBrake = isBrake;
         inputs.leftCurrent = leftIntake.getOutputCurrent();
         inputs.rightCurrent = rightIntake.getOutputCurrent();
+        inputs.pivotCurrent = pivot.getOutputCurrent();
         inputs.rightVelo = rightIntakeEncoder.getVelocity();
         inputs.leftVelo = leftIntakeEncoder.getVelocity();
+        inputs.pivotVelo = pivotEncoder.getVelocity();
         inputs.leftPower = leftIntake.get();
         inputs.rightPower = rightIntake.get();
+        inputs.pivotPower = pivot.get();
         inputs.pivotAngle = pivotEncoder.getPosition();
-        inputs.pivotVelo = pivotEncoder.getVelocity();
         inputs.targetAngle = targetAngle;
         inputs.hasCoral = !beamBreak.get();     
     }

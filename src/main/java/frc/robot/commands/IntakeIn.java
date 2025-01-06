@@ -9,11 +9,14 @@ import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Intake.Intake.IntakePosition;
 
 public class IntakeIn extends Command {
-  Intake intake;
+  private final Intake intake;
 
   private IntakePosition target;
   private double speed;
   private double amps;
+
+  private long initTime = -1;
+  private long duration = 500;
 
   /** Creates a new IntakeIn. */
   public IntakeIn(Intake intake, IntakePosition target, double amps, double speed) {
@@ -31,7 +34,8 @@ public class IntakeIn extends Command {
   @Override
   public void initialize() {
     isFinished();
-    intake.setPivotAngle(target);
+    initTime = System.currentTimeMillis();
+    intake.setPivotPosition(target);
     intake.setPower(speed, speed - 0.2);
   }
 
@@ -51,6 +55,8 @@ public class IntakeIn extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (intake.hasObject() || (intake.getLeftCurrent() > amps) || (intake.getRightCurrent() > amps));
+    long currentTime = System.currentTimeMillis();
+    return (intake.hasObject() || 
+            ((currentTime >= initTime + duration) && (intake.getLeftCurrent() > amps) || (intake.getRightCurrent() > amps)));
   }
 }

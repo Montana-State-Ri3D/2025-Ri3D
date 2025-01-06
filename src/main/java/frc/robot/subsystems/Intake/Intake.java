@@ -45,7 +45,11 @@ public class Intake extends SubsystemBase{
         io.setPower(leftPower, rightPower);
     }
 
-    public void setPivotAngle(IntakePosition position) {
+    public void setPivotPower(double power) {
+        io.setPivotPower(power);
+    }
+
+    public void setPivotPosition(IntakePosition position) {
         this.position = position;
         io.setAngle(position.getPosition());
     }

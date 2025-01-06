@@ -11,9 +11,13 @@ public interface IntakeIO {
 
         public double leftPower;
 
+        public double pivotPower;
+
         public double rightCurrent;
 
         public double leftCurrent;
+
+        public double pivotCurrent;
 
         public boolean isBrake;
 
@@ -21,9 +25,9 @@ public interface IntakeIO {
 
         public double rightVelo;
 
-        public double pivotAngle;
-
         public double pivotVelo;
+
+        public double pivotAngle;
 
         public double targetAngle;
 
@@ -36,6 +40,7 @@ public interface IntakeIO {
     
     default void updateInputs(IntakeIOInputs inputs){}
     default void setPower(double leftPower, double rightPower){}
+    default void setPivotPower(double power){}
     default void setBrake(boolean isBrake){}
     default void setAngle(double angle){}
     default void stop(){}
