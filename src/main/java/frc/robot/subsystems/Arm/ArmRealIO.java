@@ -201,6 +201,14 @@ public class ArmRealIO implements ArmIO {
         this.elevatorLeader.set(power);
     }
 
+    public void setElbowPower(double power) {
+        this.elbowLeader.set(power);
+    }
+
+    public void setWristPower(double power) {
+        this.wrist.set(power);
+    }
+
     public void stop() {
         for (CANSparkMax motor : this.motors) {
             motor.stopMotor();

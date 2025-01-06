@@ -46,6 +46,14 @@ public class Arm extends SubsystemBase{
         io.setElevatorPower(power);
     }
 
+    public void setElbowPower(double power){
+        io.setElbowPower(power);
+    }
+
+    public void setWristPower(double power){
+        io.setWristPower(power);
+    }
+
     public boolean limitSwitchHit() {
         return inputs.limitSwitchHit;
     }
