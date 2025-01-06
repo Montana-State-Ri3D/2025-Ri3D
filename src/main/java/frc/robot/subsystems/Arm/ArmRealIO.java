@@ -26,8 +26,8 @@ public class ArmRealIO implements ArmIO {
 
     private CANSparkMax elevatorLeader;
     private CANSparkMax elevatorFollower;
-    private CANSparkMax elbowLeader;
-    private CANSparkMax elbowFollower;
+    // private CANSparkMax elbowLeader;
+    // private CANSparkMax elbowFollower;
     private CANSparkMax wrist;
     
     private RelativeEncoder elevatorLeaderEncoder;
@@ -49,16 +49,16 @@ public class ArmRealIO implements ArmIO {
     public ArmRealIO(int elevatorLeader, int elevatorFollower, int elbowLeader, int elbowFollower, int wrist, int limitSwitch) {
         this.elevatorLeader = new CANSparkMax(elevatorLeader, CANSparkMax.MotorType.kBrushless);
         this.elevatorFollower = new CANSparkMax(elevatorFollower, CANSparkMax.MotorType.kBrushless);
-        this.elbowLeader = new CANSparkMax(elbowLeader, CANSparkMax.MotorType.kBrushless);
-        this.elbowFollower = new CANSparkMax(elbowFollower, CANSparkMax.MotorType.kBrushless);
-        this.wrist = new CANSparkMax(wrist, CANSparkMax.MotorType.kBrushless);
+        // this.elbowLeader = new CANSparkMax(elbowLeader, CANSparkMax.MotorType.kBrushless);
+        // this.elbowFollower = new CANSparkMax(elbowFollower, CANSparkMax.MotorType.kBrushless);
+        // this.wrist = new CANSparkMax(wrist, CANSparkMax.MotorType.kBrushless);
 
-        this.motors = new CANSparkMax[5];
+        this.motors = new CANSparkMax[2];
         this.motors[0] = this.elevatorLeader;
         this.motors[1] = this.elevatorFollower;
-        this.motors[2] = this.elbowLeader;
-        this.motors[3] = this.elbowFollower;
-        this.motors[4] = this.wrist;
+        // this.motors[2] = this.elbowLeader;
+        // this.motors[3] = this.elbowFollower;
+        // this.motors[4] = this.wrist;
 
         this.limitSwitch = new DigitalInput(limitSwitch);
 
@@ -71,21 +71,21 @@ public class ArmRealIO implements ArmIO {
         this.elevatorFollower.setSmartCurrentLimit(80);
 
         this.elevatorLeader.setInverted(false);
-        this.elbowFollower.setInverted(false);
-        this.wrist.setInverted(false);
+        // this.elbowFollower.setInverted(false);
+        // this.wrist.setInverted(false);
 
         this.elevatorFollower.follow(this.elevatorLeader, true);
-        this.elbowFollower.follow(this.elbowLeader, false);
+        // this.elbowFollower.follow(this.elbowLeader, false);
 
         // encoder init
         this.elevatorLeaderEncoder = this.elevatorLeader.getEncoder();
         this.elevatorFollowerEncoder = this.elevatorFollower.getEncoder();
 
 
-        this.elbowEncoder = this.elbowLeader.getAbsoluteEncoder(Type.kDutyCycle);
-        this.elbowLeaderEncoder = this.elbowLeader.getEncoder();
-        this.elbowFollowerEncoder = this.elbowFollower.getEncoder();
-        this.wristEncoder = this.wrist.getAbsoluteEncoder(Type.kDutyCycle);
+        // this.elbowEncoder = this.elbowLeader.getAbsoluteEncoder(Type.kDutyCycle);
+        // this.elbowLeaderEncoder = this.elbowLeader.getEncoder();
+        // this.elbowFollowerEncoder = this.elbowFollower.getEncoder();
+        // this.wristEncoder = this.wrist.getAbsoluteEncoder(Type.kDutyCycle);
 
         // 4.0 instead of 2.0 to account for cascade rigging of elevator
         elevatorLeaderEncoder.setPositionConversionFactor(ArmConstants.ELEVATOR_SPROCKET_RADIUS * 4.0 * Math.PI * ArmConstants.ELEVATOR_RATIO );
@@ -94,16 +94,16 @@ public class ArmRealIO implements ArmIO {
         elevatorLeaderEncoder.setVelocityConversionFactor(ArmConstants.ELEVATOR_SPROCKET_RADIUS * 4.0 * Math.PI * ArmConstants.ELEVATOR_RATIO / 60.0);
         elevatorFollowerEncoder.setVelocityConversionFactor(ArmConstants.ELEVATOR_SPROCKET_RADIUS * 4.0 * Math.PI * ArmConstants.ELEVATOR_RATIO / 60.0);
 
-        elbowEncoder.setPositionConversionFactor(Math.PI*2);
-        elbowEncoder.setVelocityConversionFactor(Math.PI*2/60);
-        wristEncoder.setPositionConversionFactor(Math.PI*2);
-        wristEncoder.setVelocityConversionFactor(Math.PI*2/60);
+        // elbowEncoder.setPositionConversionFactor(Math.PI*2);
+        // elbowEncoder.setVelocityConversionFactor(Math.PI*2/60);
+        // wristEncoder.setPositionConversionFactor(Math.PI*2);
+        // wristEncoder.setVelocityConversionFactor(Math.PI*2/60);
 
         // this.elevatorLeader.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 0);
         // this.elevatorLeader.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
 
-        this.elevatorLeader.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, ArmConstants.ELEVATOR_HEIGHT);
-        this.elevatorLeader.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
+        // this.elevatorLeader.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, ArmConstants.ELEVATOR_HEIGHT);
+        // this.elevatorLeader.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
 
         this.encoders = new RelativeEncoder[2];
         this.encoders[0] = this.elevatorLeaderEncoder;
@@ -128,55 +128,55 @@ public class ArmRealIO implements ArmIO {
         elevatorPIDController.setD(elevatorPidValues.kD);
 
         elevatorPIDController.setFeedbackDevice(elevatorLeaderEncoder);
-        elevatorPIDController.setOutputRange(-1.00, 1.00);
+        elevatorPIDController.setOutputRange(-1.0, 1.0);
 
         // elbow PID
-        elbowTunablePid = new TunablePidValues(
-            "Elbow PID",
-            new PIDValues(
-                ArmConstants.ELBOW_kP, 
-                ArmConstants.ELBOW_kI, 
-                ArmConstants.ELBOW_kD, 
-                0
-            )
-        );
-        PIDValues elbowPidValues = elbowTunablePid.get();
+        // elbowTunablePid = new TunablePidValues(
+        //     "Elbow PID",
+        //     new PIDValues(
+        //         ArmConstants.ELBOW_kP, 
+        //         ArmConstants.ELBOW_kI, 
+        //         ArmConstants.ELBOW_kD, 
+        //         0
+        //     )
+        // );
+        // PIDValues elbowPidValues = elbowTunablePid.get();
 
-        elbowPIDController = this.elbowLeader.getPIDController();
+        // elbowPIDController = this.elbowLeader.getPIDController();
 
-        elbowPIDController.setP(elbowPidValues.kP);
-        elbowPIDController.setI(elbowPidValues.kI);
-        elbowPIDController.setD(elbowPidValues.kD);
+        // elbowPIDController.setP(elbowPidValues.kP);
+        // elbowPIDController.setI(elbowPidValues.kI);
+        // elbowPIDController.setD(elbowPidValues.kD);
 
-        elbowPIDController.setFeedbackDevice(elbowEncoder);
-        elbowPIDController.setOutputRange(-1.00, 1.00);
+        // elbowPIDController.setFeedbackDevice(elbowEncoder);
+        // elbowPIDController.setOutputRange(-1.00, 1.00);
 
-        // wrist PID
-        wristTunablePid = new TunablePidValues(
-            "Wrist PID",
-            new PIDValues(
-                ArmConstants.WRIST_kP, 
-                ArmConstants.WRIST_kI, 
-                ArmConstants.WRIST_kD, 
-                0
-            )
-        );
-        PIDValues wristPidValues = wristTunablePid.get();
+        // // wrist PID
+        // wristTunablePid = new TunablePidValues(
+        //     "Wrist PID",
+        //     new PIDValues(
+        //         ArmConstants.WRIST_kP, 
+        //         ArmConstants.WRIST_kI, 
+        //         ArmConstants.WRIST_kD, 
+        //         0
+        //     )
+        // );
+        // PIDValues wristPidValues = wristTunablePid.get();
 
-        wristPIDController = this.wrist.getPIDController();
+        // wristPIDController = this.wrist.getPIDController();
 
-        wristPIDController.setP(wristPidValues.kP);
-        wristPIDController.setI(wristPidValues.kI);
-        wristPIDController.setD(wristPidValues.kD);
+        // wristPIDController.setP(wristPidValues.kP);
+        // wristPIDController.setI(wristPidValues.kI);
+        // wristPIDController.setD(wristPidValues.kD);
 
-        wristPIDController.setFeedbackDevice(wristEncoder);
-        wristPIDController.setOutputRange(-1.00, 1.00);
+        // wristPIDController.setFeedbackDevice(wristEncoder);
+        // wristPIDController.setOutputRange(-1.00, 1.00);
     }
 
     public void updatePIDValues() {
         PIDValues elevatorPidValues = elevatorTunablePid.get();
-        PIDValues elbowPidValues = elbowTunablePid.get();
-        PIDValues wristPidValues = wristTunablePid.get();
+        // PIDValues elbowPidValues = elbowTunablePid.get();
+        // PIDValues wristPidValues = wristTunablePid.get();
 
         if (elevatorPidValues.updated) {
             elevatorPIDController.setP(elevatorPidValues.kP);
@@ -184,17 +184,17 @@ public class ArmRealIO implements ArmIO {
             elevatorPIDController.setD(elevatorPidValues.kD);
         }
 
-        if (elbowPidValues.updated) {
-            elbowPIDController.setP(elbowPidValues.kP);
-            elbowPIDController.setI(elbowPidValues.kI);
-            elbowPIDController.setD(elbowPidValues.kD);
-        }
+        // if (elbowPidValues.updated) {
+        //     elbowPIDController.setP(elbowPidValues.kP);
+        //     elbowPIDController.setI(elbowPidValues.kI);
+        //     elbowPIDController.setD(elbowPidValues.kD);
+        // }
 
-        if (wristPidValues.updated) {
-            wristPIDController.setP(wristPidValues.kP);
-            wristPIDController.setI(wristPidValues.kI);
-            wristPIDController.setD(wristPidValues.kD);
-        }
+        // if (wristPidValues.updated) {
+        //     wristPIDController.setP(wristPidValues.kP);
+        //     wristPIDController.setI(wristPidValues.kI);
+        //     wristPIDController.setD(wristPidValues.kD);
+        // }
     }
 
     public void setElevatorPower(double power){
@@ -231,46 +231,46 @@ public class ArmRealIO implements ArmIO {
         elevatorPIDController.setReference(elevatorPos, ControlType.kPosition);
     }
 
-    public void setElbowPos(double elbowPos) {
-        elbowTargetPosition = elbowPos;
-        elbowPIDController.setReference(elbowPos, ControlType.kPosition);
-    }
+    // public void setElbowPos(double elbowPos) {
+    //     elbowTargetPosition = elbowPos;
+    //     elbowPIDController.setReference(elbowPos, ControlType.kPosition);
+    // }
 
-    public void setWristPos(double wristPos) {
-        wristTargetPosition = wristPos;
-        wristPIDController.setReference(wristPos, ControlType.kPosition);
-    }
+    // public void setWristPos(double wristPos) {
+    //     wristTargetPosition = wristPos;
+    //     wristPIDController.setReference(wristPos, ControlType.kPosition);
+    // }
 
     public void updateInputs(ArmIOInputs inputs) {
         inputs.elevatorLeaderPower = this.elevatorLeader.get();
         inputs.elevatorFollowerPower = this.elevatorFollower.get();
-        inputs.elbowLeaderPower = this.elbowLeader.get();
-        inputs.elbowFollowerPower = this.elbowFollower.get();
-        inputs.wristPower = this.wrist.get();
+        // inputs.elbowLeaderPower = this.elbowLeader.get();
+        // inputs.elbowFollowerPower = this.elbowFollower.get();
+        // inputs.wristPower = this.wrist.get();
 
         inputs.elevatorLeaderPosition = this.elevatorLeaderEncoder.getPosition();
         inputs.elevatorFollowerPosition = this.elevatorFollowerEncoder.getPosition();
-        inputs.elbowPosition = this.elbowEncoder.getPosition();
-        inputs.elbowLeaderPosition = this.elbowLeaderEncoder.getPosition();
-        inputs.elbowFollowerPosition = this.elbowFollowerEncoder.getPosition();
-        inputs.wristPosition = this.wristEncoder.getPosition();
+        // inputs.elbowPosition = this.elbowEncoder.getPosition();
+        // inputs.elbowLeaderPosition = this.elbowLeaderEncoder.getPosition();
+        // inputs.elbowFollowerPosition = this.elbowFollowerEncoder.getPosition();
+        // inputs.wristPosition = this.wristEncoder.getPosition();
 
         inputs.elevatorTargetPosition = elevatorTargetPosition;
-        inputs.elbowTargetPosition = elbowTargetPosition;
-        inputs.wristTargetPosition = wristTargetPosition;
+        // inputs.elbowTargetPosition = elbowTargetPosition;
+        // inputs.wristTargetPosition = wristTargetPosition;
 
         inputs.elevatorLeaderVelocity = this.elevatorLeaderEncoder.getVelocity();
         inputs.elevatorFollowerVelocity = this.elevatorFollowerEncoder.getVelocity();
-        inputs.elbowVelocity = this.elbowEncoder.getVelocity();
-        inputs.elbowLeaderVelocity = this.elbowLeaderEncoder.getVelocity();
-        inputs.elbowFollowerVelocity = this.elbowFollowerEncoder.getVelocity();
-        inputs.wristVelocity = this.wristEncoder.getVelocity();
+        // inputs.elbowVelocity = this.elbowEncoder.getVelocity();
+        // inputs.elbowLeaderVelocity = this.elbowLeaderEncoder.getVelocity();
+        // inputs.elbowFollowerVelocity = this.elbowFollowerEncoder.getVelocity();
+        // inputs.wristVelocity = this.wristEncoder.getVelocity();
 
         inputs.elevatorLeaderCurrent = this.elevatorLeader.getOutputCurrent();
         inputs.elevatorFollowerCurrent = this.elevatorFollower.getOutputCurrent();
-        inputs.elbowLeaderCurrent = this.elbowLeader.getOutputCurrent();
-        inputs.elbowFollowerCurrent = this.elbowFollower.getOutputCurrent();
-        inputs.wristCurrent = this.wrist.getOutputCurrent();
+        // inputs.elbowLeaderCurrent = this.elbowLeader.getOutputCurrent();
+        // inputs.elbowFollowerCurrent = this.elbowFollower.getOutputCurrent();
+        // inputs.wristCurrent = this.wrist.getOutputCurrent();
 
         inputs.isBrake = this.elevatorLeader.getIdleMode() == CANSparkMax.IdleMode.kBrake;
 

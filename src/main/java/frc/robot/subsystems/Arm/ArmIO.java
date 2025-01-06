@@ -43,8 +43,8 @@ public interface ArmIO {
     default void updateInputs(ArmIOInputs inputs){}
     default void setElevatorPower(double elevatorPower){}
     default void setElevatorPos(double elevatorPos){}
-    default void setElbowPos(double elbowPos){}
-    default void setWristPos(double wristPos){}
+    // default void setElbowPos(double elbowPos){}
+    // default void setWristPos(double wristPos){}
     default void getPosition(){}
     default void setBrake(boolean isBrake){}
     default void updatePIDValues(){}

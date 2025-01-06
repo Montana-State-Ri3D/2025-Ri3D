@@ -37,7 +37,7 @@ public final class Constants {
 
     // This Seting is used to prevent the robot from being enabled when testing and
     // the code is not been validated on the hardware
-    public static final boolean ALLOW_ROBOT_ENABLE = false;
+    public static final boolean ALLOW_ROBOT_ENABLE = true;
 
     public static final boolean TUNING_MODE = false;
   }
@@ -76,7 +76,7 @@ public final class Constants {
     public static final int LIMIT_SWITCH_ID = 0;
 
     // PID values
-    public static final double ELEVATOR_kP = 0.0;
+    public static final double ELEVATOR_kP = 0.07;
     public static final double ELEVATOR_kI = 0.0;
     public static final double ELEVATOR_kD = 0.0;
 

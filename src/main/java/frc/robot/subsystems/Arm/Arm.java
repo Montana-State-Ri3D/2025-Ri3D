@@ -24,18 +24,18 @@ public class Arm extends SubsystemBase{
         io.setElevatorPos(pos);
     }
 
-    public void setElbowPos(double elbowAngle) {
-        io.setElbowPos(elbowAngle);
-    }
+    // public void setElbowPos(double elbowAngle) {
+    //     io.setElbowPos(elbowAngle);
+    // }
 
-    public void setWristPos(double wristAngle) {
-        io.setWristPos(wristAngle);
-    }
+    // public void setWristPos(double wristAngle) {
+    //     io.setWristPos(wristAngle);
+    // }
 
     public void setArmPosition(ArmPosition position) {
         setElevatorPos(position.elevatorPosition);
-        setElbowPos(position.elbowPosition);
-        setWristPos(position.wristPosition);
+        // setElbowPos(position.elbowPosition);
+        // setWristPos(position.wristPosition);
     }
 
     public ArmPosition getPosition() {
