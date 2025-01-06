@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.DriveStationConstants;
+import frc.robot.commands.MoveArm;
+import frc.robot.commands.MoveArm.ArmPreset;
 
 public class RobotContainer {
 
@@ -59,12 +61,11 @@ public class RobotContainer {
     driverController.start().onTrue(new InstantCommand(() -> driveTrain.resetGyro()));
     driverController.back().onTrue(new InstantCommand(() -> driveTrain.resetPose()));
 
-    // allow the elevator to be moved with the right stick while the A button is held
-    // driverController.a().whileTrue(new MoveElevator(arm, () -> driverController.start().getAsBoolean(), driverController));
+    driverController.a().onTrue(new MoveArm(ArmPreset.L1, () -> driverController.start().getAsBoolean(), arm));
+    driverController.b().onTrue(new MoveArm(ArmPreset.L2, () -> driverController.start().getAsBoolean(), arm));
   }
 
   public Command getAutonomousCommand() {
     return null;
-
   }
 }
