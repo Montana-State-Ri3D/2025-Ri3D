@@ -41,15 +41,16 @@ public interface ArmIO {
         public boolean limitSwitchHit;
     }
     default void updateInputs(ArmIOInputs inputs){}
-    default void setElevatorPower(double elevatorPower){}
     default void setElevatorPos(double elevatorPos){}
-    default void setElbowPower(double elbowPower) {}
     default void setElbowPos(double elbowPos){}
-    default void setWristPower(double wristPower) {}
     default void setWristPos(double wristPos){}
     default void getPosition(){}
     default void setBrake(boolean isBrake){}
     default void updatePIDValues(){}
     default void setElevatorLimits(){}
     default void stop(){}
+
+    default void setElevatorPower(double elevatorPower){}
+    default void setElbowPower(double elbowPower){}
+    default void setWristPower(double wristPower){}
 }

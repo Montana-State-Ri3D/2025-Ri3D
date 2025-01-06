@@ -57,7 +57,7 @@ public class Arm extends SubsystemBase{
     public boolean limitSwitchHit() {
         return inputs.limitSwitchHit;
     }
-
+ 
     public void setElevatorLimits() {
         io.setElevatorLimits();
     }

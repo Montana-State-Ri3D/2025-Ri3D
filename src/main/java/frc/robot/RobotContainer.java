@@ -12,6 +12,9 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.DriveStationConstants;
 import frc.robot.commands.MoveArm;
+import frc.robot.commands.MoveElbowManual;
+import frc.robot.commands.MoveElevatorManual;
+import frc.robot.commands.MoveWristManual;
 import frc.robot.commands.MoveArm.ArmPreset;
 
 public class RobotContainer {
@@ -60,6 +63,33 @@ public class RobotContainer {
   private void configureBindings() {
     driverController.start().onTrue(new InstantCommand(() -> driveTrain.resetGyro()));
     driverController.back().onTrue(new InstantCommand(() -> driveTrain.resetPose()));
+
+
+    // uncomment to use the manual controls
+
+    driverController.a().onTrue(
+      new MoveElevatorManual(
+        arm,
+        () -> driverController.a().getAsBoolean(),
+        () -> driverController.getRightY()
+      )
+    );
+
+    // driverController.a().onTrue(
+    //   new MoveElbowManual(
+    //     arm,
+    //     () -> driverController.a().getAsBoolean(),
+    //     () -> driverController.getRightY()
+    //   )
+    // );
+
+    // driverController.a().onTrue(
+    //   new MoveWristManual(
+    //     arm,
+    //     () -> driverController.a().getAsBoolean(),
+    //     () -> driverController.getRightY()
+    //   )
+    // );
   }
 
   public Command getAutonomousCommand() {

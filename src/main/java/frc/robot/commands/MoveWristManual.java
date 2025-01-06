@@ -6,12 +6,12 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Arm.Arm;
 
-public class MoveElevatorManual extends Command {
+public class MoveWristManual extends Command {
     private final Arm arm;
     private final BooleanSupplier held;
     private final DoubleSupplier input;
 
-    public MoveElevatorManual(Arm arm, BooleanSupplier held, DoubleSupplier input) {
+    public MoveWristManual(Arm arm, BooleanSupplier held, DoubleSupplier input) {
         this.arm = arm;
         this.input = input;
         this.held = held;
@@ -21,7 +21,7 @@ public class MoveElevatorManual extends Command {
     @Override
     public void execute() {
         double power = - 0.2 * input.getAsDouble();
-        arm.setElevatorPower(power);
+        arm.setWristPower(power);
     }
 
     @Override
