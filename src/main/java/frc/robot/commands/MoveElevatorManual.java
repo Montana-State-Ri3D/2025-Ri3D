@@ -6,12 +6,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.Arm.Arm;
 
-public class MoveElevator extends Command {
+public class MoveElevatorManual extends Command {
     private final Arm arm;
     private final CommandXboxController controller;
     private final BooleanSupplier cancel;
 
-    public MoveElevator(Arm arm, BooleanSupplier cancel, CommandXboxController controller) {
+    public MoveElevatorManual(Arm arm, BooleanSupplier cancel, CommandXboxController controller) {
         this.arm = arm;
         this.controller = controller;
         this.cancel = cancel;
