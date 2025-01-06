@@ -253,7 +253,7 @@ public class ArmRealIO implements ArmIO {
         inputs.elbowPosition = this.elbowEncoder.getPosition();
         inputs.elbowLeaderPosition = this.elbowLeaderEncoder.getPosition();
         inputs.elbowFollowerPosition = this.elbowFollowerEncoder.getPosition();
-        inputs.wristPosition = this.wristEncoder.getPosition();
+        inputs.wristPosition = (Math.abs(this.elbowEncoder.getPosition()-(Math.PI/2.0))) + this.wristEncoder.getPosition() - Math.PI;
 
         inputs.elevatorTargetPosition = elevatorTargetPosition;
         inputs.elbowTargetPosition = elbowTargetPosition;
