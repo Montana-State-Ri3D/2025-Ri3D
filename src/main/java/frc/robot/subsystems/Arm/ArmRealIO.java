@@ -222,7 +222,6 @@ public class ArmRealIO implements ArmIO {
     // TODO: Figure out if forward is to make it go down, or if it should be changed to reverse
     // ensure that the elevator is at the desired lower limit position before calling
     public void setElevatorLimits() {
-        float current = (float) this.elevatorLeaderEncoder.getPosition();
         this.elevatorLeaderEncoder.setPosition(0);
         this.elevatorFollowerEncoder.setPosition(0);
     }
