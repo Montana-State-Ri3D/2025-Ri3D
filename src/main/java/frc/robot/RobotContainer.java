@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.DriveStationConstants;
+import frc.robot.commands.MoveArm;
+import frc.robot.commands.MoveArm.ArmPreset;
 
 public class RobotContainer {
 
@@ -58,6 +60,9 @@ public class RobotContainer {
   private void configureBindings() {
     driverController.start().onTrue(new InstantCommand(() -> driveTrain.resetGyro()));
     driverController.back().onTrue(new InstantCommand(() -> driveTrain.resetPose()));
+
+    driverController.a().onTrue(new MoveArm(ArmPreset.L1, () -> driverController.start().getAsBoolean(), arm));
+    driverController.b().onTrue(new MoveArm(ArmPreset.L2, () -> driverController.start().getAsBoolean(), arm));
   }
 
   public Command getAutonomousCommand() {
