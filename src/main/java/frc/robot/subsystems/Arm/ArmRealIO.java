@@ -87,11 +87,12 @@ public class ArmRealIO implements ArmIO {
         this.elbowFollowerEncoder = this.elbowFollower.getEncoder();
         this.wristEncoder = this.wrist.getAbsoluteEncoder(Type.kDutyCycle);
 
-        elevatorLeaderEncoder.setPositionConversionFactor(ArmConstants.ELEVATOR_SPROCKET_RADIUS * 2.0 * Math.PI * ArmConstants.ELEVATOR_RATIO);
-        elevatorFollowerEncoder.setPositionConversionFactor(ArmConstants.ELEVATOR_SPROCKET_RADIUS * 2.0 * Math.PI * ArmConstants.ELEVATOR_RATIO);
+        // 4.0 instead of 2.0 to account for cascade rigging of elevator
+        elevatorLeaderEncoder.setPositionConversionFactor(ArmConstants.ELEVATOR_SPROCKET_RADIUS * 4.0 * Math.PI * ArmConstants.ELEVATOR_RATIO );
+        elevatorFollowerEncoder.setPositionConversionFactor(ArmConstants.ELEVATOR_SPROCKET_RADIUS * 4.0 * Math.PI * ArmConstants.ELEVATOR_RATIO);
         
-        elevatorLeaderEncoder.setVelocityConversionFactor(ArmConstants.ELEVATOR_SPROCKET_RADIUS * 2.0 * Math.PI * ArmConstants.ELEVATOR_RATIO / 60);
-        elevatorFollowerEncoder.setVelocityConversionFactor(ArmConstants.ELEVATOR_SPROCKET_RADIUS * 2.0 * Math.PI * ArmConstants.ELEVATOR_RATIO / 60);
+        elevatorLeaderEncoder.setVelocityConversionFactor(ArmConstants.ELEVATOR_SPROCKET_RADIUS * 4.0 * Math.PI * ArmConstants.ELEVATOR_RATIO / 60.0);
+        elevatorFollowerEncoder.setVelocityConversionFactor(ArmConstants.ELEVATOR_SPROCKET_RADIUS * 4.0 * Math.PI * ArmConstants.ELEVATOR_RATIO / 60.0);
 
         elbowEncoder.setPositionConversionFactor(Math.PI*2);
         elbowEncoder.setVelocityConversionFactor(Math.PI*2/60);
