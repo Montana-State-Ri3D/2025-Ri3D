@@ -21,11 +21,15 @@ public interface ArmIO {
         public double elevatorLeaderPosition;
         public double elevatorFollowerPosition;
         public double elbowPosition;
+        public double elbowLeaderPosition;
+        public double elbowFollowerPosition;
         public double wristPosition;
 
         public double elevatorLeaderVelocity;
         public double elevatorFollowerVelocity;
         public double elbowVelocity;
+        public double elbowLeaderVelocity;
+        public double elbowFollowerVelocity;
         public double wristVelocity;
 
         public double elevatorTargetPosition;

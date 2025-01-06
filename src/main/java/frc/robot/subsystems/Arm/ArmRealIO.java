@@ -32,6 +32,8 @@ public class ArmRealIO implements ArmIO {
     
     private RelativeEncoder elevatorLeaderEncoder;
     private RelativeEncoder elevatorFollowerEncoder;
+    private RelativeEncoder elbowLeaderEncoder;
+    private RelativeEncoder elbowFollowerEncoder;
     private SparkAbsoluteEncoder elbowEncoder;
     private SparkAbsoluteEncoder wristEncoder;
 
@@ -78,13 +80,30 @@ public class ArmRealIO implements ArmIO {
         // encoder init
         this.elevatorLeaderEncoder = this.elevatorLeader.getEncoder();
         this.elevatorFollowerEncoder = this.elevatorFollower.getEncoder();
+
+
         this.elbowEncoder = this.elbowLeader.getAbsoluteEncoder(Type.kDutyCycle);
+        this.elbowLeaderEncoder = this.elbowLeader.getEncoder();
+        this.elbowFollowerEncoder = this.elbowFollower.getEncoder();
         this.wristEncoder = this.wrist.getAbsoluteEncoder(Type.kDutyCycle);
+
+        // 4.0 instead of 2.0 to account for cascade rigging of elevator
+        elevatorLeaderEncoder.setPositionConversionFactor(ArmConstants.ELEVATOR_SPROCKET_RADIUS * 4.0 * Math.PI * ArmConstants.ELEVATOR_RATIO );
+        elevatorFollowerEncoder.setPositionConversionFactor(ArmConstants.ELEVATOR_SPROCKET_RADIUS * 4.0 * Math.PI * ArmConstants.ELEVATOR_RATIO);
+        
+        elevatorLeaderEncoder.setVelocityConversionFactor(ArmConstants.ELEVATOR_SPROCKET_RADIUS * 4.0 * Math.PI * ArmConstants.ELEVATOR_RATIO / 60.0);
+        elevatorFollowerEncoder.setVelocityConversionFactor(ArmConstants.ELEVATOR_SPROCKET_RADIUS * 4.0 * Math.PI * ArmConstants.ELEVATOR_RATIO / 60.0);
 
         elbowEncoder.setPositionConversionFactor(Math.PI*2);
         elbowEncoder.setVelocityConversionFactor(Math.PI*2/60);
         wristEncoder.setPositionConversionFactor(Math.PI*2);
         wristEncoder.setVelocityConversionFactor(Math.PI*2/60);
+
+        // this.elevatorLeader.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 0);
+        // this.elevatorLeader.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
+
+        this.elevatorLeader.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, ArmConstants.ELEVATOR_HEIGHT);
+        this.elevatorLeader.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
 
         this.encoders = new RelativeEncoder[2];
         this.encoders[0] = this.elevatorLeaderEncoder;
@@ -203,12 +222,8 @@ public class ArmRealIO implements ArmIO {
     // TODO: Figure out if forward is to make it go down, or if it should be changed to reverse
     // ensure that the elevator is at the desired lower limit position before calling
     public void setElevatorLimits() {
-        float current = (float) this.elevatorLeaderEncoder.getPosition();
-        this.elevatorLeader.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, current);
-        this.elevatorLeader.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
-
-        this.elevatorLeader.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, current + ArmConstants.ELEVATOR_HEIGHT);
-        this.elevatorLeader.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
+        this.elevatorLeaderEncoder.setPosition(0);
+        this.elevatorFollowerEncoder.setPosition(0);
     }
 
     public void setElevatorPos(double elevatorPos) {
@@ -236,6 +251,8 @@ public class ArmRealIO implements ArmIO {
         inputs.elevatorLeaderPosition = this.elevatorLeaderEncoder.getPosition();
         inputs.elevatorFollowerPosition = this.elevatorFollowerEncoder.getPosition();
         inputs.elbowPosition = this.elbowEncoder.getPosition();
+        inputs.elbowLeaderPosition = this.elbowLeaderEncoder.getPosition();
+        inputs.elbowFollowerPosition = this.elbowFollowerEncoder.getPosition();
         inputs.wristPosition = this.wristEncoder.getPosition();
 
         inputs.elevatorTargetPosition = elevatorTargetPosition;
@@ -245,6 +262,8 @@ public class ArmRealIO implements ArmIO {
         inputs.elevatorLeaderVelocity = this.elevatorLeaderEncoder.getVelocity();
         inputs.elevatorFollowerVelocity = this.elevatorFollowerEncoder.getVelocity();
         inputs.elbowVelocity = this.elbowEncoder.getVelocity();
+        inputs.elbowLeaderVelocity = this.elbowLeaderEncoder.getVelocity();
+        inputs.elbowFollowerVelocity = this.elbowFollowerEncoder.getVelocity();
         inputs.wristVelocity = this.wristEncoder.getVelocity();
 
         inputs.elevatorLeaderCurrent = this.elevatorLeader.getOutputCurrent();
