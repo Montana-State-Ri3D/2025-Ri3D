@@ -29,6 +29,7 @@ public class Intake extends SubsystemBase{
     private final IntakeIOInputsAutoLogged inputs = new IntakeIOInputsAutoLogged();
     public Intake(IntakeIO io){
         this.io=io;
+        inputs.hasAlgae = false;
         io.updateInputs(inputs);
     }
 
@@ -65,7 +66,15 @@ public class Intake extends SubsystemBase{
         return inputs.pivotAngle;
     }
 
-    public boolean hasCoral() {
-        return inputs.hasCoral;
+    public boolean hasObject() {
+        return inputs.hasCoral || inputs.hasAlgae;
+    }
+
+    public void pickupAlgae() {
+        inputs.hasAlgae = true;
+    }
+
+    public void ejectObject() {
+        inputs.hasAlgae = false;
     }
 }

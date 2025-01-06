@@ -8,21 +8,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Intake.Intake.IntakePosition;
 
-public class IntakeIn extends Command {
+public class IntakeOut extends Command {
   Intake intake;
 
-  private IntakePosition target;
-  private double speed;
-  private double amps;
-
-  /** Creates a new IntakeIn. */
-  public IntakeIn(Intake intake, IntakePosition target, double amps, double speed) {
+  /** Creates a new IntakeOut. */
+  public IntakeOut(Intake intake) {
     this.intake = intake;
-
-    this.target = target;
-    this.amps = amps;
-    this.speed = speed;
-
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intake);
   }
@@ -30,9 +21,8 @@ public class IntakeIn extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    isFinished();
-    intake.setPivotAngle(target);
-    intake.setPower(speed, speed - 0.2);
+    intake.setPivotAngle(IntakePosition.ALGAE);
+    intake.setPower(-.5, -.5);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -41,15 +31,11 @@ public class IntakeIn extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    if(target == IntakePosition.ALGAE) {
-    intake.pickupAlgae();
-    intake.stop();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (intake.hasObject() || (intake.getLeftCurrent() > amps) || (intake.getRightCurrent() > amps));
+    return false;
   }
 }

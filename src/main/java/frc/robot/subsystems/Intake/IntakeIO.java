@@ -30,6 +30,8 @@ public interface IntakeIO {
         public Intake.IntakePosition position;
 
         public boolean hasCoral;
+
+        public boolean hasAlgae;
     }
     
     default void updateInputs(IntakeIOInputs inputs){}

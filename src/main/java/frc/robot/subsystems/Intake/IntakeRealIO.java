@@ -5,8 +5,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
-
 import edu.wpi.first.wpilibj.DigitalInput;
+
 import frc.robot.Constants.IntakeConstants;
 
 public class IntakeRealIO implements IntakeIO{    
