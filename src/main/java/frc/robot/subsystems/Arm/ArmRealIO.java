@@ -32,6 +32,8 @@ public class ArmRealIO implements ArmIO {
     
     private RelativeEncoder elevatorLeaderEncoder;
     private RelativeEncoder elevatorFollowerEncoder;
+    private RelativeEncoder elbowLeaderEncoder;
+    private RelativeEncoder elbowFollowerEncoder;
     private SparkAbsoluteEncoder elbowEncoder;
     private SparkAbsoluteEncoder wristEncoder;
 
@@ -79,6 +81,8 @@ public class ArmRealIO implements ArmIO {
         this.elevatorLeaderEncoder = this.elevatorLeader.getEncoder();
         this.elevatorFollowerEncoder = this.elevatorFollower.getEncoder();
         this.elbowEncoder = this.elbowLeader.getAbsoluteEncoder(Type.kDutyCycle);
+        this.elbowLeaderEncoder = this.elbowLeader.getEncoder();
+        this.elbowFollowerEncoder = this.elbowFollower.getEncoder();
         this.wristEncoder = this.wrist.getAbsoluteEncoder(Type.kDutyCycle);
 
         elbowEncoder.setPositionConversionFactor(Math.PI*2);
@@ -236,6 +240,8 @@ public class ArmRealIO implements ArmIO {
         inputs.elevatorLeaderPosition = this.elevatorLeaderEncoder.getPosition();
         inputs.elevatorFollowerPosition = this.elevatorFollowerEncoder.getPosition();
         inputs.elbowPosition = this.elbowEncoder.getPosition();
+        inputs.elbowLeaderPosition = this.elbowLeaderEncoder.getPosition();
+        inputs.elbowFollowerPosition = this.elbowFollowerEncoder.getPosition();
         inputs.wristPosition = this.wristEncoder.getPosition();
 
         inputs.elevatorTargetPosition = elevatorTargetPosition;
@@ -245,6 +251,8 @@ public class ArmRealIO implements ArmIO {
         inputs.elevatorLeaderVelocity = this.elevatorLeaderEncoder.getVelocity();
         inputs.elevatorFollowerVelocity = this.elevatorFollowerEncoder.getVelocity();
         inputs.elbowVelocity = this.elbowEncoder.getVelocity();
+        inputs.elbowLeaderVelocity = this.elbowLeaderEncoder.getVelocity();
+        inputs.elbowFollowerVelocity = this.elbowFollowerEncoder.getVelocity();
         inputs.wristVelocity = this.wristEncoder.getVelocity();
 
         inputs.elevatorLeaderCurrent = this.elevatorLeader.getOutputCurrent();
