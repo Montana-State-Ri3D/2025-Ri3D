@@ -43,7 +43,8 @@ public class IntakeIn extends Command {
   @Override
   public void end(boolean interrupted) {
     if(target == IntakePosition.ALGAE) {
-    intake.pickupAlgae();
+      intake.pickupAlgae();
+    }
     intake.stop();
   }
 
