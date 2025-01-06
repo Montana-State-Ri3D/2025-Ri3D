@@ -220,8 +220,8 @@ public class ArmRealIO implements ArmIO {
         this.elevatorLeader.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, current);
         this.elevatorLeader.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
 
-        this.elevatorFollower.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, current + ArmConstants.ELEVATOR_HEIGHT);
-        this.elevatorFollower.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
+        this.elevatorLeader.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, current + ArmConstants.ELEVATOR_HEIGHT);
+        this.elevatorLeader.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
 
         this.elevatorLeaderEncoder.setPosition(0);
         this.elevatorFollowerEncoder.setPosition(0);
