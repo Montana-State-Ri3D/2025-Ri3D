@@ -2,8 +2,6 @@ package frc.robot.subsystems.Intake;
 
 import org.littletonrobotics.junction.AutoLog;
 
-import frc.robot.Constants.IntakeConstants;
-
 
 public interface IntakeIO {
     
@@ -30,6 +28,8 @@ public interface IntakeIO {
         public double targetAngle;
 
         public Intake.IntakePosition position;
+
+        public boolean hasCoral;
     }
     
     default void updateInputs(IntakeIOInputs inputs){}

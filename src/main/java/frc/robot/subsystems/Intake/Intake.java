@@ -64,4 +64,8 @@ public class Intake extends SubsystemBase{
     public double getPivotAngle() {
         return inputs.pivotAngle;
     }
+
+    public boolean hasCoral() {
+        return inputs.hasCoral;
+    }
 }

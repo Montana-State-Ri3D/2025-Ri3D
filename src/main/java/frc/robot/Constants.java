@@ -66,6 +66,8 @@ public final class Constants {
 
     public static final int PIVOT_CANCODER_ID = 10;
 
+    public static final int INTAKE_BREAK_DIO = 1;
+
     public static final double INTAKE_RATIO = 1.0/11.0;  // PLACEHOLDER
     public static final double INTAKE_WHEEL_RADIUS = 1.0;  // PLACEHOLDER
 

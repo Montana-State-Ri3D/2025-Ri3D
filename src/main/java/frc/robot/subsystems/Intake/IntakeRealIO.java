@@ -6,11 +6,14 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Constants.IntakeConstants;
 
 public class IntakeRealIO implements IntakeIO{    
     private boolean isBrake;
     private double targetAngle;
+
+    private DigitalInput beamBreak;
 
     private CANSparkMax leftIntake;
     private CANSparkMax rightIntake;
@@ -25,7 +28,9 @@ public class IntakeRealIO implements IntakeIO{
     
     private CANSparkMax[] intakeMotors;
 
-    public IntakeRealIO(int leftIntake, int rightIntake, int pivot, int pivotCANcoder){
+    public IntakeRealIO(int leftIntake, int rightIntake, int pivot, int pivotCANcoder, int beamBreak){
+        this.beamBreak = new DigitalInput(beamBreak);
+
         this.leftIntake = new CANSparkMax(leftIntake, CANSparkMax.MotorType.kBrushless);
         this.rightIntake = new CANSparkMax(rightIntake, CANSparkMax.MotorType.kBrushless);
         this.pivot = new CANSparkMax(pivot, CANSparkMax.MotorType.kBrushless);
@@ -109,6 +114,7 @@ public class IntakeRealIO implements IntakeIO{
         inputs.rightPower = rightIntake.get();
         inputs.pivotAngle = pivotEncoder.getPosition();
         inputs.pivotVelo = pivotEncoder.getVelocity();
-        inputs.targetAngle = targetAngle;     
+        inputs.targetAngle = targetAngle;
+        inputs.hasCoral = !beamBreak.get();     
     }
 }

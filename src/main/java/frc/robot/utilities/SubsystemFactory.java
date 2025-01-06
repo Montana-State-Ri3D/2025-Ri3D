@@ -41,11 +41,11 @@ public class SubsystemFactory {
                             IntakeConstants.LEFT_INTAKE_ID,
                             IntakeConstants.RIGHT_INTAKE_ID,
                             IntakeConstants.PIVOT_ID,
-                            IntakeConstants.PIVOT_CANCODER_ID
+                            IntakeConstants.PIVOT_CANCODER_ID,
+                            IntakeConstants.INTAKE_BREAK_DIO
                             ));
         } else {
             return new Intake(new IntakeSimIO());
         }
     }
-
 }
