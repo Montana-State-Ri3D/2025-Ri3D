@@ -54,6 +54,10 @@ public class Arm extends SubsystemBase{
         io.setElevatorLimits();
     }
 
+    public void stop() {
+        io.stop();
+    }
+
     // immutable arm position class
     public static class ArmPosition {
         public final double elevatorPosition;

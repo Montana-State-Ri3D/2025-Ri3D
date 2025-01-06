@@ -1,5 +1,7 @@
 package frc.robot.commandGroups;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.MoveArm.ArmPreset;
@@ -12,11 +14,11 @@ public class GoToConfiguration extends SequentialCommandGroup {
         PROCESSOR
     }
 
-    public GoToConfiguration(RobotConfiguration config, Arm arm) {
+    public GoToConfiguration(RobotConfiguration config, BooleanSupplier cancel, Arm arm) {
         switch (config) {
             case INTAKE_CORAL:
                 addCommands(
-                    new MoveArm(ArmPreset.CORAL, arm)
+                    new MoveArm(ArmPreset.CORAL, cancel, arm)
                 );
 
                 break;

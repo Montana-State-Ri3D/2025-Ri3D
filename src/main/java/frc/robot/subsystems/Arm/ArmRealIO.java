@@ -181,6 +181,12 @@ public class ArmRealIO implements ArmIO {
     public void setElevatorPower(double power){
         this.elevatorLeader.set(power);
     }
+
+    public void stop() {
+        for (CANSparkMax motor : this.motors) {
+            motor.stopMotor();
+        }
+    }
     
     public void toggleMode() {
         if (this.elevatorLeader.getIdleMode() == CANSparkMax.IdleMode.kBrake) {

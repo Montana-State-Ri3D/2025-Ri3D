@@ -44,5 +44,6 @@ public interface ArmIO {
     default void getPosition(){}
     default void setBrake(boolean isBrake){}
     default void updatePIDValues(){}
-    default void setElevatorLimits(){};
+    default void setElevatorLimits(){}
+    default void stop(){}
 }

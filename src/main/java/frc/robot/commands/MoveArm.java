@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Arm.Arm;
 import frc.robot.subsystems.Arm.Arm.ArmPosition;
@@ -27,9 +29,12 @@ public class MoveArm extends Command {
     private final Arm arm;
     private final ArmPreset preset;
 
-    public MoveArm(ArmPreset preset, Arm arm) {
+    private final BooleanSupplier cancel;
+
+    public MoveArm(ArmPreset preset, BooleanSupplier cancel, Arm arm) {
         this.arm = arm;
         this.preset = preset;
+        this.cancel = cancel;
         addRequirements(arm);
     }
 
@@ -38,12 +43,18 @@ public class MoveArm extends Command {
         this.arm.setArmPosition(preset.position);
     }
 
+    public void end(boolean interrupted) {
+        this.arm.stop();
+    }
+
     @Override
     public boolean isFinished() {
         ArmPosition current = arm.getPosition();
         
-        return Math.abs(current.elevatorPosition - preset.position.elevatorPosition) < this.ELEVATOR_TOLEERANCE
+        return 
+            cancel.getAsBoolean()
+            || (Math.abs(current.elevatorPosition - preset.position.elevatorPosition) < this.ELEVATOR_TOLEERANCE
             && Math.abs(current.elbowPosition - preset.position.elbowPosition) < this.ELBOW_TOLEERANCE
-            && Math.abs(current.wristPosition - preset.position.wristPosition) < this.WRIST_TOLEERANCE;
+            && Math.abs(current.wristPosition - preset.position.wristPosition) < this.WRIST_TOLEERANCE);
     }
 }
