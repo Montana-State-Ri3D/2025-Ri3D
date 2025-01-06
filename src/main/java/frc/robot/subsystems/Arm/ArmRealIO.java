@@ -99,6 +99,12 @@ public class ArmRealIO implements ArmIO {
         wristEncoder.setPositionConversionFactor(Math.PI*2);
         wristEncoder.setVelocityConversionFactor(Math.PI*2/60);
 
+        // this.elevatorLeader.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 0);
+        // this.elevatorLeader.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
+
+        this.elevatorLeader.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, ArmConstants.ELEVATOR_HEIGHT);
+        this.elevatorLeader.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
+
         this.encoders = new RelativeEncoder[2];
         this.encoders[0] = this.elevatorLeaderEncoder;
         this.encoders[1] = this.elevatorFollowerEncoder;
@@ -217,12 +223,6 @@ public class ArmRealIO implements ArmIO {
     // ensure that the elevator is at the desired lower limit position before calling
     public void setElevatorLimits() {
         float current = (float) this.elevatorLeaderEncoder.getPosition();
-        this.elevatorLeader.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, current);
-        this.elevatorLeader.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
-
-        this.elevatorLeader.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, current + ArmConstants.ELEVATOR_HEIGHT);
-        this.elevatorLeader.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
-
         this.elevatorLeaderEncoder.setPosition(0);
         this.elevatorFollowerEncoder.setPosition(0);
     }
