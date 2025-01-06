@@ -8,8 +8,8 @@ import frc.robot.subsystems.Arm.Arm.ArmPosition;
 
 public class MoveArm extends Command {
     public enum ArmPreset {
-        L1(new ArmPosition(0, 0, 0)),
-        L2(new ArmPosition(0, 0, 0)),
+        L1(new ArmPosition(0.1, 0, 0)),
+        L2(new ArmPosition(0.9, 0, 0)),
         L3(new ArmPosition(0, 0, 0)),
         L4(new ArmPosition(0, 0, 0)),
         ALGAE(new ArmPosition(0, 0, 0)),
@@ -22,9 +22,9 @@ public class MoveArm extends Command {
         }
     }
 
-    private final double WRIST_TOLEERANCE = 0.1;
-    private final double ELBOW_TOLEERANCE = 0.1;
-    private final double ELEVATOR_TOLEERANCE = 0.1;
+    private final double WRIST_TOLEERANCE = 0.01;
+    private final double ELBOW_TOLEERANCE = 0.01;
+    private final double ELEVATOR_TOLEERANCE = 0.01;
 
     private final Arm arm;
     private final ArmPreset preset;

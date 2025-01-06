@@ -3,6 +3,8 @@ package frc.robot.utilities;
 import frc.robot.Robot;
 
 import frc.robot.Constants.DriveTrainConstants;
+import frc.robot.subsystems.Arm.Arm;
+import frc.robot.subsystems.Arm.ArmSimIO;
 import frc.robot.subsystems.DriveTrain.DriveTrain;
 import frc.robot.subsystems.DriveTrain.DriveTrainRealIO;
 import frc.robot.subsystems.DriveTrain.DriveTrainSimIO;
@@ -29,4 +31,9 @@ public class SubsystemFactory {
         }
     }
 
+    public Arm createArm() {
+        return new Arm(
+            new ArmSimIO()
+        );
+    }
 }

@@ -73,9 +73,9 @@ public final class Constants {
     public static final int WRIST_ID = 9;
 
     // PID values
-    public static final double ELEVATOR_kP = 0.0;
+    public static final double ELEVATOR_kP = 1.0;
     public static final double ELEVATOR_kI = 0.0;
-    public static final double ELEVATOR_kD = 0.0;
+    public static final double ELEVATOR_kD = 0.1;
 
     public static final double ELBOW_kP = 0.0;
     public static final double ELBOW_kI = 0.0;
