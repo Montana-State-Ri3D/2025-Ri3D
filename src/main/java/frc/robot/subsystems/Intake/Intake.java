@@ -8,12 +8,28 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
 public class Intake extends SubsystemBase{
+    public enum IntakePosition {
+        CORAL(0.0),
+        ALGAE(0.0),
+        PROCESSOR(0.0),
+        IDLE(0.0);
+        
+        private double position;
+    
+        private IntakePosition(double position) {
+          this.position = position; 
+        }
+        public double getPosition() {
+          return position;
+        }
+    }
+    IntakePosition position;
+
     private final IntakeIO io;
     private final IntakeIOInputsAutoLogged inputs = new IntakeIOInputsAutoLogged();
     public Intake(IntakeIO io){
         this.io=io;
         io.updateInputs(inputs);
-
     }
 
     @Override
@@ -28,8 +44,13 @@ public class Intake extends SubsystemBase{
         io.setPower(leftPower, rightPower);
     }
 
-    public void setPivotAngle(double angle) {
-        io.setAngle(angle);
+    public void setPivotAngle(IntakePosition position) {
+        this.position = position;
+        io.setAngle(position.getPosition());
+    }
+
+    public void stop() {
+        io.stop();
     }
 
     public double getLeftCurrent() {

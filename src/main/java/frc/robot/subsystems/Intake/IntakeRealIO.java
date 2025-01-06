@@ -22,10 +22,10 @@ public class IntakeRealIO implements IntakeIO{
     private RelativeEncoder rightIntakeEncoder;
     private RelativeEncoder pivotEncoder;
     private CANcoder pivotCANcoder;
-
+    
     private CANSparkMax[] intakeMotors;
 
-    public IntakeRealIO(int leftIntake, int rightIntake, int pivot){
+    public IntakeRealIO(int leftIntake, int rightIntake, int pivot, int pivotCANcoder){
         this.leftIntake = new CANSparkMax(leftIntake, CANSparkMax.MotorType.kBrushless);
         this.rightIntake = new CANSparkMax(rightIntake, CANSparkMax.MotorType.kBrushless);
         this.pivot = new CANSparkMax(pivot, CANSparkMax.MotorType.kBrushless);
@@ -50,12 +50,12 @@ public class IntakeRealIO implements IntakeIO{
         leftIntakeEncoder = this.leftIntake.getEncoder();
         rightIntakeEncoder = this.rightIntake.getEncoder();
         pivotEncoder = this.pivot.getEncoder();
-        pivotCANcoder = new CANcoder(IntakeConstants.PIVOT_CANCODER_ID);
+        this.pivotCANcoder = new CANcoder(pivotCANcoder);
 
         pivotEncoder.setPositionConversionFactor(Math.PI*2);
         pivotEncoder.setVelocityConversionFactor(Math.PI*2/60);
 
-        pivotEncoder.setPosition(pivotCANcoder.getPosition().getValue());
+        pivotEncoder.setPosition(this.pivotCANcoder.getPosition().getValue());
 
         pivotPIDController.setP(IntakeConstants.PIVOT_kP);
         pivotPIDController.setI(IntakeConstants.PIVOT_kI);
@@ -94,6 +94,11 @@ public class IntakeRealIO implements IntakeIO{
         pivotPIDController.setReference(angle, ControlType.kPosition);
     }
 
+    public void stop() {
+        setPower(0.0, 0.0);
+        setAngle(pivotEncoder.getPosition());
+    }
+
     public void updateInputs(IntakeIOInputs inputs) {
         inputs.isBrake = isBrake;
         inputs.leftCurrent = leftIntake.getOutputCurrent();
@@ -104,6 +109,6 @@ public class IntakeRealIO implements IntakeIO{
         inputs.rightPower = rightIntake.get();
         inputs.pivotAngle = pivotEncoder.getPosition();
         inputs.pivotVelo = pivotEncoder.getVelocity();
-        inputs.targetAngle = targetAngle;        
+        inputs.targetAngle = targetAngle;     
     }
 }

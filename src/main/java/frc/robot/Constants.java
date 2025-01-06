@@ -62,7 +62,7 @@ public final class Constants {
   public static class IntakeConstants{
     public static final int LEFT_INTAKE_ID = 7;
     public static final int RIGHT_INTAKE_ID = 8;
-    public static final int DEPLOY_ID = 9;
+    public static final int PIVOT_ID = 9;
 
     public static final int PIVOT_CANCODER_ID = 10;
 
