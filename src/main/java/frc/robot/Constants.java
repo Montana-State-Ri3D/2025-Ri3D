@@ -94,5 +94,8 @@ public final class Constants {
     public static final double ELEVATOR_RATIO = (1.0/20.0);
     public static final double ELBOW_RATIO = 0.0;
     public static final double WRIST_RATIO = 0.0;
+
+    // Diameters
+    public static final double ELEVATOR_SPROCKET_RADIUS = 1.79 / 2.0;
   }
 }

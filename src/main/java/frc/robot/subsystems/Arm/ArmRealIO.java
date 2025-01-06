@@ -80,10 +80,18 @@ public class ArmRealIO implements ArmIO {
         // encoder init
         this.elevatorLeaderEncoder = this.elevatorLeader.getEncoder();
         this.elevatorFollowerEncoder = this.elevatorFollower.getEncoder();
+
+
         this.elbowEncoder = this.elbowLeader.getAbsoluteEncoder(Type.kDutyCycle);
         this.elbowLeaderEncoder = this.elbowLeader.getEncoder();
         this.elbowFollowerEncoder = this.elbowFollower.getEncoder();
         this.wristEncoder = this.wrist.getAbsoluteEncoder(Type.kDutyCycle);
+
+        elevatorLeaderEncoder.setPositionConversionFactor(ArmConstants.ELEVATOR_SPROCKET_RADIUS * 2.0 * Math.PI * ArmConstants.ELEVATOR_RATIO);
+        elevatorFollowerEncoder.setPositionConversionFactor(ArmConstants.ELEVATOR_SPROCKET_RADIUS * 2.0 * Math.PI * ArmConstants.ELEVATOR_RATIO);
+        
+        elevatorLeaderEncoder.setVelocityConversionFactor(ArmConstants.ELEVATOR_SPROCKET_RADIUS * 2.0 * Math.PI * ArmConstants.ELEVATOR_RATIO / 60);
+        elevatorFollowerEncoder.setVelocityConversionFactor(ArmConstants.ELEVATOR_SPROCKET_RADIUS * 2.0 * Math.PI * ArmConstants.ELEVATOR_RATIO / 60);
 
         elbowEncoder.setPositionConversionFactor(Math.PI*2);
         elbowEncoder.setVelocityConversionFactor(Math.PI*2/60);
