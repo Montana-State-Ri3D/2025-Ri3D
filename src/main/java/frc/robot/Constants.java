@@ -37,9 +37,10 @@ public final class Constants {
 
     // This Seting is used to prevent the robot from being enabled when testing and
     // the code is not been validated on the hardware
-    public static final boolean ALLOW_ROBOT_ENABLE = false;
+    public static final boolean ALLOW_ROBOT_ENABLE = true;
 
-    public static final boolean TUNING_MODE = false;
+    // enable PID tuning from smart dashboard
+    public static final boolean TUNING_MODE = true;
   }
 
   // Constants for the DriveTrain subsystem
