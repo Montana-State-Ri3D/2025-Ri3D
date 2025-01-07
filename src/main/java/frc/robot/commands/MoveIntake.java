@@ -33,7 +33,7 @@ public class MoveIntake extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.setPivotPower(-Joystick.JoystickInput(joystick.getAsDouble(), 1, 0.02, 0.0));;
+    intake.setPivotPower(-Joystick.JoystickInput(joystick.getAsDouble(), 2, 0.02, 0.1));;
   }
 
   // Called once the command ends or is interrupted.

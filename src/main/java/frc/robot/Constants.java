@@ -62,11 +62,11 @@ public final class Constants {
   }
 
   public static class IntakeConstants{
-    public static final int LEFT_INTAKE_ID = 7;
-    public static final int RIGHT_INTAKE_ID = 8;
-    public static final int PIVOT_ID = 9;
+    public static final int LEFT_INTAKE_ID = 13;
+    public static final int RIGHT_INTAKE_ID = 14;
+    public static final int PIVOT_ID = 15;
 
-    public static final int PIVOT_CANCODER_ID = 10;
+    public static final int PIVOT_CANCODER_ID = 16;
 
     public static final int INTAKE_BREAK_DIO = 1;
 
