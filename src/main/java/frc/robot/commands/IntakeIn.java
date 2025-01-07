@@ -24,7 +24,6 @@ public class IntakeIn extends Command {
   /** Creates a new IntakeIn. */
   public IntakeIn(Intake intake, IntakePosition target, double amps, double speed) {
     this.intake = intake;
-    System.out.println("here 1");
     this.target = target;
     this.amps = amps;
     this.speed = speed;
@@ -38,6 +37,7 @@ public class IntakeIn extends Command {
   public void initialize() {
     //isFinished();
     initTime = System.currentTimeMillis();
+    detectTime = null;
     intake.setPivotPosition(target);
     intake.setPower(speed, speed/2);
   }
@@ -53,9 +53,6 @@ public class IntakeIn extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    if(target == IntakePosition.ALGAE) {
-      intake.pickupAlgae();
-    }
     intake.stop();
   }
 
