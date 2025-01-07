@@ -1,8 +1,11 @@
 package frc.robot.utilities;
 
 import frc.robot.Robot;
-
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.DriveTrainConstants;
+import frc.robot.subsystems.Arm.Arm;
+import frc.robot.subsystems.Arm.ArmRealIO;
+import frc.robot.subsystems.Arm.ArmSimIO;
 import frc.robot.subsystems.DriveTrain.DriveTrain;
 import frc.robot.subsystems.DriveTrain.DriveTrainRealIO;
 import frc.robot.subsystems.DriveTrain.DriveTrainSimIO;
@@ -26,6 +29,23 @@ public class SubsystemFactory {
                             ));
         } else {
             return new DriveTrain(new DriveTrainSimIO());
+        }
+    }
+
+    public Arm createArm() {
+        if (isReal) {
+            return new Arm(
+                new ArmRealIO(
+                    ArmConstants.ELEVATOR_LEADER_ID,
+                    ArmConstants.ELEVATOR_FOLLOWER_ID,
+                    ArmConstants.ELBOW_LEADER_ID,
+                    ArmConstants.ELBOW_FOLLOWER_ID,
+                    ArmConstants.WRIST_ID,
+                    ArmConstants.LIMIT_SWITCH_ID
+                )
+            );
+        } else {
+            return new Arm(new ArmSimIO());
         }
     }
 
