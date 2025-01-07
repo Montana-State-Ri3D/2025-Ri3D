@@ -62,6 +62,11 @@ public final class Constants {
     public static final double TRACK_WIDTH = Units.inchesToMeters(24);
   }
 
+  // Constants for EndEffector subsystem
+  public static class EndEffectorConstants {
+    public static final int END_EFFECTOR_ID = 12;
+  }
+
   // Constants for the Arm subsystem
   public static class ArmConstants {
     // Motor ID's
