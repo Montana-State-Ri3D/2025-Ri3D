@@ -58,4 +58,9 @@ public final class Constants {
     public static final double MAX_VELOCITY = Units.feetToMeters(11.23);
     public static final double TRACK_WIDTH = Units.inchesToMeters(24);
   }
+
+  //Constants for EndEffector subsystem
+  public static class EndEffectorConstants {
+    public static final int END_EFFECTOR_ID = 12;
+  }
 }

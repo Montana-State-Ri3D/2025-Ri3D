@@ -9,6 +9,7 @@ public class EndEffectorRealIO implements EndEffectorIO {
         motor = new CANSparkMax(motorId, CANSparkMax.MotorType.kBrushless);
         motor.restoreFactoryDefaults();
         motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        motor.setInverted(true);
     }
 
     @Override
