@@ -62,10 +62,16 @@ public class RobotContainer {
   private void configureBindings() {
     driverController.start().onTrue(new InstantCommand(() -> driveTrain.resetGyro()));
     driverController.back().onTrue(new InstantCommand(() -> driveTrain.resetPose()));
-    driverController.rightBumper().onTrue(new IntakeIn(intake, Intake.IntakePosition.ALGAE, 0.2, 0.5));
-    driverController.leftBumper().onTrue(new IntakeIn(intake, Intake.IntakePosition.CORAL, 0.2, 0.5));
-    driverController.b().whileTrue(new IntakeOut(intake));
-    driverController.a().onTrue(new MoveIntake(intake, () -> driverController.getRightY(), () -> driverController.a().getAsBoolean()));
+    //driverController.rightBumper().onTrue(new IntakeIn(intake, Intake.IntakePosition.ALGAE, 0.2, 0.5));
+    driverController.rightBumper().onTrue(new IntakeIn(intake, Intake.IntakePosition.CORAL, 100, 0.8));
+    //driverController.b().whileTrue(new IntakeOut(intake));
+
+
+    //driverController.a().onTrue(new MoveIntake(intake, () -> driverController.getRightY(), () -> driverController.a().getAsBoolean()));
+
+    driverController.x().onTrue(new InstantCommand(() -> intake.setPivotPosition(Intake.IntakePosition.CORAL)));
+    driverController.y().onTrue(new InstantCommand(() -> intake.setPivotPosition(Intake.IntakePosition.HANDOFF)));
+    driverController.b().onTrue(new InstantCommand(() -> intake.setPivotPosition(Intake.IntakePosition.IDLE)));
   }
 
   public Command getAutonomousCommand() {

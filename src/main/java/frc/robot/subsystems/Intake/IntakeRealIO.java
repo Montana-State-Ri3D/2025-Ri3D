@@ -24,7 +24,7 @@ public class IntakeRealIO implements IntakeIO{
     private RelativeEncoder leftIntakeEncoder;
     private RelativeEncoder rightIntakeEncoder;
     private RelativeEncoder pivotEncoder;
-    private CANcoder pivotCANcoder;
+    //private CANcoder pivotCANcoder;
     
     private CANSparkMax[] intakeMotors;
 
@@ -55,22 +55,22 @@ public class IntakeRealIO implements IntakeIO{
         leftIntakeEncoder = this.leftIntake.getEncoder();
         rightIntakeEncoder = this.rightIntake.getEncoder();
         pivotEncoder = this.pivot.getEncoder();
-        this.pivotCANcoder = new CANcoder(pivotCANcoder);
+        //this.pivotCANcoder = new CANcoder(pivotCANcoder);
 
-        pivotEncoder.setPositionConversionFactor(Math.PI*2);
-        pivotEncoder.setVelocityConversionFactor(Math.PI*2/60);
+        pivotEncoder.setPositionConversionFactor(Math.PI*2*IntakeConstants.INTAKE_RATIO);
+        pivotEncoder.setVelocityConversionFactor(Math.PI*2*IntakeConstants.INTAKE_RATIO/60);
 
-        pivotEncoder.setPosition(this.pivotCANcoder.getPosition().getValue());
+        //pivotEncoder.setPosition(this.pivotCANcoder.getPosition().getValue());
+        pivotEncoder.setPosition(0.0);
 
         pivotPIDController.setP(IntakeConstants.PIVOT_kP);
         pivotPIDController.setI(IntakeConstants.PIVOT_kI);
         pivotPIDController.setD(IntakeConstants.PIVOT_kD);
-
         pivotPIDController.setFeedbackDevice(pivotEncoder);
-        pivotPIDController.setOutputRange(-1.00, 1.00);
+        pivotPIDController.setOutputRange(-0.40, 0.40);
 
-        // rightIntakeEncoder.setPositionConversionFactor(IntakeConstants.INTAKE_WHEEL_RADIUS*2.0*Math.PI*IntakeConstants.INTAKE_RATIO);
-        // leftIntakeEncoder.setPositionConversionFactor(IntakeConstants.INTAKE_WHEEL_RADIUS*2.0*Math.PI*IntakeConstants.INTAKE_RATIO);
+        rightIntakeEncoder.setPositionConversionFactor(IntakeConstants.INTAKE_WHEEL_RADIUS*2.0*Math.PI*IntakeConstants.INTAKE_RATIO);
+        leftIntakeEncoder.setPositionConversionFactor(IntakeConstants.INTAKE_WHEEL_RADIUS*2.0*Math.PI*IntakeConstants.INTAKE_RATIO);
 
         // rightIntakeEncoder.setVelocityConversionFactor(IntakeConstants.INTAKE_WHEEL_RADIUS*2.0*Math.PI*IntakeConstants.INTAKE_RATIO/60.0);
         // leftIntakeEncoder.setVelocityConversionFactor(IntakeConstants.INTAKE_WHEEL_RADIUS*2.0*Math.PI*IntakeConstants.INTAKE_RATIO/60.0);        
@@ -116,11 +116,12 @@ public class IntakeRealIO implements IntakeIO{
         inputs.rightVelo = rightIntakeEncoder.getVelocity();
         inputs.leftVelo = leftIntakeEncoder.getVelocity();
         inputs.pivotVelo = pivotEncoder.getVelocity();
-        inputs.leftPower = leftIntake.get();
-        inputs.rightPower = rightIntake.get();
-        inputs.pivotPower = pivot.get();
+        inputs.leftPower = leftIntake.getAppliedOutput();
+        inputs.rightPower = rightIntake.getAppliedOutput();
+        inputs.pivotPower = pivot.getAppliedOutput();
         inputs.pivotAngle = pivotEncoder.getPosition();
         inputs.targetAngle = targetAngle;
-        inputs.hasCoral = !beamBreak.get();     
+        inputs.hasCoral = !beamBreak.get();
+        inputs.hasAlgae = false;  
     }
 }

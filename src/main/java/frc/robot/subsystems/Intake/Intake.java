@@ -2,6 +2,8 @@ package frc.robot.subsystems.Intake;
 
 import org.littletonrobotics.junction.Logger;
 
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.units.Unit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 //  11-1 gearbox for the wheels, 15-1 gearbox for the active pivot, also uses mini-neos
@@ -9,10 +11,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Intake extends SubsystemBase{
     public enum IntakePosition {
-        CORAL(0.0),
-        ALGAE(0.0),
+        CORAL(Units.degreesToRadians(-107.0)),
+        ALGAE(Units.degreesToRadians(-100.0)),
+        HANDOFF(Units.degreesToRadians(-28.0)),
         PROCESSOR(0.0),
-        IDLE(0.0);
+        IDLE(Units.degreesToRadians(-5.0));
         
         private double position;
     

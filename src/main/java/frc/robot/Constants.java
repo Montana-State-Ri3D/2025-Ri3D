@@ -68,12 +68,12 @@ public final class Constants {
 
     public static final int PIVOT_CANCODER_ID = 16;
 
-    public static final int INTAKE_BREAK_DIO = 1;
+    public static final int INTAKE_BREAK_DIO = 7;
 
-    public static final double INTAKE_RATIO = 1.0/11.0;  // PLACEHOLDER
-    public static final double INTAKE_WHEEL_RADIUS = 1.0;  // PLACEHOLDER
+    public static final double INTAKE_RATIO = (1.0/48.0) * (60.0/64.0);
+    public static final double INTAKE_WHEEL_RADIUS = Units.inchesToMeters(3);
 
-    public static final double PIVOT_kP = 0.0;
+    public static final double PIVOT_kP = 0.45;
     public static final double PIVOT_kI = 0.0;
     public static final double PIVOT_kD = 0.0;
   }

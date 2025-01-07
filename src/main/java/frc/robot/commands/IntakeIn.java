@@ -18,10 +18,13 @@ public class IntakeIn extends Command {
   private long initTime = -1;
   private long duration = 500;
 
+  private long delay = 100;
+  private Long detectTime = null;
+
   /** Creates a new IntakeIn. */
   public IntakeIn(Intake intake, IntakePosition target, double amps, double speed) {
     this.intake = intake;
-
+    System.out.println("here 1");
     this.target = target;
     this.amps = amps;
     this.speed = speed;
@@ -33,15 +36,19 @@ public class IntakeIn extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    isFinished();
+    //isFinished();
     initTime = System.currentTimeMillis();
     intake.setPivotPosition(target);
-    intake.setPower(speed, speed - 0.2);
+    intake.setPower(speed, speed/2);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    if (intake.hasObject() && detectTime == null) {
+      detectTime = System.currentTimeMillis();
+    }
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -56,7 +63,9 @@ public class IntakeIn extends Command {
   @Override
   public boolean isFinished() {
     long currentTime = System.currentTimeMillis();
-    return (intake.hasObject() || 
-            ((currentTime >= initTime + duration) && (intake.getLeftCurrent() > amps) || (intake.getRightCurrent() > amps)));
+    if(detectTime != null)
+      return ((currentTime >= detectTime + delay));
+    else
+      return false;
   }
 }
