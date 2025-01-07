@@ -65,7 +65,7 @@ public class ArmRealIO implements ArmIO {
 
         for (CANSparkMax motor : this.motors) {
             motor.restoreFactoryDefaults();
-            motor.setIdleMode(CANSparkMax.IdleMode.kCoast);
+            motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
         }
 
         this.elevatorLeader.setSmartCurrentLimit(40);
@@ -111,8 +111,8 @@ public class ArmRealIO implements ArmIO {
         this.elevatorLeader.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, ArmConstants.ELEVATOR_HEIGHT);
         this.elevatorLeader.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
 
-        this.elbowLeader.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, (float)Units.degreesToRadians(135));
-        this.elbowLeader.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, (float)Units.degreesToRadians(225));
+        this.elbowLeader.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, (float)Units.degreesToRadians(100));
+        this.elbowLeader.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, (float)Units.degreesToRadians(270));
         this.elbowLeader.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
         this.elbowLeader.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
 

@@ -5,10 +5,15 @@
 package frc.robot;
 
 import frc.robot.subsystems.Arm.Arm;
+import frc.robot.subsystems.Arm.Arm.ArmPosition;
 import frc.robot.subsystems.DriveTrain.DriveTrain;
 import frc.robot.utilities.SubsystemFactory;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.DriveStationConstants;
 import frc.robot.commands.MoveArm;
@@ -18,6 +23,24 @@ import frc.robot.commands.MoveWristManual;
 import frc.robot.commands.MoveArm.ArmPreset;
 
 public class RobotContainer {
+  public enum ArmPreset {
+        T1(new ArmPosition(12, Units.degreesToRadians(180), Units.degreesToRadians(180))),
+        T2(new ArmPosition(30, Units.degreesToRadians(210), Units.degreesToRadians(150))),
+        L2_LINEUP(new ArmPosition(0, Units.degreesToRadians(227), Units.degreesToRadians(191))),
+        L2_SCORE(new ArmPosition(0, Units.degreesToRadians(219),Units.degreesToRadians(208))),
+        L3_LINEUP(new ArmPosition(18.5, Units.degreesToRadians(229), Units.degreesToRadians(180))),
+        L3_SCORE(new ArmPosition(15.5, Units.degreesToRadians(212), Units.degreesToRadians(200))),
+        L4_LINEUP(new ArmPosition(41, Units.degreesToRadians(243), Units.degreesToRadians(148))),
+        L4_SCORE(new ArmPosition(38, Units.degreesToRadians(239), Units.degreesToRadians(131))),
+        STORAGE(new ArmPosition(0, Units.degreesToRadians(269), Units.degreesToRadians(94))),
+        CORAL_HANDOFF(new ArmPosition(30, Units.degreesToRadians(115), Units.degreesToRadians(222)));
+
+        public final ArmPosition position;
+
+        ArmPreset(ArmPosition position) {
+            this.position = position;
+        }
+    }
 
   // Subsystems
   private DriveTrain driveTrain;
@@ -26,6 +49,18 @@ public class RobotContainer {
   // Commands
   private Command defaultDriveCommand;
 
+  private SequentialCommandGroup T1;
+  private SequentialCommandGroup T2;
+  private SequentialCommandGroup L2_Lineup;
+  private SequentialCommandGroup L2_SCORE;
+  private SequentialCommandGroup L3_LINEUP;
+  private SequentialCommandGroup L3_SCORE;
+  private SequentialCommandGroup L4_LINEUP;
+  private SequentialCommandGroup L4_SCORE;
+  private SequentialCommandGroup storage;
+  private SequentialCommandGroup coralHandoff;
+
+  // Controllers
   private CommandXboxController driverController;
 
   public RobotContainer() {
@@ -55,6 +90,13 @@ public class RobotContainer {
         () -> driverController.getLeftX());
 
     driveTrain.setDefaultCommand(defaultDriveCommand);
+
+    coralHandoff = new SequentialCommandGroup();
+
+    coralHandoff.addCommands(new InstantCommand(() -> arm.setElevatorPos(30), arm));
+    coralHandoff.addCommands(new WaitCommand(5.0));
+    coralHandoff.addCommands(new InstantCommand(() -> arm.setElbowPos(Units.degreesToRadians(115)), arm));
+    coralHandoff.addCommands(new InstantCommand(() -> arm.setWristPos(Units.degreesToRadians(222)), arm));
   }
 
   /**
@@ -66,8 +108,10 @@ public class RobotContainer {
 
     driverController.leftBumper().onTrue(new InstantCommand(() -> arm.setElevatorLimits()));
 
-    driverController.x().onTrue(new MoveArm(ArmPreset.T1, () -> driverController.start().getAsBoolean(), arm));
-    driverController.y().onTrue(new MoveArm(ArmPreset.T2, () -> driverController.start().getAsBoolean(), arm));
+    // driverController.x().onTrue(new MoveArm(ArmPreset.T1, () -> driverController.start().getAsBoolean(), arm));
+    // driverController.y().onTrue(new MoveArm(ArmPreset.T2, () -> driverController.start().getAsBoolean(), arm));
+
+    driverController.rightBumper().onTrue(coralHandoff);
 
 
     // uncomment to use the manual controls

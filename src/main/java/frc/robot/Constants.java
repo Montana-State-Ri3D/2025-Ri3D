@@ -76,6 +76,11 @@ public final class Constants {
     // Sensors
     public static final int LIMIT_SWITCH_ID = 0;
 
+    // Tolerances
+    public static final double WRIST_TOLEERANCE = 0.01;
+    public static final double ELBOW_TOLEERANCE = 0.01;
+    public static final double ELEVATOR_TOLEERANCE = 0.01;
+
     // Offsets
     public static final double ELBOW_OFFSET = 0.15;
     public static final double WRIST_OFFSET = 0.89;
