@@ -13,6 +13,21 @@
       "/FMSInfo": "FMSInfo"
     }
   },
+  "NetworkTables": {
+    "retained": {
+      "SmartDashboard": {
+        "open": true
+      }
+    },
+    "transitory": {
+      "AdvantageKit": {
+        "Arm": {
+          "open": true
+        },
+        "open": true
+      }
+    }
+  },
   "NetworkTables Info": {
     "visible": true
   }

@@ -39,7 +39,8 @@ public final class Constants {
     // the code is not been validated on the hardware
     public static final boolean ALLOW_ROBOT_ENABLE = true;
 
-    public static final boolean TUNING_MODE = false;
+    // enable PID tuning from smart dashboard
+    public static final boolean TUNING_MODE = true;
   }
 
   // Constants for the DriveTrain subsystem
@@ -61,6 +62,54 @@ public final class Constants {
     public static final double TRACK_WIDTH = Units.inchesToMeters(24);
   }
 
+  // Constants for the Arm subsystem
+  public static class ArmConstants {
+    // Motor ID's
+    public static final int ELEVATOR_LEADER_ID = 7;
+    public static final int ELEVATOR_FOLLOWER_ID = 8;
+
+    public static final int ELBOW_LEADER_ID = 9;
+    public static final int ELBOW_FOLLOWER_ID = 10;
+
+    public static final int WRIST_ID = 11;
+
+    // Sensors
+    public static final int LIMIT_SWITCH_ID = 0;
+
+    // Tolerances
+    public static final double WRIST_TOLEERANCE = 0.01;
+    public static final double ELBOW_TOLEERANCE = 0.01;
+    public static final double ELEVATOR_TOLEERANCE = 0.01;
+
+    // Offsets
+    public static final double ELBOW_OFFSET = 0.15;
+    public static final double WRIST_OFFSET = 0.89;
+
+    // PID values
+    public static final double ELEVATOR_kP = 0.05;
+    public static final double ELEVATOR_kI = 0.0;
+    public static final double ELEVATOR_kD = 1.0;
+
+    public static final double ELBOW_kP = 0.7;
+    public static final double ELBOW_kI = 0.0;
+    public static final double ELBOW_kD = 0.0;
+
+    public static final double WRIST_kP = 0.5;
+    public static final double WRIST_kI = 0.0005;
+    public static final double WRIST_kD = 1.0;
+
+    public static final float ELEVATOR_HEIGHT = 47;
+
+    // Gearbox Ratios
+    public static final double ELEVATOR_RATIO = (1.0/20.0);
+    public static final double ELBOW_RATIO = 0.0;
+    public static final double WRIST_RATIO = 0.0;
+
+    // Diameters
+    public static final double ELEVATOR_SPROCKET_RADIUS = 1.79 / 2.0;
+  }
+
+  // Constants for the Intake subsystem
   public static class IntakeConstants{
     public static final int LEFT_INTAKE_ID = 13;
     public static final int RIGHT_INTAKE_ID = 14;
@@ -76,5 +125,6 @@ public final class Constants {
     public static final double PIVOT_kP = 0.45;
     public static final double PIVOT_kI = 0.0;
     public static final double PIVOT_kD = 0.0;
+
   }
 }

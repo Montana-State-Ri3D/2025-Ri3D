@@ -12,6 +12,11 @@ import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Intake.IntakeRealIO;
 import frc.robot.subsystems.Intake.IntakeSimIO;
 
+import frc.robot.Constants.ArmConstants;
+import frc.robot.subsystems.Arm.Arm;
+import frc.robot.subsystems.Arm.ArmRealIO;
+import frc.robot.subsystems.Arm.ArmSimIO;
+
 public class SubsystemFactory {
     boolean isReal = false;
 
@@ -31,6 +36,23 @@ public class SubsystemFactory {
                             ));
         } else {
             return new DriveTrain(new DriveTrainSimIO());
+        }
+    }
+
+    public Arm createArm() {
+        if (isReal) {
+            return new Arm(
+                new ArmRealIO(
+                    ArmConstants.ELEVATOR_LEADER_ID,
+                    ArmConstants.ELEVATOR_FOLLOWER_ID,
+                    ArmConstants.ELBOW_LEADER_ID,
+                    ArmConstants.ELBOW_FOLLOWER_ID,
+                    ArmConstants.WRIST_ID,
+                    ArmConstants.LIMIT_SWITCH_ID
+                )
+            );
+        } else {
+            return new Arm(new ArmSimIO());
         }
     }
 
