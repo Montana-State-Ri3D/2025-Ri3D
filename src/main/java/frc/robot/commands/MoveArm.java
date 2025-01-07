@@ -9,8 +9,8 @@ import frc.robot.subsystems.Arm.Arm.ArmPosition;
 
 public class MoveArm extends Command {
     public enum ArmPreset {
-        L1(new ArmPosition(0, Units.degreesToRadians(150), Units.degreesToRadians(210))),
-        L2(new ArmPosition(0, Units.degreesToRadians(210), Units.degreesToRadians(150))),
+        L1(new ArmPosition(12, Units.degreesToRadians(180), Units.degreesToRadians(180))),
+        L2(new ArmPosition(30, Units.degreesToRadians(210), Units.degreesToRadians(150))),
         L3(new ArmPosition(0, 0, 0)),
         L4(new ArmPosition(0, 0, 0)),
         ALGAE(new ArmPosition(0, 0, 0)),
