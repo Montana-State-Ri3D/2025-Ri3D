@@ -66,8 +66,8 @@ public class RobotContainer {
 
     driverController.leftBumper().onTrue(new InstantCommand(() -> arm.setElevatorLimits()));
 
-    //driverController.x().onTrue(new MoveArm(ArmPreset.L1, () -> driverController.start().getAsBoolean(), arm));
-    //driverController.y().onTrue(new MoveArm(ArmPreset.L2, () -> driverController.start().getAsBoolean(), arm));
+    driverController.x().onTrue(new MoveArm(ArmPreset.T1, () -> driverController.start().getAsBoolean(), arm));
+    driverController.y().onTrue(new MoveArm(ArmPreset.T2, () -> driverController.start().getAsBoolean(), arm));
 
 
     // uncomment to use the manual controls

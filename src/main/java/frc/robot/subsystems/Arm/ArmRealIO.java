@@ -65,7 +65,7 @@ public class ArmRealIO implements ArmIO {
 
         for (CANSparkMax motor : this.motors) {
             motor.restoreFactoryDefaults();
-            motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+            motor.setIdleMode(CANSparkMax.IdleMode.kCoast);
         }
 
         this.elevatorLeader.setSmartCurrentLimit(40);
@@ -165,7 +165,7 @@ public class ArmRealIO implements ArmIO {
         elbowPIDController.setD(elbowPidValues.kD);
 
         elbowPIDController.setFeedbackDevice(elbowEncoder);
-        elbowPIDController.setOutputRange(-0.30, 0.30);
+        elbowPIDController.setOutputRange(-0.25, 0.25);
 
         // wrist PID
         wristTunablePid = new TunablePidValues(

@@ -9,12 +9,16 @@ import frc.robot.subsystems.Arm.Arm.ArmPosition;
 
 public class MoveArm extends Command {
     public enum ArmPreset {
-        L1(new ArmPosition(12, Units.degreesToRadians(180), Units.degreesToRadians(180))),
-        L2(new ArmPosition(30, Units.degreesToRadians(210), Units.degreesToRadians(150))),
-        L3(new ArmPosition(0, 0, 0)),
-        L4(new ArmPosition(0, 0, 0)),
-        ALGAE(new ArmPosition(0, 0, 0)),
-        CORAL(new ArmPosition(0, 0, 0));
+        T1(new ArmPosition(12, Units.degreesToRadians(180), Units.degreesToRadians(180))),
+        T2(new ArmPosition(30, Units.degreesToRadians(210), Units.degreesToRadians(150))),
+        L2_LINEUP(new ArmPosition(0, Units.degreesToRadians(227), Units.degreesToRadians(191))),
+        L2_SCORE(new ArmPosition(0, Units.degreesToRadians(219),Units.degreesToRadians(208))),
+        L3_LINEUP(new ArmPosition(18.5, Units.degreesToRadians(229), Units.degreesToRadians(180))),
+        L3_SCORE(new ArmPosition(15.5, Units.degreesToRadians(212), Units.degreesToRadians(200))),
+        L4_LINEUP(new ArmPosition(41, Units.degreesToRadians(243), Units.degreesToRadians(148))),
+        L4_SCORE(new ArmPosition(38, Units.degreesToRadians(239), Units.degreesToRadians(131))),
+        STORAGE(new ArmPosition(0, Units.degreesToRadians(269), Units.degreesToRadians(94))),
+        CORAL_HANDOFF(new ArmPosition(30, Units.degreesToRadians(115), Units.degreesToRadians(222)));
 
         public final ArmPosition position;
 
