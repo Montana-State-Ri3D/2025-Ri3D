@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.subsystems.Arm.Arm;
 import frc.robot.subsystems.Arm.Arm.ArmPosition;
 import frc.robot.subsystems.DriveTrain.DriveTrain;
+import frc.robot.subsystems.Intake.Intake;
 import frc.robot.utilities.SubsystemFactory;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -16,6 +17,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.DriveStationConstants;
+import frc.robot.commands.IntakeIn;
+import frc.robot.commands.IntakeOut;
+import frc.robot.commands.MoveIntake;
 import frc.robot.commands.MoveArm;
 import frc.robot.commands.MoveElbowManual;
 import frc.robot.commands.MoveElevatorManual;
@@ -44,6 +48,7 @@ public class RobotContainer {
 
   // Subsystems
   private DriveTrain driveTrain;
+  private Intake intake;
   private Arm arm;
 
   // Commands
@@ -78,6 +83,7 @@ public class RobotContainer {
 
     SubsystemFactory factory = new SubsystemFactory();
     this.driveTrain = factory.createDriveTrain();
+    this.intake = factory.createIntake();
     this.arm = factory.createArm();
   }
 
@@ -105,6 +111,16 @@ public class RobotContainer {
   private void configureBindings() {
     driverController.start().onTrue(new InstantCommand(() -> driveTrain.resetGyro()));
     driverController.back().onTrue(new InstantCommand(() -> driveTrain.resetPose()));
+    //driverController.rightBumper().onTrue(new IntakeIn(intake, Intake.IntakePosition.ALGAE, 0.2, 0.5));
+    driverController.rightBumper().onTrue(new IntakeIn(intake, Intake.IntakePosition.CORAL, 100, 0.8));
+    //driverController.b().whileTrue(new IntakeOut(intake));
+
+
+    //driverController.a().onTrue(new MoveIntake(intake, () -> driverController.getRightY(), () -> driverController.a().getAsBoolean()));
+
+    driverController.x().onTrue(new InstantCommand(() -> intake.setPivotPosition(Intake.IntakePosition.CORAL)));
+    driverController.y().onTrue(new InstantCommand(() -> intake.setPivotPosition(Intake.IntakePosition.HANDOFF)));
+    driverController.b().onTrue(new InstantCommand(() -> intake.setPivotPosition(Intake.IntakePosition.IDLE)));
 
     driverController.leftBumper().onTrue(new InstantCommand(() -> arm.setElevatorLimits()));
 

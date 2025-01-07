@@ -108,4 +108,23 @@ public final class Constants {
     // Diameters
     public static final double ELEVATOR_SPROCKET_RADIUS = 1.79 / 2.0;
   }
+
+  // Constants for the Intake subsystem
+  public static class IntakeConstants{
+    public static final int LEFT_INTAKE_ID = 13;
+    public static final int RIGHT_INTAKE_ID = 14;
+    public static final int PIVOT_ID = 15;
+
+    public static final int PIVOT_CANCODER_ID = 16;
+
+    public static final int INTAKE_BREAK_DIO = 7;
+
+    public static final double INTAKE_RATIO = (1.0/48.0) * (60.0/64.0);
+    public static final double INTAKE_WHEEL_RADIUS = Units.inchesToMeters(3);
+
+    public static final double PIVOT_kP = 0.45;
+    public static final double PIVOT_kI = 0.0;
+    public static final double PIVOT_kD = 0.0;
+
+  }
 }
