@@ -76,18 +76,22 @@ public final class Constants {
     // Sensors
     public static final int LIMIT_SWITCH_ID = 0;
 
-    // PID values
-    public static final double ELEVATOR_kP = 0.07;
-    public static final double ELEVATOR_kI = 0.0;
-    public static final double ELEVATOR_kD = 0.0;
+    // Offsets
+    public static final double ELBOW_OFFSET = 0.15;
+    public static final double WRIST_OFFSET = 0.89;
 
-    public static final double ELBOW_kP = 0.0;
+    // PID values
+    public static final double ELEVATOR_kP = 0.05;
+    public static final double ELEVATOR_kI = 0.0;
+    public static final double ELEVATOR_kD = 1.0;
+
+    public static final double ELBOW_kP = 0.7;
     public static final double ELBOW_kI = 0.0;
     public static final double ELBOW_kD = 0.0;
 
-    public static final double WRIST_kP = 0.0;
-    public static final double WRIST_kI = 0.0;
-    public static final double WRIST_kD = 0.0;
+    public static final double WRIST_kP = 0.5;
+    public static final double WRIST_kI = 0.0005;
+    public static final double WRIST_kD = 1.0;
 
     public static final float ELEVATOR_HEIGHT = 47;
 

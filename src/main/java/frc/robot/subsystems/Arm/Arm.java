@@ -33,9 +33,9 @@ public class Arm extends SubsystemBase{
     }
 
     public void setArmPosition(ArmPosition position) {
-        setElevatorPos(position.elevatorPosition);
+        // setElevatorPos(position.elevatorPosition);
         setElbowPos(position.elbowPosition);
-        setWristPos(position.wristPosition);
+        // setWristPos(position.wristPosition);
     }
 
     public ArmPosition getPosition() {

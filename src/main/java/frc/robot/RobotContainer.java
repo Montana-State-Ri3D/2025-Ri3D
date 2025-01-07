@@ -64,24 +64,29 @@ public class RobotContainer {
     driverController.start().onTrue(new InstantCommand(() -> driveTrain.resetGyro()));
     driverController.back().onTrue(new InstantCommand(() -> driveTrain.resetPose()));
 
+    driverController.leftBumper().onTrue(new InstantCommand(() -> arm.setElevatorLimits()));
+
+    driverController.x().onTrue(new MoveArm(ArmPreset.L1, () -> driverController.start().getAsBoolean(), arm));
+    driverController.y().onTrue(new MoveArm(ArmPreset.L2, () -> driverController.start().getAsBoolean(), arm));
+
 
     // uncomment to use the manual controls
 
-    driverController.a().onTrue(
-      new MoveElevatorManual(
-        arm,
-        () -> driverController.a().getAsBoolean(),
-        () -> driverController.getRightY()
-      )
-    );
-
     // driverController.a().onTrue(
-    //   new MoveElbowManual(
+    //   new MoveElevatorManual(
     //     arm,
     //     () -> driverController.a().getAsBoolean(),
     //     () -> driverController.getRightY()
     //   )
     // );
+
+    driverController.a().onTrue(
+      new MoveElbowManual(
+        arm,
+        () -> driverController.a().getAsBoolean(),
+        () -> driverController.getRightY()
+      )
+    );
 
     // driverController.a().onTrue(
     //   new MoveWristManual(

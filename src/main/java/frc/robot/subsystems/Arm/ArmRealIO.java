@@ -3,6 +3,7 @@ package frc.robot.subsystems.Arm;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 
 import com.revrobotics.CANSparkMax;
@@ -64,18 +65,18 @@ public class ArmRealIO implements ArmIO {
 
         for (CANSparkMax motor : this.motors) {
             motor.restoreFactoryDefaults();
-            motor.setIdleMode(CANSparkMax.IdleMode.kCoast);
+            motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
         }
 
-        this.elevatorLeader.setSmartCurrentLimit(80);
-        this.elevatorFollower.setSmartCurrentLimit(80);
+        this.elevatorLeader.setSmartCurrentLimit(40);
+        this.elevatorFollower.setSmartCurrentLimit(40);
 
         this.elevatorLeader.setInverted(false);
-        this.elbowFollower.setInverted(false);
-        this.wrist.setInverted(false);
+        this.elbowLeader.setInverted(true);
+        this.wrist.setInverted(true);
 
         this.elevatorFollower.follow(this.elevatorLeader, true);
-        this.elbowFollower.follow(this.elbowLeader, false);
+        this.elbowFollower.follow(this.elbowLeader, true);
 
         // encoder init
         this.elevatorLeaderEncoder = this.elevatorLeader.getEncoder();
@@ -87,12 +88,17 @@ public class ArmRealIO implements ArmIO {
         this.elbowFollowerEncoder = this.elbowFollower.getEncoder();
         this.wristEncoder = this.wrist.getAbsoluteEncoder(Type.kDutyCycle);
 
+        this.elbowEncoder.setInverted(true);
+
         // 4.0 instead of 2.0 to account for cascade rigging of elevator
-        elevatorLeaderEncoder.setPositionConversionFactor(ArmConstants.ELEVATOR_SPROCKET_RADIUS * 4.0 * Math.PI * ArmConstants.ELEVATOR_RATIO );
+        elevatorLeaderEncoder.setPositionConversionFactor(ArmConstants.ELEVATOR_SPROCKET_RADIUS * 4.0 * Math.PI * ArmConstants.ELEVATOR_RATIO);
         elevatorFollowerEncoder.setPositionConversionFactor(ArmConstants.ELEVATOR_SPROCKET_RADIUS * 4.0 * Math.PI * ArmConstants.ELEVATOR_RATIO);
         
         elevatorLeaderEncoder.setVelocityConversionFactor(ArmConstants.ELEVATOR_SPROCKET_RADIUS * 4.0 * Math.PI * ArmConstants.ELEVATOR_RATIO / 60.0);
         elevatorFollowerEncoder.setVelocityConversionFactor(ArmConstants.ELEVATOR_SPROCKET_RADIUS * 4.0 * Math.PI * ArmConstants.ELEVATOR_RATIO / 60.0);
+
+        wristEncoder.setZeroOffset(ArmConstants.WRIST_OFFSET);
+        elbowEncoder.setZeroOffset(ArmConstants.ELBOW_OFFSET);
 
         elbowEncoder.setPositionConversionFactor(Math.PI*2);
         elbowEncoder.setVelocityConversionFactor(Math.PI*2/60);
@@ -102,8 +108,18 @@ public class ArmRealIO implements ArmIO {
         // this.elevatorLeader.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, 0);
         // this.elevatorLeader.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
 
-        this.elevatorLeader.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, ArmConstants.ELEVATOR_HEIGHT);
-        this.elevatorLeader.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
+        this.elevatorLeader.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, ArmConstants.ELEVATOR_HEIGHT);
+        this.elevatorLeader.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
+
+        this.elbowLeader.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, (float)Units.degreesToRadians(135));
+        this.elbowLeader.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, (float)Units.degreesToRadians(225));
+        this.elbowLeader.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
+        this.elbowLeader.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
+
+        this.wrist.setSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, (float)Units.degreesToRadians(90));
+        this.wrist.setSoftLimit(CANSparkMax.SoftLimitDirection.kForward, (float)Units.degreesToRadians(270));
+        this.wrist.enableSoftLimit(CANSparkMax.SoftLimitDirection.kReverse, true);
+        this.wrist.enableSoftLimit(CANSparkMax.SoftLimitDirection.kForward, true);
 
         this.encoders = new RelativeEncoder[2];
         this.encoders[0] = this.elevatorLeaderEncoder;
@@ -149,7 +165,7 @@ public class ArmRealIO implements ArmIO {
         elbowPIDController.setD(elbowPidValues.kD);
 
         elbowPIDController.setFeedbackDevice(elbowEncoder);
-        elbowPIDController.setOutputRange(-1.00, 1.00);
+        elbowPIDController.setOutputRange(-0.30, 0.30);
 
         // wrist PID
         wristTunablePid = new TunablePidValues(
@@ -261,7 +277,8 @@ public class ArmRealIO implements ArmIO {
         inputs.elbowPosition = this.elbowEncoder.getPosition();
         inputs.elbowLeaderPosition = this.elbowLeaderEncoder.getPosition();
         inputs.elbowFollowerPosition = this.elbowFollowerEncoder.getPosition();
-        inputs.wristPosition = (Math.abs(this.elbowEncoder.getPosition()-(Math.PI/2.0))) + this.wristEncoder.getPosition() - Math.PI;
+        // inputs.wristPosition = (Math.abs(this.elbowEncoder.getPosition()-(Math.PI/2.0))) + this.wristEncoder.getPosition() - Math.PI;
+        inputs.wristPosition = this.wristEncoder.getPosition();
 
         inputs.elevatorTargetPosition = elevatorTargetPosition;
         inputs.elbowTargetPosition = elbowTargetPosition;

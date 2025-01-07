@@ -2,14 +2,15 @@ package frc.robot.commands;
 
 import java.util.function.BooleanSupplier;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Arm.Arm;
 import frc.robot.subsystems.Arm.Arm.ArmPosition;
 
 public class MoveArm extends Command {
     public enum ArmPreset {
-        L1(new ArmPosition(0.1, 0, 0)),
-        L2(new ArmPosition(1.9, 0, 0)),
+        L1(new ArmPosition(0, Units.degreesToRadians(150), Units.degreesToRadians(210))),
+        L2(new ArmPosition(0, Units.degreesToRadians(210), Units.degreesToRadians(150))),
         L3(new ArmPosition(0, 0, 0)),
         L4(new ArmPosition(0, 0, 0)),
         ALGAE(new ArmPosition(0, 0, 0)),

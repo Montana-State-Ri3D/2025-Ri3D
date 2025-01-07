@@ -20,7 +20,7 @@ public class MoveElevatorManual extends Command {
 
     @Override
     public void execute() {
-        double power = - 0.2 * input.getAsDouble();
+        double power = -0.2 * input.getAsDouble();
         arm.setElevatorPower(power);
     }
 
