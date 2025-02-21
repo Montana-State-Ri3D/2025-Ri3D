@@ -28,7 +28,7 @@ public class GrabCoral extends Command {
   @Override
   public void initialize() {
     initTime = System.currentTimeMillis();
-    endEffector.setPower(.9);
+    endEffector.setPower(1.0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -49,5 +49,6 @@ public class GrabCoral extends Command {
     // System.out.println("Current threshold true: " + endEffector.currentSpike());
 
     return (currentTime > initTime + duration) && endEffector.currentSpike();
+    
   }
 }

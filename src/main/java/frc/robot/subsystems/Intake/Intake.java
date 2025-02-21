@@ -13,7 +13,7 @@ public class Intake extends SubsystemBase{
     public enum IntakePosition {
         CORAL(Units.degreesToRadians(-107.0)),
         ALGAE(Units.degreesToRadians(-100.0)),
-        HANDOFF(Units.degreesToRadians(-28.0)),
+        HANDOFF(Units.degreesToRadians(-2.0)),
         PROCESSOR(0.0),
         IDLE(Units.degreesToRadians(-5.0));
         
@@ -55,6 +55,10 @@ public class Intake extends SubsystemBase{
     public void setPivotPosition(IntakePosition position) {
         this.position = position;
         io.setAngle(position.getPosition());
+    }
+
+    public void setPivotAngle(double angle) {
+        io.setAngle(angle);
     }
 
     public void stop() {

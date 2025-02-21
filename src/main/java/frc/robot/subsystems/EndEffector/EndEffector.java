@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 
 public class EndEffector extends SubsystemBase {
-    private final int CURRENT_SPIKE_THRESHOLD = 15;
+    private final int CURRENT_SPIKE_THRESHOLD = 25;
 
     private final EndEffectorIO io;
     private final EndEffectorIOInputsAutoLogged inputs = new EndEffectorIOInputsAutoLogged();

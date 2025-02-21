@@ -38,6 +38,7 @@ public class IntakeIn extends Command {
     //isFinished();
     initTime = System.currentTimeMillis();
     detectTime = null;
+    intake.ejectObject();
     intake.setPivotPosition(target);
     intake.setPower(speed, speed/2);
   }
@@ -53,6 +54,9 @@ public class IntakeIn extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    if(target == IntakePosition.ALGAE) {
+      
+    }
     intake.stop();
   }
 

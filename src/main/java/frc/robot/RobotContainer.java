@@ -9,6 +9,7 @@ import frc.robot.subsystems.Arm.Arm.ArmPosition;
 import frc.robot.subsystems.DriveTrain.DriveTrain;
 import frc.robot.subsystems.EndEffector.EndEffector;
 import frc.robot.subsystems.Intake.Intake;
+import frc.robot.subsystems.Intake.Intake.IntakePosition;
 import frc.robot.utilities.SubsystemFactory;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -38,7 +39,7 @@ public class RobotContainer {
         L3_SCORE(new ArmPosition(15.5, Units.degreesToRadians(212), Units.degreesToRadians(200))),
         L4_LINEUP(new ArmPosition(41, Units.degreesToRadians(243), Units.degreesToRadians(148))),
         L4_SCORE(new ArmPosition(38, Units.degreesToRadians(239), Units.degreesToRadians(131))),
-        STORAGE(new ArmPosition(0, Units.degreesToRadians(269), Units.degreesToRadians(94))),
+        STORAGE(new ArmPosition(0, Units.degreesToRadians(263), Units.degreesToRadians(94))),
         CORAL_HANDOFF(new ArmPosition(30, Units.degreesToRadians(115), Units.degreesToRadians(222)));
 
         public final ArmPosition position;
@@ -57,6 +58,7 @@ public class RobotContainer {
   // Commands
   private Command defaultDriveCommand;
   private Command grabCoral;
+  private Command intakeIn;
 
   private SequentialCommandGroup T1;
   private SequentialCommandGroup T2;
@@ -64,10 +66,12 @@ public class RobotContainer {
   private SequentialCommandGroup L2_SCORE;
   private SequentialCommandGroup L3_LINEUP;
   private SequentialCommandGroup L3_SCORE;
-  private SequentialCommandGroup L4_LINEUP;
-  private SequentialCommandGroup L4_SCORE;
+  private SequentialCommandGroup L4_Lineup;
+  private SequentialCommandGroup L4_Score;
   private SequentialCommandGroup storage;
   private SequentialCommandGroup coralHandoff;
+
+  private SequentialCommandGroup reset;
 
   // Controllers
   private CommandXboxController driverController;
@@ -103,12 +107,52 @@ public class RobotContainer {
     driveTrain.setDefaultCommand(defaultDriveCommand);
 
     grabCoral = new GrabCoral(endEffector);
+
+
     coralHandoff = new SequentialCommandGroup();
 
-    coralHandoff.addCommands(new InstantCommand(() -> arm.setElevatorPos(30), arm));
-    coralHandoff.addCommands(new WaitCommand(5.0));
+    coralHandoff.addCommands(new InstantCommand(() -> intake.setPivotPosition(IntakePosition.CORAL), intake));
+    coralHandoff.addCommands(new InstantCommand(() -> arm.setElbowPos(Units.degreesToRadians(263)), arm));
+    coralHandoff.addCommands(new WaitCommand(1.0));
+    coralHandoff.addCommands(new InstantCommand(() -> arm.setElevatorPos(32), arm));
+    coralHandoff.addCommands(new WaitCommand(3.0));
     coralHandoff.addCommands(new InstantCommand(() -> arm.setElbowPos(Units.degreesToRadians(115)), arm));
     coralHandoff.addCommands(new InstantCommand(() -> arm.setWristPos(Units.degreesToRadians(222)), arm));
+    coralHandoff.addCommands(new WaitCommand(3.0));
+    coralHandoff.addCommands(new IntakeIn(intake, IntakePosition.CORAL, 100, 0.8));
+    coralHandoff.addCommands(new InstantCommand(() -> intake.setPivotPosition(Intake.IntakePosition.HANDOFF), intake));
+    coralHandoff.addCommands(new GrabCoral(endEffector));
+    coralHandoff.addCommands(new WaitCommand(0.5));
+    coralHandoff.addCommands(new InstantCommand(() -> intake.setPivotPosition(Intake.IntakePosition.CORAL), intake));
+
+
+    reset = new SequentialCommandGroup();
+    
+    reset.addCommands(new InstantCommand(() -> intake.setPivotPosition(Intake.IntakePosition.CORAL), intake));
+    reset.addCommands(new WaitCommand(1.0));
+    reset.addCommands(new InstantCommand(() -> arm.setElbowPos(Units.degreesToRadians(263)), arm));
+    reset.addCommands(new WaitCommand(2.0));
+    reset.addCommands(new InstantCommand(() -> arm.setWristPos(Units.degreesToRadians(94)), arm));
+    reset.addCommands(new WaitCommand(3.0));
+    reset.addCommands(new InstantCommand(() -> arm.setElevatorPos(.5), arm));
+    reset.addCommands(new WaitCommand(2.0));
+    reset.addCommands(new InstantCommand(() -> intake.setPivotPosition(Intake.IntakePosition.IDLE), intake));
+
+
+    L4_Lineup = new SequentialCommandGroup();
+
+    L4_Lineup.addCommands(new InstantCommand(() -> arm.setElevatorPos(44), arm));
+    L4_Lineup.addCommands(new WaitCommand(3.0));
+    L4_Lineup.addCommands(new InstantCommand(() -> arm.setElbowPos(Units.degreesToRadians(243)), arm));
+    L4_Lineup.addCommands(new WaitCommand(2.0));
+    L4_Lineup.addCommands(new InstantCommand(() -> arm.setWristPos(Units.degreesToRadians(148)), arm));
+    
+    
+    L4_Score = new SequentialCommandGroup();
+
+    L4_Score.addCommands(new InstantCommand(() -> arm.setElevatorPos(38), arm));
+    L4_Lineup.addCommands(new InstantCommand(() -> arm.setWristPos(Units.degreesToRadians(141)), arm));
+    
   }
 
   /**
@@ -120,22 +164,36 @@ public class RobotContainer {
 
     driverController.x().onTrue(grabCoral);
     //driverController.rightBumper().onTrue(new IntakeIn(intake, Intake.IntakePosition.ALGAE, 0.2, 0.5));
-    driverController.rightBumper().onTrue(new IntakeIn(intake, Intake.IntakePosition.CORAL, 100, 0.8));
+    // driverController.rightBumper().onTrue(new IntakeIn(intake, Intake.IntakePosition.CORAL, 100, 0.8));
     //driverController.b().whileTrue(new IntakeOut(intake));
 
 
     //driverController.a().onTrue(new MoveIntake(intake, () -> driverController.getRightY(), () -> driverController.a().getAsBoolean()));
 
-    driverController.x().onTrue(new InstantCommand(() -> intake.setPivotPosition(Intake.IntakePosition.CORAL)));
-    driverController.y().onTrue(new InstantCommand(() -> intake.setPivotPosition(Intake.IntakePosition.HANDOFF)));
-    driverController.b().onTrue(new InstantCommand(() -> intake.setPivotPosition(Intake.IntakePosition.IDLE)));
+    // driverController.x().onTrue(new InstantCommand(() -> intake.setPivotPosition(Intake.IntakePosition.CORAL)));
+    // driverController.y().onTrue(new InstantCommand(() -> intake.setPivotPosition(Intake.IntakePosition.HANDOFF)));
+    // driverController.b().onTrue(new InstantCommand(() -> intake.setPivotPosition(Intake.IntakePosition.IDLE)));
 
-    driverController.leftBumper().onTrue(new InstantCommand(() -> arm.setElevatorLimits()));
+    // driverController.leftBumper().onTrue(new InstantCommand(() -> arm.setElevatorLimits()));
 
     // driverController.x().onTrue(new MoveArm(ArmPreset.T1, () -> driverController.start().getAsBoolean(), arm));
     // driverController.y().onTrue(new MoveArm(ArmPreset.T2, () -> driverController.start().getAsBoolean(), arm));
 
+    driverController.a().onTrue(new IntakeIn(intake, IntakePosition.ALGAE, 100, 0.8));
+    driverController.y().whileTrue(new IntakeOut(intake));
+
+    driverController.leftBumper().onTrue(reset);
     driverController.rightBumper().onTrue(coralHandoff);
+
+    driverController.povUp().onTrue(L4_Lineup);
+    driverController.povDown().onTrue(L4_Score);
+
+    driverController.b().onTrue(
+      new SequentialCommandGroup(
+        new InstantCommand(() -> endEffector.setPower(-.5), endEffector),
+        new WaitCommand(0.25),
+        new InstantCommand(() -> endEffector.setPower(0), endEffector)
+      ));
 
 
     // uncomment to use the manual controls
@@ -148,13 +206,13 @@ public class RobotContainer {
     //   )
     // );
 
-    driverController.a().onTrue(
-      new MoveElbowManual(
-        arm,
-        () -> driverController.a().getAsBoolean(),
-        () -> driverController.getRightY()
-      )
-    );
+    // driverController.a().onTrue(
+    //   new MoveElbowManual(
+    //     arm,
+    //     () -> driverController.a().getAsBoolean(),
+    //     () -> driverController.getRightY()
+    //   )
+    // );
 
     // driverController.a().onTrue(
     //   new MoveWristManual(
