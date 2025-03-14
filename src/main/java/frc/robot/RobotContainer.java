@@ -123,6 +123,10 @@ public class RobotContainer {
     coralHandoff.addCommands(new InstantCommand(() -> intake.setPivotPosition(Intake.IntakePosition.HANDOFF), intake));
     coralHandoff.addCommands(new GrabCoral(endEffector));
     coralHandoff.addCommands(new WaitCommand(0.5));
+    coralHandoff.addCommands(new InstantCommand(() -> intake.setPower(-0.5, -0.5)));
+    coralHandoff.addCommands(new InstantCommand(() -> arm.setElevatorPos(38), arm));
+    coralHandoff.addCommands(new WaitCommand(1.0));
+    coralHandoff.addCommands(new InstantCommand(() -> intake.setPower(0, 0)));
     coralHandoff.addCommands(new InstantCommand(() -> intake.setPivotPosition(Intake.IntakePosition.CORAL), intake));
 
 
