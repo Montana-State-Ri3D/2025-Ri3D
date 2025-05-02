@@ -11,6 +11,9 @@ import frc.robot.subsystems.EndEffector.EndEffector;
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Intake.Intake.IntakePosition;
 import frc.robot.utilities.SubsystemFactory;
+
+import javax.print.attribute.standard.OrientationRequested;
+
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -63,9 +66,9 @@ public class RobotContainer {
   private SequentialCommandGroup T1;
   private SequentialCommandGroup T2;
   private SequentialCommandGroup L2_Lineup;
-  private SequentialCommandGroup L2_SCORE;
-  private SequentialCommandGroup L3_LINEUP;
-  private SequentialCommandGroup L3_SCORE;
+  private SequentialCommandGroup L2_Score;
+  private SequentialCommandGroup L3_Lineup;
+  private SequentialCommandGroup L3_Score;
   private SequentialCommandGroup L4_Lineup;
   private SequentialCommandGroup L4_Score;
   private SequentialCommandGroup storage;
@@ -143,6 +146,38 @@ public class RobotContainer {
     reset.addCommands(new InstantCommand(() -> intake.setPivotPosition(Intake.IntakePosition.IDLE), intake));
 
 
+    // L2
+    L2_Lineup = new SequentialCommandGroup();
+
+    L2_Lineup.addCommands(new InstantCommand(() -> arm.setElbowPos(Units.degreesToRadians(230)), arm));
+    L2_Lineup.addCommands(new WaitCommand(2.0));
+    L2_Lineup.addCommands(new InstantCommand(() -> arm.setWristPos(Units.degreesToRadians(191)), arm));
+    L2_Lineup.addCommands(new WaitCommand(3.0));
+    L2_Lineup.addCommands(new InstantCommand(() -> arm.setElevatorPos(0), arm));
+    
+    
+    L2_Score = new SequentialCommandGroup();
+
+    L2_Score.addCommands(new InstantCommand(() -> arm.setElbowPos(Units.degreesToRadians(219)), arm));
+    L2_Score.addCommands(new InstantCommand(() -> arm.setWristPos(Units.degreesToRadians(208)), arm));
+    
+    // L3
+    L3_Lineup = new SequentialCommandGroup();
+
+    L3_Lineup.addCommands(new InstantCommand(() -> arm.setElevatorPos(18.5), arm));
+    L3_Lineup.addCommands(new WaitCommand(3.0));
+    L3_Lineup.addCommands(new InstantCommand(() -> arm.setElbowPos(Units.degreesToRadians(229)), arm));
+    L3_Lineup.addCommands(new WaitCommand(2.0));
+    L3_Lineup.addCommands(new InstantCommand(() -> arm.setWristPos(Units.degreesToRadians(200)), arm));
+    
+    
+    L3_Score = new SequentialCommandGroup();
+
+    L3_Score.addCommands(new InstantCommand(() -> arm.setElevatorPos(15.5), arm));
+    L3_Score.addCommands(new InstantCommand(() -> arm.setElbowPos(Units.degreesToRadians(214)), arm));
+    L3_Score.addCommands(new InstantCommand(() -> arm.setWristPos(Units.degreesToRadians(200)), arm));
+
+    // L4
     L4_Lineup = new SequentialCommandGroup();
 
     L4_Lineup.addCommands(new InstantCommand(() -> arm.setElevatorPos(44), arm));
@@ -155,7 +190,15 @@ public class RobotContainer {
     L4_Score = new SequentialCommandGroup();
 
     L4_Score.addCommands(new InstantCommand(() -> arm.setElevatorPos(38), arm));
-    L4_Lineup.addCommands(new InstantCommand(() -> arm.setWristPos(Units.degreesToRadians(141)), arm));
+    L4_Score.addCommands(new InstantCommand(() -> arm.setWristPos(Units.degreesToRadians(141)), arm));
+
+
+    T2 = new SequentialCommandGroup();
+
+    T2.addCommands(new InstantCommand(() -> arm.setElevatorPos(30), arm));
+    T2.addCommands(new WaitCommand(2.0));
+    T2.addCommands(new InstantCommand(() -> arm.setElbowPos(Units.degreesToRadians(210)), arm));
+    T2.addCommands(new InstantCommand(() -> arm.setWristPos(Units.degreesToRadians(150)), arm));
     
   }
 
@@ -189,8 +232,14 @@ public class RobotContainer {
     driverController.leftBumper().onTrue(reset);
     driverController.rightBumper().onTrue(coralHandoff);
 
-    driverController.povUp().onTrue(L4_Lineup);
-    driverController.povDown().onTrue(L4_Score);
+    // driverController.povUp().onTrue(L4_Lineup);
+    // driverController.povDown().onTrue(L4_Score);
+
+    driverController.povUp().onTrue(L2_Lineup);
+    driverController.povDown().onTrue(L2_Score);
+
+    driverController.povLeft().onTrue(L3_Lineup);
+    driverController.povRight().onTrue(L3_Score);
 
     driverController.b().onTrue(
       new SequentialCommandGroup(
