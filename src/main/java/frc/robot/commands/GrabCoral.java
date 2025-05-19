@@ -18,7 +18,7 @@ public class GrabCoral extends Command {
     this.endEffector = endEffector;
 
     initTime = -1;
-    duration = 500;
+    duration = 750;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(endEffector);
@@ -48,7 +48,7 @@ public class GrabCoral extends Command {
     // System.out.println("Time threshold true: " + (initTime > currentTime + duration));
     // System.out.println("Current threshold true: " + endEffector.currentSpike());
 
-    return (currentTime > initTime + duration) && endEffector.currentSpike();
+    return (currentTime > initTime + duration) /*&& endEffector.currentSpike()*/;
     
   }
 }

@@ -164,7 +164,7 @@ public class RobotContainer {
     // L3
     L3_Lineup = new SequentialCommandGroup();
 
-    L3_Lineup.addCommands(new InstantCommand(() -> arm.setElevatorPos(18.5), arm));
+    L3_Lineup.addCommands(new InstantCommand(() -> arm.setElevatorPos(14.5), arm));
     L3_Lineup.addCommands(new WaitCommand(3.0));
     L3_Lineup.addCommands(new InstantCommand(() -> arm.setElbowPos(Units.degreesToRadians(229)), arm));
     L3_Lineup.addCommands(new WaitCommand(2.0));
@@ -173,7 +173,7 @@ public class RobotContainer {
     
     L3_Score = new SequentialCommandGroup();
 
-    L3_Score.addCommands(new InstantCommand(() -> arm.setElevatorPos(15.5), arm));
+    L3_Score.addCommands(new InstantCommand(() -> arm.setElevatorPos(14.5), arm));
     L3_Score.addCommands(new InstantCommand(() -> arm.setElbowPos(Units.degreesToRadians(214)), arm));
     L3_Score.addCommands(new InstantCommand(() -> arm.setWristPos(Units.degreesToRadians(200)), arm));
 
@@ -209,7 +209,7 @@ public class RobotContainer {
     driverController.start().onTrue(new InstantCommand(() -> driveTrain.resetGyro()));
     driverController.back().onTrue(new InstantCommand(() -> driveTrain.resetPose()));
 
-    driverController.x().onTrue(grabCoral);
+    // driverController.x().onTrue(grabCoral);
     //driverController.rightBumper().onTrue(new IntakeIn(intake, Intake.IntakePosition.ALGAE, 0.2, 0.5));
     // driverController.rightBumper().onTrue(new IntakeIn(intake, Intake.IntakePosition.CORAL, 100, 0.8));
     //driverController.b().whileTrue(new IntakeOut(intake));
@@ -232,11 +232,11 @@ public class RobotContainer {
     driverController.leftBumper().onTrue(reset);
     driverController.rightBumper().onTrue(coralHandoff);
 
-    // driverController.povUp().onTrue(L4_Lineup);
-    // driverController.povDown().onTrue(L4_Score);
+    driverController.povUp().onTrue(L4_Lineup);
+    driverController.povDown().onTrue(L4_Score);
 
-    driverController.povUp().onTrue(L2_Lineup);
-    driverController.povDown().onTrue(L2_Score);
+    // driverController.povUp().onTrue(L2_Lineup);
+    // driverController.povDown().onTrue(L2_Score);
 
     driverController.povLeft().onTrue(L3_Lineup);
     driverController.povRight().onTrue(L3_Score);
